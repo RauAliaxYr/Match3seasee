@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f221ec5853d21bc4ea472a48d4163e86, type: 3}
+  m_Name: Chapter 1
+  m_EditorClassIdentifier: 
+  chapterName: Ship
+  background: {fileID: 3095648225022645599, guid: cb5b5cde97b15a94886cffefebf0d50a, type: 3}
+  levels:
+  - levelNumber: 1
+    isUnlocked: 1
+    starsEarned: 0
+  - levelNumber: 2
+    isUnlocked: 0
+    starsEarned: 0
+  - levelNumber: 3
+    isUnlocked: 0
+    starsEarned: 0
+  - levelNumber: 4
+    isUnlocked: 0
+    starsEarned: 0
+  - levelNumber: 5
+    isUnlocked: 0
+    starsEarned: 0
+  - levelNumber: 6
+    isUnlocked: 0
+    starsEarned: 0
+  - levelNumber: 7
+    isUnlocked: 0
+    starsEarned: 0
+  - levelNumber: 8
+    isUnlocked: 0
+    starsEarned: 0
+  - levelNumber: 9
+    isUnlocked: 0
+    starsEarned: 0
+  - levelNumber: 10
+    isUnlocked: 0
+    starsEarned: 0
+  - levelNumber: 11
+    isUnlocked: 0
+    starsEarned: 0
+  - levelNumber: 12
+    isUnlocked: 0
+    starsEarned: 0
+  - levelNumber: 13
+    isUnlocked: 0
+    starsEarned: 0
+  - levelNumber: 14
+    isUnlocked: 0
+    starsEarned: 0
+  - levelNumber: 15
+    isUnlocked: 0
+    starsEarned: 0
+  - levelNumber: 16
+    isUnlocked: 0
+    starsEarned: 0
+  isUnlocked: 1

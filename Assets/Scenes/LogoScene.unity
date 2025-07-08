@@ -476,7 +476,7 @@ GameObject:
   - component: {fileID: 655448348}
   - component: {fileID: 655448347}
   m_Layer: 0
-  m_Name: Logic
+  m_Name: LogoSceneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -497,7 +497,7 @@ MonoBehaviour:
   logoImage: {fileID: 823509194}
   startScreenCanvasGroup: {fileID: 234942953}
   fadeDuration: 1
-  showTime: 2
+  showTime: 3
 --- !u!4 &655448348
 Transform:
   m_ObjectHideFlags: 0
