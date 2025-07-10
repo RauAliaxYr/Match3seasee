@@ -15,16 +15,20 @@ MonoBehaviour:
   chapterName: Bottom
   background: {fileID: -8251505574100086631, guid: d8620750b7a3c08488db387e55506316, type: 3}
   levels:
-  - levelNumber: 1
+  - levelId: 33
+    levelNumber: 1
     isUnlocked: 1
     starsEarned: 0
-  - levelNumber: 2
+  - levelId: 34
+    levelNumber: 2
     isUnlocked: 1
     starsEarned: 0
-  - levelNumber: 3
+  - levelId: 35
+    levelNumber: 3
     isUnlocked: 0
     starsEarned: 0
-  - levelNumber: 4
+  - levelId: 36
+    levelNumber: 4
     isUnlocked: 0
     starsEarned: 0
   isUnlocked: 0

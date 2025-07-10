@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelButton : MonoBehaviour
@@ -8,20 +9,20 @@ public class LevelButton : MonoBehaviour
     [SerializeField] private GameObject lockedOverlay;
     [SerializeField] private Image[] stars;
     [SerializeField] private Button button;
+    
+    private LevelGameplayData levelData;
+    private int levelId;
 
-    private int levelNumber;
-
-    public void Initialize(int level, bool isUnlocked = true, int starsEarned = 0)
+    public void Initialize(int level,  bool isUnlocked , int starsEarned ,LevelGameplayData data)
     {
-        levelNumber = level;
+        levelData = data;
+        levelId = levelData.LevelId;
         levelText.text = level.ToString();
         lockedOverlay.SetActive(!isUnlocked);
         button.interactable = isUnlocked;
 
         for (int i = 0; i < stars.Length; i++)
-        {
             stars[i].enabled = (i < starsEarned);
-        }
 
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(OnClick);
@@ -29,7 +30,15 @@ public class LevelButton : MonoBehaviour
 
     private void OnClick()
     {
-        Debug.Log($"Запуск уровня {levelNumber}");
-        // TODO: загрузка игровой сцены
+        Debug.Log($"Запуск уровня {levelId}");
+
+        if (levelData == null)
+        {
+            Debug.LogError("LevelGameplayData не установлена!");
+            return;
+        }
+
+        GameManager.Instance.SetSelectedLevel(levelData);
+        SceneLoader.LoadGameplayScene();
     }
 }

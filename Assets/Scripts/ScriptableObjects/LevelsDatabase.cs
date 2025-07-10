@@ -5,10 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "LevelsDatabase", menuName = "Scriptable Objects/LevelsDatabase")]
 public class LevelsDatabase : ScriptableObject
 {
-    public List<LevelConfig> levels;
+    public List<LevelGameplayData> levels;
 
-    public LevelConfig GetLevelById(int id)
+    public LevelGameplayData GetLevelById(int id)
     {
-        return levels.FirstOrDefault(l => l.levelId == id);
+        return levels.FirstOrDefault(l => l.LevelId == id);
     }
 }

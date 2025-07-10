@@ -11,13 +11,15 @@ public class LevelSelectManager : MonoBehaviour
     [SerializeField] private List<LevelChapterData> chapters;
     [SerializeField] private TextMeshProUGUI chapterText;
     
+    [Header("Конфигурации уровней")]
+    [SerializeField] private LevelsDatabase levelsDatabase;
+    
     private int currentChapterIndex = 0;
 
     private void Start()
     {
         LoadChapter(currentChapterIndex);
     }
-
     public void LoadChapter(int index)
     {
         currentChapterIndex = index;
@@ -30,28 +32,27 @@ public class LevelSelectManager : MonoBehaviour
         foreach (Transform child in levelsParent)
             Destroy(child.gameObject);
 
-        // Создаём новые
-        foreach (var level in chapter.levels)
+        // Создаём новые кнопки
+        foreach (var meta in chapter.levels)
         {
+            var config = levelsDatabase.GetLevelById(meta.levelId);
+            if (config == null)
+            {
+                Debug.LogWarning($"Нет конфигурации LevelGameplayData для уровня {meta.levelNumber}// levelId = {meta.levelId}//");
+                continue;
+            }
+
             GameObject btn = Instantiate(levelButtonPrefab, levelsParent);
             btn.GetComponent<LevelButton>().Initialize(
-                level.levelNumber,
-                level.isUnlocked,
-                level.starsEarned
+                meta.levelNumber,
+                meta.isUnlocked,
+                meta.starsEarned,
+                config
             );
         }
     }
 
-    public void NextChapter()
-    {
-        int nextIndex = (currentChapterIndex + 1) % chapters.Count;
-        LoadChapter(nextIndex);
-    }
-
-    public void PreviousChapter()
-    {
-        int prevIndex = (currentChapterIndex - 1 + chapters.Count) % chapters.Count;
-        LoadChapter(prevIndex);
-    }
+    public void NextChapter() => LoadChapter((currentChapterIndex + 1) % chapters.Count);
+    public void PreviousChapter() => LoadChapter((currentChapterIndex - 1 + chapters.Count) % chapters.Count);
 }
 

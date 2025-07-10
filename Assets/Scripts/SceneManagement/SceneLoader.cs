@@ -3,8 +3,18 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    public void LoadScene(string sceneName)
+    public static void LoadGameplayScene()
     {
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene("GameplayScene"); // Убедись, что сцена добавлена в Build Settings
+    }
+
+    public static void LoadLevelSelect()
+    {
+        SceneManager.LoadScene("LevelSelectScene");
+    }
+
+    public static void LoadMainMenu()
+    {
+        SceneManager.LoadScene("LogoScene");
     }
 }

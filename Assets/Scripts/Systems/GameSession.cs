@@ -4,7 +4,7 @@ public class GameSession : MonoBehaviour
 {
     public static GameSession Instance { get; private set; }
 
-    public LevelConfig CurrentLevel { get; private set; }
+    public LevelGameplayData CurrentLevel { get; private set; }
 
     void Awake()
     {
@@ -18,7 +18,7 @@ public class GameSession : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void SetCurrentLevel(LevelConfig level)
+    public void SetCurrentLevel(LevelGameplayData level)
     {
         CurrentLevel = level;
     }
