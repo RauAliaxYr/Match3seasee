@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Chapter 2
   m_EditorClassIdentifier: 
   chapterName: Riff
-  background: {fileID: -2191668444884831948, guid: 75b5a1b54916a374988807cf8d8a2b0c, type: 3}
+  background: {fileID: 8756257538053382672, guid: 7a001bdef034dd748906fd2f8cb8bc08, type: 3}
   levels:
   - levelId: 17
     levelNumber: 1

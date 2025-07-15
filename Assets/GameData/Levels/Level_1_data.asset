@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelId: 1
   levelName: 
-  width: 6
-  height: 6
+  width: 7
+  height: 7
   goalType: 0
+  blockedCells: []
   targetScore: 1000
   timeLimitSeconds: 60
   movesLimit: 0

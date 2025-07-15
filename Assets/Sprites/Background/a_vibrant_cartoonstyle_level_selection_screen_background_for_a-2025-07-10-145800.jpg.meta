@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d8620750b7a3c08488db387e55506316
+guid: 4d7635ab27206ce48b708d8371db08ff
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8251505574100086631
-    second: BG3_0
+      213: -6093266972825395414
+    second: a_vibrant_cartoonstyle_level_selection_screen_background_for_a-2025-07-10-145800_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BG3_0
+      name: a_vibrant_cartoonstyle_level_selection_screen_background_for_a-2025-07-10-145800_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 2500
-        height: 2500
+        width: 800
+        height: 1408
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 990db911663cc7d80800000000000000
-      internalID: -8251505574100086631
+      spriteID: a2f5f13c8fd507ba0800000000000000
+      internalID: -6093266972825395414
       vertices: []
       indices: 
       edges: []
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BG3_0: -8251505574100086631
+      a_vibrant_cartoonstyle_level_selection_screen_background_for_a-2025-07-10-145800_0: -6093266972825395414
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -40,6 +40,19 @@ public class LevelGameplayData:ScriptableObject
     public int MovesLimit => movesLimit;
     public int[] StarThresholds => starThresholds;
     public string Description => description;
+    public bool[,] GetBlockedCells()
+    {
+        var result = new bool[width, height];
+        for (int y = 0; y < height && y < blockedCells.Count; y++)
+        {
+            var row = blockedCells[y];
+            for (int x = 0; x < width && x < row.cells.Count; x++)
+            {
+                result[x, y] = row.cells[x];
+            }
+        }
+        return result;
+    }
 }
 
 public enum LevelGoalType

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Chapter 1
   m_EditorClassIdentifier: 
   chapterName: Ship
-  background: {fileID: 3095648225022645599, guid: cb5b5cde97b15a94886cffefebf0d50a, type: 3}
+  background: {fileID: -6093266972825395414, guid: 4d7635ab27206ce48b708d8371db08ff, type: 3}
   levels:
   - levelId: 1
     levelNumber: 1
