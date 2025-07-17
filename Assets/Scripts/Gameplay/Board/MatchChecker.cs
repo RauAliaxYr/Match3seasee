@@ -1,73 +1,74 @@
+using System.Collections.Generic;
+using UnityEngine;
+
 public static class MatchChecker
 {
-    public static bool HasAnyMatch(BoardData board)
+    public static List<List<Vector2Int>> FindAllMatches(BoardData boardData)
     {
-        return HasHorizontalMatch(board) || HasVerticalMatch(board);
-    }
+        var matches = new List<List<Vector2Int>>();
 
-    private static bool HasHorizontalMatch(BoardData board)
-    {
-        for (int y = 0; y < board.Height; y++)
+        int width = boardData.Width;
+        int height = boardData.Height;
+
+        // По горизонтали
+        for (int y = 0; y < height; y++)
         {
-            int matchLength = 1;
-            TileType? prev = null;
-
-            for (int x = 0; x < board.Width; x++)
+            int matchStart = 0;
+            for (int x = 1; x <= width; x++)
             {
-                var cell = board.GetCell(x, y);
-                if (cell.IsBlocked || !cell.Type.HasValue)
+                bool endOfLine = x == width || !IsSameType(boardData, x, y, x - 1, y);
+                if (endOfLine)
                 {
-                    matchLength = 1;
-                    prev = null;
-                    continue;
-                }
+                    int count = x - matchStart;
+                    if (count >= 3)
+                    {
+                        var match = new List<Vector2Int>();
+                        for (int i = matchStart; i < x; i++)
+                            match.Add(new Vector2Int(i, y));
+                        matches.Add(match);
+                    }
 
-                if (cell.Type == prev)
-                {
-                    matchLength++;
-                    if (matchLength >= 3)
-                        return true;
-                }
-                else
-                {
-                    matchLength = 1;
-                    prev = cell.Type;
+                    matchStart = x;
                 }
             }
         }
-        return false;
-    }
 
-    private static bool HasVerticalMatch(BoardData board)
-    {
-        for (int x = 0; x < board.Width; x++)
+        // По вертикали
+        for (int x = 0; x < width; x++)
         {
-            int matchLength = 1;
-            TileType? prev = null;
-
-            for (int y = 0; y < board.Height; y++)
+            int matchStart = 0;
+            for (int y = 1; y <= height; y++)
             {
-                var cell = board.GetCell(x, y);
-                if (cell.IsBlocked || !cell.Type.HasValue)
+                bool endOfLine = y == height || !IsSameType(boardData, x, y, x, y - 1);
+                if (endOfLine)
                 {
-                    matchLength = 1;
-                    prev = null;
-                    continue;
-                }
+                    int count = y - matchStart;
+                    if (count >= 3)
+                    {
+                        var match = new List<Vector2Int>();
+                        for (int i = matchStart; i < y; i++)
+                            match.Add(new Vector2Int(x, i));
+                        matches.Add(match);
+                    }
 
-                if (cell.Type == prev)
-                {
-                    matchLength++;
-                    if (matchLength >= 3)
-                        return true;
-                }
-                else
-                {
-                    matchLength = 1;
-                    prev = cell.Type;
+                    matchStart = y;
                 }
             }
         }
-        return false;
+
+        return matches;
+    }
+
+    private static bool IsSameType(BoardData board, int x1, int y1, int x2, int y2)
+    {
+        if (!InBounds(board, x1, y1) || !InBounds(board, x2, y2)) return false;
+        var a = board.GetCell(x1, y1);
+        var b = board.GetCell(x2, y2);
+        return !a.IsBlocked && !b.IsBlocked && a.Type == b.Type;
+    }
+
+    private static bool InBounds(BoardData board, int x, int y)
+    {
+        return x >= 0 && y >= 0 && x < board.Width && y < board.Height;
     }
 }

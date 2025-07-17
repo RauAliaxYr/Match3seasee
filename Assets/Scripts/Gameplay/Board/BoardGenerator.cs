@@ -21,7 +21,7 @@ public class BoardGenerator
             FillBoardAvoidingMatches(board, typeCount);
             attempts++;
 
-            if (!MatchChecker.HasAnyMatch(board))
+            if (MatchChecker.FindAllMatches(board).Count == 0)
                 break;
 
             if (attempts >= maxAttempts)

@@ -417,6 +417,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardRoot: {fileID: 1872918068}
   tileFactory: {fileID: 1442798302}
+  boardController: {fileID: 1872918069}
   boardSizeInUnits: {x: 3.5, y: 3.5}
   tileSpacing: 0.1
 --- !u!4 &1510756203
@@ -443,6 +444,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1872918068}
+  - component: {fileID: 1872918069}
   m_Layer: 0
   m_Name: BoardRoot
   m_TagString: Untagged
@@ -465,6 +467,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1872918069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872918067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53a382280d2f93c4fa25705b62de1853, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileFactory: {fileID: 1442798302}
+  boardRoot: {fileID: 1872918068}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
