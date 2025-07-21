@@ -35,6 +35,12 @@ public class GameController : MonoBehaviour
         boardController.boardRoot = boardRoot;
 
         boardController.Initialize(boardData, TileSize, tileSpacing);
+
+        // Инициализируем отслеживание прогресса уровня
+        if (LevelProgressManager.Instance != null)
+        {
+            LevelProgressManager.Instance.InitializeLevel(config);
+        }
     }
 
     private float CalculateTileSize(int width, int height)

@@ -172,6 +172,10 @@ public class BoardController : MonoBehaviour
         if (matches.Count > 0)
         {
             // Есть мэтч — запускаем обработку
+            if (LevelProgressManager.Instance != null)
+            {
+                LevelProgressManager.Instance.OnMoveMade();
+            }
             yield return StartCoroutine(HandleMatches(matches));
         }
         else
@@ -220,6 +224,20 @@ public class BoardController : MonoBehaviour
     }
     private IEnumerator HandleMatches(List<List<Vector2Int>> allMatches)
     {
+        // Уведомляем LevelProgressManager о мэтче
+        int totalTilesMatched = 0;
+        int maxMatchSize = 0;
+        foreach (var group in allMatches)
+        {
+            totalTilesMatched += group.Count;
+            maxMatchSize = Mathf.Max(maxMatchSize, group.Count);
+        }
+        
+        if (LevelProgressManager.Instance != null)
+        {
+            LevelProgressManager.Instance.OnTilesMatched(totalTilesMatched, maxMatchSize);
+        }
+
         // 1. Удаляем мэтчи (визуально и из BoardData)
         HashSet<Vector2Int> toRemove = new HashSet<Vector2Int>();
         foreach (var group in allMatches)
