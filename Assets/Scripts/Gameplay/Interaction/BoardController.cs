@@ -377,6 +377,31 @@ public class BoardController : MonoBehaviour
         }
         tile.transform.position = to;
     }
+
+    public void RestartBoard(LevelGameplayData levelData, float tileSize, float tileSpacing)
+    {
+        // Удаляем все старые тайлы
+        foreach (var obj in tileObjects.Values)
+        {
+            if (obj != null)
+                Destroy(obj);
+        }
+        tileObjects.Clear();
+
+        // Генерируем новые данные поля
+        boardData = BoardGenerator.Generate(levelData);
+
+        // Инициализируем поле заново
+        Initialize(boardData, tileSize, tileSpacing);
+
+        // Сбросить выделение и ввод
+        selectedCoords = null;
+        isInputBlocked = false;
+    }
+
+    // --- Профессиональная блокировка/разблокировка ввода ---
+    public void BlockInput() { isInputBlocked = true; }
+    public void UnblockInput() { isInputBlocked = false; }
 }
 
 

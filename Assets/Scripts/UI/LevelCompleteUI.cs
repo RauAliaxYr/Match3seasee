@@ -29,18 +29,22 @@ public class LevelCompleteUI : MonoBehaviour
     [Header("Анимации")]
     [SerializeField] private float starAnimationDelay = 0.3f;
     [SerializeField] private float panelAnimationDuration = 0.5f;
+
+    [Header("Геймплей")]
+    [SerializeField] private BoardController boardController;
+    [Header("База уровней")]
+    [SerializeField] private LevelsDatabase levelsDatabase;
     
     private LevelResult currentResult;
+    private bool isFrozen = false;
 
     private void Start()
     {
-        // Подписываемся на событие завершения уровня
         if (LevelProgressManager.Instance != null)
         {
             LevelProgressManager.Instance.OnLevelCompleted += ShowLevelComplete;
         }
 
-        // Настраиваем кнопки
         if (restartButton != null)
             restartButton.onClick.AddListener(RestartLevel);
         if (nextLevelButton != null)
@@ -48,7 +52,6 @@ public class LevelCompleteUI : MonoBehaviour
         if (menuButton != null)
             menuButton.onClick.AddListener(GoToMenu);
 
-        // Скрываем панели
         if (victoryPanel != null) victoryPanel.SetActive(false);
         if (defeatPanel != null) defeatPanel.SetActive(false);
     }
@@ -82,22 +85,21 @@ public class LevelCompleteUI : MonoBehaviour
             StartCoroutine(AnimateStars(result.StarsEarned));
         }
 
-        // Показываем/скрываем кнопки
         if (nextLevelButton != null)
             nextLevelButton.gameObject.SetActive(result.IsCompleted);
+
+        // Заморозка геймплея
+        FreezeGameplay();
     }
 
     private void UpdateResultInfo(LevelResult result)
     {
         if (levelNumberText != null)
             levelNumberText.text = $"Уровень {result.LevelId}";
-        
         if (scoreText != null)
             scoreText.text = $"Очки: {result.Score:N0}";
-        
         if (movesText != null)
             movesText.text = $"Ходы: {result.MovesUsed}";
-        
         if (timeText != null)
         {
             int minutes = Mathf.FloorToInt(result.TimeUsed / 60f);
@@ -111,22 +113,14 @@ public class LevelCompleteUI : MonoBehaviour
         for (int i = 0; i < starImages.Length; i++)
         {
             if (starImages[i] == null) continue;
-
-            // Начинаем с пустых звёзд
             starImages[i].sprite = starEmpty;
             starImages[i].transform.localScale = Vector3.zero;
-
-            // Анимируем появление
             float delay = i * starAnimationDelay;
             yield return new WaitForSeconds(delay);
-            
             yield return StartCoroutine(AnimateStarScale(starImages[i].transform, Vector3.one, 0.3f));
-            
-            // Если звезда заработана, меняем на заполненную
             if (i < starsEarned)
             {
                 starImages[i].sprite = starFilled;
-                // Дополнительная анимация для золотых звёзд
                 if (i == starsEarned - 1)
                 {
                     starImages[i].sprite = starGold;
@@ -140,15 +134,13 @@ public class LevelCompleteUI : MonoBehaviour
     {
         Vector3 startScale = Vector3.zero;
         float elapsed = 0f;
-        
         while (elapsed < duration)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             float t = elapsed / duration;
             starTransform.localScale = Vector3.Lerp(startScale, targetScale, t);
             yield return null;
         }
-        
         starTransform.localScale = targetScale;
     }
 
@@ -156,8 +148,6 @@ public class LevelCompleteUI : MonoBehaviour
     {
         Vector3 originalScale = starTransform.localScale;
         Vector3 pulseScale = originalScale * 1.2f;
-        
-        // Пульсация
         yield return StartCoroutine(AnimateStarScale(starTransform, pulseScale, 0.1f));
         yield return StartCoroutine(AnimateStarScale(starTransform, originalScale, 0.1f));
         yield return StartCoroutine(AnimateStarScale(starTransform, pulseScale, 0.1f));
@@ -168,33 +158,86 @@ public class LevelCompleteUI : MonoBehaviour
     {
         Vector3 startScale = Vector3.zero;
         float elapsed = 0f;
-        
         while (elapsed < duration)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             float t = elapsed / duration;
             panel.transform.localScale = Vector3.Lerp(startScale, targetScale, t);
             yield return null;
         }
-        
         panel.transform.localScale = targetScale;
     }
 
-    private void RestartLevel()
+    // --- ПРОФЕССИОНАЛЬНАЯ ЗАМОРОЗКА ГЕЙМПЛЕЯ ---
+    public void FreezeGameplay()
     {
-        // Перезапускаем текущий уровень
-        SceneLoader.LoadGameplayScene();
+        if (isFrozen) return;
+        isFrozen = true;
+        Time.timeScale = 0f;
+        if (boardController != null)
+            boardController.BlockInput();
+    }
+    public void UnfreezeGameplay()
+    {
+        if (!isFrozen) return;
+        isFrozen = false;
+        Time.timeScale = 1f;
+        if (boardController != null)
+            boardController.UnblockInput();
     }
 
-    private void NextLevel()
+    public void RestartLevel()
     {
-        // Здесь можно добавить логику для перехода к следующему уровню
-        // Пока просто возвращаемся к выбору уровня
-        SceneLoader.LoadLevelSelect();
+        UnfreezeGameplay();
+
+        // Сбросить прогресс уровня
+        if (LevelProgressManager.Instance != null)
+            LevelProgressManager.Instance.ResetLevelProgress();
+
+        // Перегенерировать поле
+        if (boardController != null)
+        {
+            var levelData = LevelProgressManager.Instance.CurrentLevel;
+            var tileSize = boardController.TileSize;
+            var tileSpacing = boardController.tileSpacing;
+            boardController.RestartBoard(levelData, tileSize, tileSpacing);
+        }
+
+        // Скрыть Victory/Defeat панели
+        if (victoryPanel != null) victoryPanel.SetActive(false);
+        if (defeatPanel != null) defeatPanel.SetActive(false);
     }
 
-    private void GoToMenu()
+    public void NextLevel()
     {
+        UnfreezeGameplay();
+
+        // Получаем следующий уровень
+        int nextLevelId = LevelProgressManager.Instance.CurrentLevel.LevelId + 1;
+        LevelGameplayData nextLevel = FindLevelById(nextLevelId);
+
+        if (nextLevel != null)
+        {
+            GameManager.Instance.SetSelectedLevel(nextLevel);
+            SceneLoader.LoadGameplayScene();
+        }
+        else
+        {
+            // Если следующего уровня нет — возвращаемся к выбору уровня
+            SceneLoader.LoadLevelSelect();
+        }
+    }
+
+    private LevelGameplayData FindLevelById(int levelId)
+    {
+        if (levelsDatabase != null)
+            return levelsDatabase.GetLevelById(levelId);
+        return null;
+    }
+
+    public void GoToMenu()
+    {
+        UnfreezeGameplay();
         SceneLoader.LoadLevelSelect();
     }
 } 

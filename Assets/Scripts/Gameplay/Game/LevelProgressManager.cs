@@ -39,7 +39,7 @@ public class LevelProgressManager : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        // DontDestroyOnLoad(gameObject); // Удалено для корректного сброса состояния
     }
 
     public void InitializeLevel(LevelGameplayData levelData)
@@ -180,6 +180,13 @@ public class LevelProgressManager : MonoBehaviour
             TilesCleared = tilesCleared
         };
 
+        // --- Обновляем прогресс игрока ---
+        PlayerProgress.SetStars(result.LevelId, result.StarsEarned);
+        if (result.IsCompleted)
+        {
+            PlayerProgress.UnlockLevel(result.LevelId + 1);
+        }
+
         // Сохраняем прогресс
         SaveLevelProgress(result);
         
@@ -202,6 +209,12 @@ public class LevelProgressManager : MonoBehaviour
 
     public void ResumeLevel()
     {
+        isLevelActive = true;
+    }
+
+    public void ResetLevelProgress()
+    {
+        ResetProgress();
         isLevelActive = true;
     }
 }
