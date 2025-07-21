@@ -73,3 +73,11 @@ crashlytics-build.properties
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+
+/[Pp]ackages/*
+!/Packages/manifest.json
+!/Packages/packages-lock.json
+
+# Cursor
+.cursor/*
+.cursorrules

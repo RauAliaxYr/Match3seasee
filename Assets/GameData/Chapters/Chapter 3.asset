@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f221ec5853d21bc4ea472a48d4163e86, type: 3}
+  m_Name: Chapter 3
+  m_EditorClassIdentifier: 
+  chapterName: Bottom
+  background: {fileID: 8586911339905611133, guid: e69d1daf7ded316468628db38ae227bd, type: 3}
+  levels:
+  - levelId: 33
+    levelNumber: 1
+    isUnlocked: 1
+    starsEarned: 0
+  - levelId: 34
+    levelNumber: 2
+    isUnlocked: 1
+    starsEarned: 0
+  - levelId: 35
+    levelNumber: 3
+    isUnlocked: 0
+    starsEarned: 0
+  - levelId: 36
+    levelNumber: 4
+    isUnlocked: 0
+    starsEarned: 0
+  isUnlocked: 0

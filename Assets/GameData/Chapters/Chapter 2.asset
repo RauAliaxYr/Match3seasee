@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f221ec5853d21bc4ea472a48d4163e86, type: 3}
+  m_Name: Chapter 2
+  m_EditorClassIdentifier: 
+  chapterName: Riff
+  background: {fileID: 8756257538053382672, guid: 7a001bdef034dd748906fd2f8cb8bc08, type: 3}
+  levels:
+  - levelId: 17
+    levelNumber: 1
+    isUnlocked: 0
+    starsEarned: 0
+  - levelId: 18
+    levelNumber: 2
+    isUnlocked: 0
+    starsEarned: 0
+  - levelId: 19
+    levelNumber: 3
+    isUnlocked: 0
+    starsEarned: 0
+  - levelId: 20
+    levelNumber: 4
+    isUnlocked: 0
+    starsEarned: 0
+  - levelId: 21
+    levelNumber: 5
+    isUnlocked: 0
+    starsEarned: 0
+  - levelId: 22
+    levelNumber: 6
+    isUnlocked: 0
+    starsEarned: 0
+  - levelId: 23
+    levelNumber: 7
+    isUnlocked: 0
+    starsEarned: 0
+  - levelId: 24
+    levelNumber: 8
+    isUnlocked: 0
+    starsEarned: 0
+  - levelId: 25
+    levelNumber: 9
+    isUnlocked: 0
+    starsEarned: 0
+  - levelId: 26
+    levelNumber: 10
+    isUnlocked: 0
+    starsEarned: 0
+  - levelId: 27
+    levelNumber: 11
+    isUnlocked: 0
+    starsEarned: 0
+  - levelId: 28
+    levelNumber: 12
+    isUnlocked: 0
+    starsEarned: 0
+  - levelId: 29
+    levelNumber: 13
+    isUnlocked: 0
+    starsEarned: 0
+  - levelId: 30
+    levelNumber: 14
+    isUnlocked: 0
+    starsEarned: 0
+  - levelId: 31
+    levelNumber: 15
+    isUnlocked: 0
+    starsEarned: 0
+  - levelId: 32
+    levelNumber: 16
+    isUnlocked: 0
+    starsEarned: 0
+  isUnlocked: 1
