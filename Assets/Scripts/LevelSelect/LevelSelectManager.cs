@@ -20,6 +20,12 @@ public class LevelSelectManager : MonoBehaviour
     {
         LoadChapter(currentChapterIndex);
     }
+
+    private void OnEnable()
+    {
+        LoadChapter(currentChapterIndex);
+    }
+
     public void LoadChapter(int index)
     {
         currentChapterIndex = index;
@@ -42,11 +48,14 @@ public class LevelSelectManager : MonoBehaviour
                 continue;
             }
 
+            int stars = PlayerProgress.GetStars(meta.levelId);
+            bool isUnlocked = PlayerProgress.IsLevelUnlocked(meta.levelId);
+
             GameObject btn = Instantiate(levelButtonPrefab, levelsParent);
             btn.GetComponent<LevelButton>().Initialize(
                 meta.levelNumber,
-                meta.isUnlocked,
-                meta.starsEarned,
+                isUnlocked,
+                stars,
                 config
             );
         }

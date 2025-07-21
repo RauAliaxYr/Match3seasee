@@ -252,6 +252,59 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 16820245}
   m_CullTransparentMesh: 1
+--- !u!1 &20807406
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 20807408}
+  - component: {fileID: 20807407}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &20807407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20807406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba8b2bbb3a6fb054e96e1de7e77413f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelsParent: {fileID: 1589307394}
+  levelButtonPrefab: {fileID: 5135199394254041420, guid: 2746fcdc77e52a94680a6d65d9cdfb5c, type: 3}
+  backgroundImage: {fileID: 2105144048}
+  chapters:
+  - {fileID: 11400000, guid: 0f9a6146ffd4a374ea9064582e1be105, type: 2}
+  - {fileID: 11400000, guid: d271dc3a7777daf41abe71dcf978467e, type: 2}
+  - {fileID: 11400000, guid: 80c71fbf18351df46b95f762b66754cd, type: 2}
+  chapterText: {fileID: 567393516}
+  levelsDatabase: {fileID: 11400000, guid: 36ed156319d63a7428d24bf21eecba42, type: 2}
+--- !u!4 &20807408
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20807406}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.059596106, y: 0.7166351, z: 0.06395168}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &35757926
 GameObject:
   m_ObjectHideFlags: 0
@@ -1855,7 +1908,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 919601727}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LevelSelectManager, Assembly-CSharp
         m_MethodName: NextChapter
         m_Mode: 1
@@ -2188,7 +2241,6 @@ GameObject:
   - component: {fileID: 919601725}
   - component: {fileID: 919601724}
   - component: {fileID: 919601726}
-  - component: {fileID: 919601727}
   - component: {fileID: 919601729}
   m_Layer: 0
   m_Name: GameManager
@@ -2239,27 +2291,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startCoins: 100
---- !u!114 &919601727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919601723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba8b2bbb3a6fb054e96e1de7e77413f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelsParent: {fileID: 1589307394}
-  levelButtonPrefab: {fileID: 5135199394254041420, guid: 2746fcdc77e52a94680a6d65d9cdfb5c, type: 3}
-  backgroundImage: {fileID: 2105144048}
-  chapters:
-  - {fileID: 11400000, guid: 0f9a6146ffd4a374ea9064582e1be105, type: 2}
-  - {fileID: 11400000, guid: d271dc3a7777daf41abe71dcf978467e, type: 2}
-  - {fileID: 11400000, guid: 80c71fbf18351df46b95f762b66754cd, type: 2}
-  chapterText: {fileID: 567393516}
-  levelsDatabase: {fileID: 11400000, guid: 36ed156319d63a7428d24bf21eecba42, type: 2}
 --- !u!114 &919601729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2509,7 +2540,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 919601727}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LevelSelectManager, Assembly-CSharp
         m_MethodName: PreviousChapter
         m_Mode: 1
@@ -3307,3 +3338,4 @@ SceneRoots:
   - {fileID: 620220493}
   - {fileID: 1381218938}
   - {fileID: 919601725}
+  - {fileID: 20807408}
