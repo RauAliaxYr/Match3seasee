@@ -65,34 +65,37 @@ public class BoardController : MonoBehaviour
         this.tileSpacing = tileSpacing;
         tileObjects.Clear();
 
-        float spacing = tileSize + tileSpacing;
-        Vector2 offset = new Vector2(
-            -((boardData.Width - 1) * spacing) / 2f,
-            -((boardData.Height - 1) * spacing) / 2f
-        );
-
         for (int x = 0; x < boardData.Width; x++)
         {
             for (int y = 0; y < boardData.Height; y++)
             {
-                Vector3 position = new Vector3(x * spacing, y * spacing, 0f) + (Vector3)offset;
                 Vector2Int coords = new(x, y);
                 BoardCell cell = boardData.GetCell(x, y);
 
                 GameObject tileObject;
+                // Начальная позиция — выше поля
+                Vector3 startPos = CalculateWorldPosition(new Vector2Int(x, y + boardData.Height));
                 if (cell.IsBlocked)
                 {
-                    tileObject = tileFactory.CreateBlockedTile(position, boardRoot);
+                    tileObject = tileFactory.CreateBlockedTile(Vector3.zero, boardRoot);
+                    tileObject.transform.localPosition = CalculateWorldPosition(coords);
+                }
+                else if (cell.Type.HasValue)
+                {
+                    tileObject = tileFactory.CreateTile(cell.Type.Value, Vector3.zero, boardRoot);
+                    tileObject.transform.localPosition = startPos;
+                    var input = tileObject.GetComponent<TileInputHandler>() ?? tileObject.AddComponent<TileInputHandler>();
+                    input.Initialize(this, coords);
                 }
                 else
                 {
-                    tileObject = tileFactory.CreateTile(cell.Type.Value, position, boardRoot);
-                    var input = tileObject.GetComponent<TileInputHandler>() ?? tileObject.AddComponent<TileInputHandler>();
-                    input.Initialize(this, coords);
+                    continue;
                 }
                 tileObjects[coords] = tileObject;
             }
         }
+        // Запускаем анимацию падения всех тайлов
+        StartCoroutine(AnimateInitialDrop());
     }
 
     /// <summary>
@@ -309,7 +312,7 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    public void SyncVisualsWithBoardData()
+    public void SyncVisualsWithBoardData(bool animateFromTop = false)
     {
         // Удаляем все старые визуальные объекты
         foreach (var obj in tileObjects.Values)
@@ -319,12 +322,6 @@ public class BoardController : MonoBehaviour
         }
         tileObjects.Clear();
 
-        float spacing = TileSize + tileSpacing;
-        Vector2 offset = new Vector2(
-            -((boardData.Width - 1) * spacing) / 2f,
-            -((boardData.Height - 1) * spacing) / 2f
-        );
-
         for (int x = 0; x < boardData.Width; x++)
         {
             for (int y = 0; y < boardData.Height; y++)
@@ -333,13 +330,19 @@ public class BoardController : MonoBehaviour
                 BoardCell cell = boardData.GetCell(x, y);
 
                 GameObject tileObject;
+                Vector3 startPos = animateFromTop
+                    ? CalculateWorldPosition(new Vector2Int(x, y + boardData.Height))
+                    : CalculateWorldPosition(pos);
+
                 if (cell.IsBlocked)
                 {
-                    tileObject = tileFactory.CreateBlockedTile(CalculateWorldPosition(pos), boardRoot);
+                    tileObject = tileFactory.CreateBlockedTile(Vector3.zero, boardRoot);
+                    tileObject.transform.localPosition = CalculateWorldPosition(pos);
                 }
                 else if (cell.Type.HasValue)
                 {
-                    tileObject = tileFactory.CreateTile(cell.Type.Value, CalculateWorldPosition(pos), boardRoot);
+                    tileObject = tileFactory.CreateTile(cell.Type.Value, Vector3.zero, boardRoot);
+                    tileObject.transform.localPosition = startPos;
                     var input = tileObject.GetComponent<TileInputHandler>() ?? tileObject.AddComponent<TileInputHandler>();
                     input.Initialize(this, pos);
                 }
@@ -425,7 +428,8 @@ public class BoardController : MonoBehaviour
                 // Появление сверху: создаём тайл выше поля и анимируем вниз
                 Vector3 spawnPos = CalculateWorldPosition(new Vector2Int(x, y + emptyCount));
                 Vector3 targetPos = CalculateWorldPosition(pos);
-                var tile = tileFactory.CreateTile(newType, spawnPos, boardRoot);
+                var tile = tileFactory.CreateTile(newType, Vector3.zero, boardRoot);
+                tile.transform.localPosition = spawnPos;
                 tileObjects[pos] = tile;
                 var input = tile.GetComponent<TileInputHandler>() ?? tile.AddComponent<TileInputHandler>();
                 input.Initialize(this, pos);
@@ -435,7 +439,6 @@ public class BoardController : MonoBehaviour
         }
 
         yield return new WaitForSeconds(dropDuration + 0.05f);
-        SyncVisualsWithBoardData();
 
         // --- Проверка на дублирование объектов в tileObjects ---
         var seen = new HashSet<GameObject>();
@@ -449,18 +452,45 @@ public class BoardController : MonoBehaviour
         }
     }
 
+    private IEnumerator AnimateInitialDrop()
+    {
+        int width = boardData.Width;
+        int height = boardData.Height;
+        float dropDuration = 0.25f;
+
+        List<Coroutine> coroutines = new List<Coroutine>();
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                Vector2Int pos = new Vector2Int(x, y);
+                if (tileObjects.TryGetValue(pos, out var tile) && tile != null)
+                {
+                    Vector3 from = tile.transform.localPosition;
+                    Vector3 to = CalculateWorldPosition(pos);
+                    coroutines.Add(StartCoroutine(MoveTile(tile, from, to, dropDuration)));
+                }
+            }
+        }
+        yield return new WaitForSeconds(dropDuration + 0.05f);
+    }
+
     // Анимация перемещения тайла
     private IEnumerator MoveTile(GameObject tile, Vector3 from, Vector3 to, float duration)
     {
+        if (tile == null) yield break;
         float time = 0f;
         while (time < duration)
         {
+            if (tile == null) yield break;
             time += Time.deltaTime;
             float t = time / duration;
-            tile.transform.position = Vector3.Lerp(from, to, t);
+            tile.transform.localPosition = Vector3.Lerp(from, to, t);
             yield return null;
         }
-        tile.transform.position = to;
+        if (tile != null)
+            tile.transform.localPosition = to;
     }
 
     public void RestartBoard(LevelGameplayData levelData, float tileSize, float tileSpacing)
@@ -491,7 +521,8 @@ public class BoardController : MonoBehaviour
         // Сбросить выделение и ввод
         selectedCoords = null;
         isInputBlocked = false;
-        SyncVisualsWithBoardData();
+        SyncVisualsWithBoardData(true); // Тайлы появляются сверху
+        StartCoroutine(AnimateInitialDrop());
         CheckAndRegenerateIfNoMoves(); // проверка после перегенерации
     }
 
@@ -566,6 +597,7 @@ public class BoardController : MonoBehaviour
         {
             Debug.Log("Нет возможных ходов! Перегенерируем поле...");
             RestartBoard(LevelProgressManager.Instance.CurrentLevel, TileSize, tileSpacing);
+            // Тайлы будут анимированы сверху через SyncVisualsWithBoardData(true) и AnimateInitialDrop
         }
     }
 
