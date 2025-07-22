@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 1
+  m_ChildControlWidth: 0
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
@@ -100,7 +100,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 20}
+  m_SizeDelta: {x: 16.333334, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4428764497228263474
 CanvasRenderer:
@@ -175,7 +175,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 20}
+  m_SizeDelta: {x: 16.333334, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6880137577118264700
 CanvasRenderer:
@@ -357,6 +357,8 @@ MonoBehaviour:
   - {fileID: 366182383328192198}
   - {fileID: 1673950640738267183}
   - {fileID: 2192274389599434188}
+  starActiveSprite: {fileID: -4938904925403426689, guid: 8369456ded01c9f42bcf1e35a52da615, type: 3}
+  starInactiveSprite: {fileID: -7530241168618467137, guid: 8369456ded01c9f42bcf1e35a52da615, type: 3}
   button: {fileID: 3731818747381454852}
 --- !u!1 &6654099694359942024
 GameObject:
@@ -604,7 +606,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 20}
+  m_SizeDelta: {x: 16.333334, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6963998445245077838
 CanvasRenderer:
