@@ -3839,9 +3839,9 @@ MonoBehaviour:
   - {fileID: 1611464127}
   - {fileID: 2027125681}
   - {fileID: 970432399}
-  starEmpty: {fileID: 0}
-  starFilled: {fileID: 0}
-  starGold: {fileID: 0}
+  starEmpty: {fileID: 2660195087753647290, guid: 8369456ded01c9f42bcf1e35a52da615, type: 3}
+  starFilled: {fileID: -7530241168618467137, guid: 8369456ded01c9f42bcf1e35a52da615, type: 3}
+  starGold: {fileID: -6527066995249691807, guid: 8369456ded01c9f42bcf1e35a52da615, type: 3}
   restartButton: {fileID: 280043227}
   nextLevelButton: {fileID: 1620552045}
   menuButton: {fileID: 226180548}
