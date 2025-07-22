@@ -10,10 +10,11 @@ public class LevelSelectManager : MonoBehaviour
     [SerializeField] private Image backgroundImage;
     [SerializeField] private List<LevelChapterData> chapters;
     [SerializeField] private TextMeshProUGUI chapterText;
-    
     [Header("Конфигурации уровней")]
     [SerializeField] private LevelsDatabase levelsDatabase;
-    
+    [Header("UI звёзд")]
+    [SerializeField] private TotalStarsUI totalStarsUI;
+
     private int currentChapterIndex = 0;
 
     private void Start()
@@ -38,7 +39,10 @@ public class LevelSelectManager : MonoBehaviour
         foreach (Transform child in levelsParent)
             Destroy(child.gameObject);
 
-        // Создаём новые кнопки
+        // --- Последовательное открытие уровней с гейтами по звёздам ---
+        int totalStars = PlayerProgress.GetTotalStars();
+        bool previousUnlocked = true;
+
         foreach (var meta in chapter.levels)
         {
             var config = levelsDatabase.GetLevelById(meta.levelId);
@@ -49,7 +53,16 @@ public class LevelSelectManager : MonoBehaviour
             }
 
             int stars = PlayerProgress.GetStars(meta.levelId);
-            bool isUnlocked = PlayerProgress.IsLevelUnlocked(meta.levelId);
+            bool isUnlocked = false;
+
+            if (meta.levelNumber == 1)
+            {
+                isUnlocked = true;
+            }
+            else if (previousUnlocked && totalStars >= meta.requiredStars)
+            {
+                isUnlocked = true;
+            }
 
             GameObject btn = Instantiate(levelButtonPrefab, levelsParent);
             btn.GetComponent<LevelButton>().Initialize(
@@ -58,7 +71,13 @@ public class LevelSelectManager : MonoBehaviour
                 stars,
                 config
             );
+
+            previousUnlocked = isUnlocked;
         }
+
+        // Обновляем UI звёзд
+        if (totalStarsUI != null)
+            totalStarsUI.UpdateStars();
     }
 
     public void NextChapter() => LoadChapter((currentChapterIndex + 1) % chapters.Count);

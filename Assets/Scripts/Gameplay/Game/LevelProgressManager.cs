@@ -181,13 +181,9 @@ public class LevelProgressManager : MonoBehaviour
         };
 
         // --- Обновляем прогресс игрока ---
-        PlayerProgress.SetStars(result.LevelId, result.StarsEarned);
-        if (result.IsCompleted)
-        {
-            PlayerProgress.UnlockLevel(result.LevelId + 1);
-        }
+        PlayerProgress.AddStars(result.LevelId, result.StarsEarned);
 
-        // Сохраняем прогресс
+        // Сохраняем прогресс (опционально, если нужно для аналитики)
         SaveLevelProgress(result);
         
         // Уведомляем UI

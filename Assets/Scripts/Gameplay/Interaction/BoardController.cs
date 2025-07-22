@@ -648,6 +648,3 @@ public class BoardController : MonoBehaviour
         boardData.GetCell(b.x, b.y).Type = temp;
     }
 }
-
-
-
