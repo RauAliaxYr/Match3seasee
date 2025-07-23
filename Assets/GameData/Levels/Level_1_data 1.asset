@@ -18,8 +18,8 @@ MonoBehaviour:
   height: 7
   goalType: 0
   blockedCells: []
-  targetScore: 250
-  timeLimitSeconds: 60
-  movesLimit: 0
-  starThresholds: fa0000002c01000090010000
+  targetScore: 3000
+  timeLimitSeconds: 320
+  movesLimit: 28
+  starThresholds: e8030000d0070000b80b0000
   description: 

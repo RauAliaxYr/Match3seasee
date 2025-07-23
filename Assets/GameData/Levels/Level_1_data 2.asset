@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelId: 3
   levelName: 
-  width: 6
-  height: 6
+  width: 7
+  height: 7
   goalType: 0
-  targetScore: 1000
-  timeLimitSeconds: 60
-  movesLimit: 0
-  starThresholds: 000000000000000000000000
+  blockedCells: []
+  targetScore: 3000
+  timeLimitSeconds: 320
+  movesLimit: 26
+  starThresholds: e8030000d0070000b80b0000
   description: 
