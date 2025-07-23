@@ -226,6 +226,10 @@ public class BoardController : MonoBehaviour
 
             // Анимируем возврат
             yield return StartCoroutine(SwapAnimationCoroutine(tileA, tileB, posB, posA));
+            if (LevelProgressManager.Instance != null)
+            {
+                LevelProgressManager.Instance.OnMoveMade(); // уменьшаем ход и при неудачном свапе
+            }
             isInputBlocked = false;
         }
     }

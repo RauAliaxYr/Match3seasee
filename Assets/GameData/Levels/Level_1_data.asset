@@ -18,13 +18,13 @@ MonoBehaviour:
   height: 7
   goalType: 0
   blockedCells:
-  - cells: 01010101010101
-  - cells: 00000000000001
-  - cells: 01000000000000
   - cells: 00000000000000
-  - cells: 00000000000001
-  - cells: 01000000000000
-  - cells: 00000001010101
+  - cells: 00000000000000
+  - cells: 00000000000000
+  - cells: 00000000000000
+  - cells: 00000000000000
+  - cells: 00000000000000
+  - cells: 00000000000000
   targetScore: 3000
   timeLimitSeconds: 320
   movesLimit: 30
