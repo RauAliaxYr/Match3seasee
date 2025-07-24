@@ -370,33 +370,36 @@ public class BoardController : MonoBehaviour
         // 1. Падение существующих тайлов
         for (int x = 0; x < width; x++)
         {
-            int emptyBelow = 0;
-            for (int y = 0; y < height; y++)
+            for (int y = 1; y < height; y++) // начинаем со второго ряда (y=1)
             {
                 var cell = boardData.GetCell(x, y);
-                if (cell.IsBlocked)
+                if (cell.IsBlocked || cell.Type == null) continue;
+
+                int targetY = y;
+                // Ищем ближайшую пустую незаблокированную клетку ниже
+                for (int yBelow = y - 1; yBelow >= 0; yBelow--)
                 {
-                    emptyBelow = 0;
-                    continue;
+                    var belowCell = boardData.GetCell(x, yBelow);
+                    if (belowCell.IsBlocked) break; // блок — дальше не падаем
+                    if (belowCell.Type == null)
+                    {
+                        targetY = yBelow;
+                    }
                 }
-                if (cell.Type == null)
-                {
-                    emptyBelow++;
-                }
-                else if (emptyBelow > 0)
+                if (targetY != y)
                 {
                     // Сдвигаем данные
-                    boardData.GetCell(x, y - emptyBelow).Type = cell.Type;
+                    boardData.GetCell(x, targetY).Type = cell.Type;
                     cell.Type = null;
 
                     // Сдвигаем визуальный объект
                     var from = new Vector2Int(x, y);
-                    var to = new Vector2Int(x, y - emptyBelow);
+                    var to = new Vector2Int(x, targetY);
                     if (tileObjects.TryGetValue(from, out var tile) && tile != null)
                     {
                         tileObjects[to] = tile;
                         tileObjects[from] = null;
-                        // Обновляем координаты в TileInputHandler!
+                        // Обновляем координаты в TileInputHandler
                         var input = tile.GetComponent<TileInputHandler>();
                         if (input != null)
                         {
@@ -404,7 +407,7 @@ public class BoardController : MonoBehaviour
                             Debug.Log($"[VIBRATION] Tile moved: {from} -> {to}, TileInputHandler coords set to {to}");
                         }
                         StartCoroutine(MoveTile(tile, CalculateWorldPosition(from), CalculateWorldPosition(to), dropDuration));
-                        if (emptyBelow > maxDropDistance) maxDropDistance = emptyBelow;
+                        if ((y - targetY) > maxDropDistance) maxDropDistance = y - targetY;
                     }
                 }
             }
@@ -413,16 +416,18 @@ public class BoardController : MonoBehaviour
         // 2. Появление новых тайлов сверху
         for (int x = 0; x < width; x++)
         {
-            int emptyCount = 0;
+            // Считаем незаблокированные пустые клетки в столбце
+            List<int> emptyRows = new List<int>();
             for (int y = 0; y < height; y++)
             {
                 var cell = boardData.GetCell(x, y);
                 if (cell.IsBlocked) continue;
-                if (cell.Type == null) emptyCount++;
+                if (cell.Type == null) emptyRows.Add(y);
             }
+            int emptyCount = emptyRows.Count;
             for (int i = 0; i < emptyCount; i++)
             {
-                int y = height - 1 - i;
+                int y = emptyRows[i];
                 var pos = new Vector2Int(x, y);
                 var cell = boardData.GetCell(x, y);
                 if (cell.IsBlocked || cell.Type != null) continue;
@@ -430,7 +435,14 @@ public class BoardController : MonoBehaviour
                 var newType = (TileType)Random.Range(0, System.Enum.GetValues(typeof(TileType)).Length);
                 cell.Type = newType;
                 // Появление сверху: создаём тайл выше поля и анимируем вниз
-                Vector3 spawnPos = CalculateWorldPosition(new Vector2Int(x, y + emptyCount));
+                // Найти высоту появления: над самым верхним незаблокированным тайлом
+                int spawnRow = y;
+                for (int yAbove = y + 1; yAbove < height; yAbove++)
+                {
+                    if (boardData.GetCell(x, yAbove).IsBlocked) break;
+                    spawnRow = yAbove;
+                }
+                Vector3 spawnPos = CalculateWorldPosition(new Vector2Int(x, spawnRow + 1));
                 Vector3 targetPos = CalculateWorldPosition(pos);
                 var tile = tileFactory.CreateTile(newType, Vector3.zero, boardRoot);
                 tile.transform.localPosition = spawnPos;
