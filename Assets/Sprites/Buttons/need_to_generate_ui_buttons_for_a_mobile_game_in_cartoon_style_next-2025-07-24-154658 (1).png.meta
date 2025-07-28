@@ -1,0 +1,330 @@
+fileFormatVersion: 2
+guid: 0c0bf1f61c5fdcc4c9d666c37cc3c6e5
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7178561812941385638
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_0
+  - first:
+      213: -3181376064285226906
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_1
+  - first:
+      213: 8328732305991994106
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_2
+  - first:
+      213: 1533034635177314536
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_3
+  - first:
+      213: 5303403062611593957
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_4
+  - first:
+      213: -5775349078810179936
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_5
+  - first:
+      213: 121528555233908871
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_6
+  - first:
+      213: -8311172724321610276
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_7
+  - first:
+      213: -5543085814600827039
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_8
+  - first:
+      213: 6057784538921547573
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_9
+  - first:
+      213: -6781696264345639921
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_10
+  - first:
+      213: -7675943997511053267
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_11
+  - first:
+      213: -3641609986992720559
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_12
+  - first:
+      213: 6045501342166114646
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_13
+  - first:
+      213: 1322381082487410979
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_14
+  - first:
+      213: 2525193264953946194
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_15
+  - first:
+      213: 6652448550191572989
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_16
+  - first:
+      213: -5048432897519718760
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_17
+  - first:
+      213: 8489902772163612665
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_18
+  - first:
+      213: -8783143260556260951
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_19
+  - first:
+      213: 5439125849278476144
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_20
+  - first:
+      213: -8867796310612010926
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_21
+  - first:
+      213: -1325739870933647295
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_22
+  - first:
+      213: -4838403053576190042
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_23
+  - first:
+      213: -8717000633356826427
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_24
+  - first:
+      213: -836278771417797543
+    second: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+      (1)_25
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+        (1)_10
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 936
+        width: 431
+        height: 137
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f04a515bd2392e1a0800000000000000
+      internalID: -6781696264345639921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+        (1)_21
+      rect:
+        serializedVersion: 2
+        x: 188
+        y: 736
+        width: 410
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25893753d324fe480800000000000000
+      internalID: -8867796310612010926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658
+        (1)_24
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 547
+        width: 394
+        height: 131
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c849edcb1ef60780800000000000000
+      internalID: -8717000633356826427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: fea8cec67ac45d048b85c6f47c38a5d1
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      need_to_generate_ui_buttons_for_a_mobile_game_in_cartoon_style_next-2025-07-24-154658 (1)_26: -314817418
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

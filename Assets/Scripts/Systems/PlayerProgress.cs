@@ -8,23 +8,37 @@ public static class PlayerProgress
         return PlayerPrefs.GetInt($"Level_{levelId}_Stars", 0);
     }
 
-    // Сохранить количество звёзд для уровня (только если больше)
-    public static void SetStars(int levelId, int stars)
+    // Сохраняет звёзды для уровня и увеличивает общий прогресс только если стало больше
+    public static void AddStars(int levelId, int newStars)
     {
-        int prev = GetStars(levelId);
-        if (stars > prev)
-            PlayerPrefs.SetInt($"Level_{levelId}_Stars", stars);
+        int prevStars = GetStars(levelId);
+        if (newStars > prevStars)
+        {
+            int diff = newStars - prevStars;
+            int total = GetTotalStars() + diff;
+            PlayerPrefs.SetInt("TotalStars", total);
+            PlayerPrefs.SetInt($"Level_{levelId}_Stars", newStars);
+        }
     }
 
-    // Проверить, открыт ли уровень
-    public static bool IsLevelUnlocked(int levelId)
+    // Получить общий прогресс (все заработанные звёзды)
+    public static int GetTotalStars()
     {
-        return PlayerPrefs.GetInt($"Level_{levelId}_Unlocked", levelId == 1 ? 1 : 0) == 1;
+        return PlayerPrefs.GetInt("TotalStars", 0);
     }
 
-    // Открыть уровень
-    public static void UnlockLevel(int levelId)
+    // Сбросить прогресс (для тестов или новой игры)
+    public static void ResetProgress(int maxLevelId)
     {
-        PlayerPrefs.SetInt($"Level_{levelId}_Unlocked", 1);
+        PlayerPrefs.SetInt("TotalStars", 0);
+        for (int i = 1; i <= maxLevelId; i++)
+            PlayerPrefs.SetInt($"Level_{i}_Stars", 0);
+    }
+
+    // Полный сброс всего прогресса игрока (все PlayerPrefs)
+    public static void ResetAllProgress()
+    {
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
     }
 } 

@@ -6,4 +6,5 @@ public class LevelMetaData
     public int levelNumber;
     public bool isUnlocked;
     public int starsEarned;
+    public int requiredStars; // Количество звёзд, необходимое для открытия уровня
 }

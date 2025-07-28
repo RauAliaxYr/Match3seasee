@@ -10,12 +10,12 @@ public class LevelGameplayData:ScriptableObject
     [SerializeField] private string levelName;
 
     [Header("Основные параметры")]
-    [SerializeField] private int width = 9;
-    [SerializeField] private int height = 9;
+    public int width = 9;
+    public int height = 9;
     [SerializeField] private LevelGoalType goalType = LevelGoalType.Score;
 
     [Header("Маска заблокированных клеток")]
-    [SerializeField] private List<RowData> blockedCells; 
+    public List<RowData> blockedCells; 
     
     [Header("Цели уровня")]
     [SerializeField] private int targetScore = 1000;

@@ -184,42 +184,59 @@ public class LevelProgressUI : MonoBehaviour
         UpdateProgressColor(scoreProgressBar, score, LevelProgressManager.Instance.CurrentLevel?.TargetScore ?? 0);
     }
 
-    private void UpdateMoves(int moves)
+    private void UpdateMoves(int movesMade)
     {
+        var level = LevelProgressManager.Instance.CurrentLevel;
+        int movesLimit = level?.MovesLimit ?? 0;
+        int movesLeft = movesLimit > 0 ? Mathf.Max(0, movesLimit - movesMade) : 0;
+
         if (movesText != null)
         {
-            StartCoroutine(AnimateValue(lastMoves, moves, (value) => {
-                lastMoves = (int)value;
-                movesText.text = $"Ходы: {lastMoves}";
-            }));
+            movesText.text = movesLimit > 0
+                ? $"Ходы: {movesLeft}"
+                : "Ходы: ∞";
         }
 
         if (movesProgressBar != null)
         {
-            StartCoroutine(AnimateSlider(movesProgressBar, moves));
+            if (movesLimit > 0)
+                StartCoroutine(AnimateSlider(movesProgressBar, movesLeft));
+            else
+                movesProgressBar.value = movesProgressBar.maxValue;
         }
 
-        UpdateProgressColor(movesProgressBar, moves, LevelProgressManager.Instance.CurrentLevel?.MovesLimit ?? 0);
+        UpdateProgressColor(movesProgressBar, movesLeft, movesLimit);
     }
 
-    private void UpdateTime(float time)
+    private void UpdateTime(float timeElapsed)
     {
+        var level = LevelProgressManager.Instance.CurrentLevel;
+        float timeLimit = level?.TimeLimitSeconds ?? 0f;
+        float timeLeft = timeLimit > 0f ? Mathf.Max(0f, timeLimit - timeElapsed) : 0f;
+
         if (timeText != null)
         {
-            StartCoroutine(AnimateValue(lastTime, time, (value) => {
-                lastTime = value;
-                int minutes = Mathf.FloorToInt(lastTime / 60f);
-                int seconds = Mathf.FloorToInt(lastTime % 60f);
+            if (timeLimit > 0f)
+            {
+                int minutes = Mathf.FloorToInt(timeLeft / 60f);
+                int seconds = Mathf.FloorToInt(timeLeft % 60f);
                 timeText.text = $"Время: {minutes:00}:{seconds:00}";
-            }));
+            }
+            else
+            {
+                timeText.text = "Время: ∞";
+            }
         }
 
         if (timeProgressBar != null)
         {
-            StartCoroutine(AnimateSlider(timeProgressBar, time));
+            if (timeLimit > 0f)
+                StartCoroutine(AnimateSlider(timeProgressBar, timeLeft));
+            else
+                timeProgressBar.value = timeProgressBar.maxValue;
         }
 
-        UpdateProgressColor(timeProgressBar, time, LevelProgressManager.Instance.CurrentLevel?.TimeLimitSeconds ?? 0);
+        UpdateProgressColor(timeProgressBar, timeLeft, timeLimit);
     }
 
     private IEnumerator AnimateValue(float from, float to, System.Action<float> onUpdate)
@@ -258,10 +275,14 @@ public class LevelProgressUI : MonoBehaviour
         float ratio = current / target;
         Color targetColor = normalColor;
 
-        if (ratio >= 0.8f)
+        // Теперь: чем больше ratio, тем зеленее (normalColor)
+        // Меньше 0.4 — danger (красный), 0.4-0.6 — warning (жёлтый), больше 0.6 — normal (зелёный)
+        if (ratio < 0.4f)
             targetColor = dangerColor;
-        else if (ratio >= 0.6f)
+        else if (ratio < 0.6f)
             targetColor = warningColor;
+        else
+            targetColor = normalColor;
 
         // Анимируем изменение цвета
         var fillImage = progressBar.fillRect.GetComponent<Image>();

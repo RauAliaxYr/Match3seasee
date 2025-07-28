@@ -26,5 +26,12 @@ public class LogoController : MonoBehaviour
         yield return new WaitForSeconds(fadeDuration + 0.2f);
 
         startScreenCanvasGroup.alpha = 1f;
+        
+        // Запускаем музыку главного меню после завершения анимации лого
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayMainMenuTheme();
+            AudioManager.Instance.SetMusicVolume(0.7f);
+        }
     }
 }

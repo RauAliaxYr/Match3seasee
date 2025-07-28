@@ -8,6 +8,8 @@ public class LevelButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private GameObject lockedOverlay;
     [SerializeField] private Image[] stars;
+    [SerializeField] private Sprite starActiveSprite;   // золотая звезда
+    [SerializeField] private Sprite starInactiveSprite; // пустая звезда
     [SerializeField] private Button button;
     
     private LevelGameplayData levelData;
@@ -22,7 +24,10 @@ public class LevelButton : MonoBehaviour
         button.interactable = isUnlocked;
 
         for (int i = 0; i < stars.Length; i++)
-            stars[i].enabled = (i < starsEarned);
+        {
+            stars[i].sprite = (i < starsEarned) ? starActiveSprite : starInactiveSprite;
+            stars[i].enabled = true; // всегда включено
+        }
 
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(OnClick);
@@ -31,6 +36,12 @@ public class LevelButton : MonoBehaviour
     private void OnClick()
     {
         Debug.Log($"Запуск уровня {levelId}");
+
+        // Звук нажатия кнопки
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayButtonClick();
+        }
 
         if (levelData == null)
         {

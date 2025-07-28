@@ -17,9 +17,16 @@ MonoBehaviour:
   width: 7
   height: 7
   goalType: 0
-  blockedCells: []
-  targetScore: 250
-  timeLimitSeconds: 60
-  movesLimit: 0
-  starThresholds: fa0000002c01000090010000
+  blockedCells:
+  - cells: 01000000000001
+  - cells: 00000000000000
+  - cells: 00000000000000
+  - cells: 00000000000000
+  - cells: 00000000000000
+  - cells: 00000000000000
+  - cells: 01000000000001
+  targetScore: 3000
+  timeLimitSeconds: 320
+  movesLimit: 28
+  starThresholds: e8030000d0070000b80b0000
   description: 

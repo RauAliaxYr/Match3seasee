@@ -70,13 +70,11 @@ public class LevelProgressManager : MonoBehaviour
         timeElapsed += Time.deltaTime;
         OnTimeChanged?.Invoke(timeElapsed);
 
-        // Проверяем лимит времени только для уровней с временным лимитом
-        if (currentLevel.GoalType == LevelGoalType.TimeLimit)
+        // Завершение уровня только по лимиту времени
+        if (HasTimeLimit() && timeElapsed >= currentLevel.TimeLimitSeconds)
         {
-            if (timeElapsed >= currentLevel.TimeLimitSeconds)
-            {
-                CompleteLevel(false);
-            }
+            int stars = CalculateStars();
+            CompleteLevel(stars > 0);
         }
     }
 
@@ -88,12 +86,11 @@ public class LevelProgressManager : MonoBehaviour
         movesMade++;
         OnMovesChanged?.Invoke(movesMade);
 
-        // Проверяем лимит ходов
-        if (currentLevel.GoalType == LevelGoalType.MovesLimit && 
-            currentLevel.MovesLimit > 0 && 
-            movesMade >= currentLevel.MovesLimit)
+        // Завершение уровня только по лимиту ходов
+        if (HasMovesLimit() && movesMade >= currentLevel.MovesLimit)
         {
-            CompleteLevel(false);
+            int stars = CalculateStars();
+            CompleteLevel(stars > 0);
         }
     }
 
@@ -112,55 +109,17 @@ public class LevelProgressManager : MonoBehaviour
 
         OnScoreChanged?.Invoke(currentScore);
         OnTilesClearedChanged?.Invoke(tilesCleared);
-
-        // Проверяем достижение цели по очкам
-        if (currentLevel.GoalType == LevelGoalType.Score && 
-            currentScore >= currentLevel.TargetScore)
-        {
-            CompleteLevel(true);
-        }
     }
 
     // Определение количества звёзд
     private int CalculateStars()
     {
         if (currentLevel == null) return 0;
-
         int stars = 0;
         var thresholds = currentLevel.StarThresholds;
-
-        switch (currentLevel.GoalType)
-        {
-            case LevelGoalType.Score:
-                if (currentScore >= thresholds[0]) stars = 1;
-                if (currentScore >= thresholds[1]) stars = 2;
-                if (currentScore >= thresholds[2]) stars = 3;
-                break;
-
-            case LevelGoalType.TimeLimit:
-                float timeRatio = 1f - (timeElapsed / currentLevel.TimeLimitSeconds);
-                if (timeRatio >= 0.8f) stars = 3;
-                else if (timeRatio >= 0.6f) stars = 2;
-                else if (timeRatio >= 0.4f) stars = 1;
-                break;
-
-            case LevelGoalType.MovesLimit:
-                if (currentLevel.MovesLimit > 0)
-                {
-                    float movesRatio = 1f - ((float)movesMade / currentLevel.MovesLimit);
-                    if (movesRatio >= 0.8f) stars = 3;
-                    else if (movesRatio >= 0.6f) stars = 2;
-                    else if (movesRatio >= 0.4f) stars = 1;
-                }
-                break;
-
-            case LevelGoalType.ClearTiles:
-                if (tilesCleared >= thresholds[0]) stars = 1;
-                if (tilesCleared >= thresholds[1]) stars = 2;
-                if (tilesCleared >= thresholds[2]) stars = 3;
-                break;
-        }
-
+        if (currentScore >= thresholds[0]) stars = 1;
+        if (currentScore >= thresholds[1]) stars = 2;
+        if (currentScore >= thresholds[2]) stars = 3;
         return stars;
     }
 
@@ -181,14 +140,23 @@ public class LevelProgressManager : MonoBehaviour
         };
 
         // --- Обновляем прогресс игрока ---
-        PlayerProgress.SetStars(result.LevelId, result.StarsEarned);
-        if (result.IsCompleted)
-        {
-            PlayerProgress.UnlockLevel(result.LevelId + 1);
-        }
+        PlayerProgress.AddStars(result.LevelId, result.StarsEarned);
 
-        // Сохраняем прогресс
+        // Сохраняем прогресс (опционально, если нужно для аналитики)
         SaveLevelProgress(result);
+        
+        // Запускаем соответствующую музыку
+        if (AudioManager.Instance != null)
+        {
+            if (isVictory)
+            {
+                AudioManager.Instance.PlayVictoryTheme();
+            }
+            else
+            {
+                AudioManager.Instance.PlayLoseTheme();
+            }
+        }
         
         // Уведомляем UI
         OnLevelCompleted?.Invoke(result);
@@ -217,6 +185,10 @@ public class LevelProgressManager : MonoBehaviour
         ResetProgress();
         isLevelActive = true;
     }
+
+    // Вспомогательные методы для лимитов
+    private bool HasTimeLimit() => currentLevel != null && currentLevel.TimeLimitSeconds > 0f;
+    private bool HasMovesLimit() => currentLevel != null && currentLevel.MovesLimit > 0;
 }
 
 [System.Serializable]
