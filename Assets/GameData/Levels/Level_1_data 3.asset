@@ -22,8 +22,8 @@ MonoBehaviour:
   - cells: 01000000000001
   - cells: 00000000000000
   - cells: 00000000000000
-  - cells: 00000000000000
-  - cells: 00000000000000
+  - cells: 00000001000000
+  - cells: 00000001000000
   - cells: 00000000000000
   targetScore: 3000
   timeLimitSeconds: 320

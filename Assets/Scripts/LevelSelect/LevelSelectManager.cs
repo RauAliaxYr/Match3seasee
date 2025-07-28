@@ -20,11 +20,25 @@ public class LevelSelectManager : MonoBehaviour
     private void Start()
     {
         LoadChapter(currentChapterIndex);
+        
+        // Запускаем музыку выбора уровней
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayMainMenuTheme();
+            AudioManager.Instance.SetMusicVolume(0.7f);
+        }
     }
 
     private void OnEnable()
     {
         LoadChapter(currentChapterIndex);
+        
+        // Запускаем музыку выбора уровней при активации
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayMainMenuTheme();
+            AudioManager.Instance.SetMusicVolume(0.7f);
+        }
     }
 
     public void LoadChapter(int index)

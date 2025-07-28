@@ -128,6 +128,11 @@ public class BoardController : MonoBehaviour
         {
             selectedCoords = coords;
             HighlightTile(coords, true);
+            // Звук выбора тайла
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayTileSelect();
+            }
         }
         else
         {
@@ -136,6 +141,11 @@ public class BoardController : MonoBehaviour
             if (AreAdjacent(selected, coords))
             {
                 HighlightTile(selected, false);
+                // Звук свапа тайлов
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.PlayTileSwap();
+                }
                 SwapTiles(selected, coords);
                 selectedCoords = null;
             }
@@ -144,6 +154,11 @@ public class BoardController : MonoBehaviour
                 HighlightTile(selected, false);
                 selectedCoords = coords;
                 HighlightTile(coords, true);
+                // Звук выбора нового тайла
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.PlayTileSelect();
+                }
             }
         }
     }
@@ -268,6 +283,13 @@ public class BoardController : MonoBehaviour
     private IEnumerator HandleMatches(List<List<Vector2Int>> allMatches)
     {
         OnPlayerAction(); // сбросить подсказку при любом действии
+        
+        // Звук матча
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayMatch3();
+        }
+        
         // Уведомляем LevelProgressManager о мэтче
         int totalTilesMatched = 0;
         int maxMatchSize = 0;

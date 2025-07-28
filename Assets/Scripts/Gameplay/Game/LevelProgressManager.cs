@@ -145,6 +145,19 @@ public class LevelProgressManager : MonoBehaviour
         // Сохраняем прогресс (опционально, если нужно для аналитики)
         SaveLevelProgress(result);
         
+        // Запускаем соответствующую музыку
+        if (AudioManager.Instance != null)
+        {
+            if (isVictory)
+            {
+                AudioManager.Instance.PlayVictoryTheme();
+            }
+            else
+            {
+                AudioManager.Instance.PlayLoseTheme();
+            }
+        }
+        
         // Уведомляем UI
         OnLevelCompleted?.Invoke(result);
     }

@@ -37,6 +37,12 @@ public class LevelButton : MonoBehaviour
     {
         Debug.Log($"Запуск уровня {levelId}");
 
+        // Звук нажатия кнопки
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayButtonClick();
+        }
+
         if (levelData == null)
         {
             Debug.LogError("LevelGameplayData не установлена!");

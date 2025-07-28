@@ -188,6 +188,18 @@ public class LevelCompleteUI : MonoBehaviour
 
     public void RestartLevel()
     {
+        // Звук нажатия кнопки
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayButtonClick();
+        }
+
+        // Останавливаем музыку победы/поражения
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.StopMusic();
+        }
+
         UnfreezeGameplay();
 
         // Сбросить прогресс уровня
@@ -206,10 +218,28 @@ public class LevelCompleteUI : MonoBehaviour
         // Скрыть Victory/Defeat панели
         if (victoryPanel != null) victoryPanel.SetActive(false);
         if (defeatPanel != null) defeatPanel.SetActive(false);
+
+        // Возвращаем музыку геймплея
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayGameplayTheme();
+        }
     }
 
     public void NextLevel()
     {
+        // Звук нажатия кнопки
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayButtonClick();
+        }
+
+        // Останавливаем музыку победы/поражения
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.StopMusic();
+        }
+
         UnfreezeGameplay();
 
         // Получаем следующий уровень
@@ -237,6 +267,18 @@ public class LevelCompleteUI : MonoBehaviour
 
     public void GoToMenu()
     {
+        // Звук нажатия кнопки
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayButtonClick();
+        }
+
+        // Останавливаем музыку победы/поражения
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.StopMusic();
+        }
+
         UnfreezeGameplay();
         SceneLoader.LoadLevelSelect();
     }

@@ -17,7 +17,14 @@ MonoBehaviour:
   width: 7
   height: 7
   goalType: 0
-  blockedCells: []
+  blockedCells:
+  - cells: 00000000000000
+  - cells: 00000000000000
+  - cells: 00000000000000
+  - cells: 00000000000000
+  - cells: 00000000000000
+  - cells: 00000000000000
+  - cells: 00000000000000
   targetScore: 3000
   timeLimitSeconds: 60
   movesLimit: 20

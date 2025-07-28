@@ -24,7 +24,7 @@ MonoBehaviour:
   - cells: 00000000000000
   - cells: 00000000000000
   - cells: 00000000000000
-  - cells: 00000000000000
+  - cells: 01010000000101
   targetScore: 3000
   timeLimitSeconds: 320
   movesLimit: 26

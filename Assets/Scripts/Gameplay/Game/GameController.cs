@@ -41,6 +41,13 @@ public class GameController : MonoBehaviour
         {
             LevelProgressManager.Instance.InitializeLevel(config);
         }
+
+        // Запускаем музыку геймплея
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayGameplayTheme();
+            AudioManager.Instance.SetMusicVolume(0.3f);
+        }
     }
 
     private float CalculateTileSize(int width, int height)
