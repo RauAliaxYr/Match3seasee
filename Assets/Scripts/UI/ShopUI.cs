@@ -13,6 +13,6 @@ public class ShopUI : MonoBehaviour
 
     private void UpdateUI()
     {
-        coinsText.text = $"Монеты: {CurrencyManager.Instance.Coins}";
+        coinsText.text = $"Coins: {CurrencyManager.Instance.Coins}";
     }
 }

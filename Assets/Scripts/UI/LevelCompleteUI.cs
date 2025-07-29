@@ -5,34 +5,34 @@ using System.Collections;
 
 public class LevelCompleteUI : MonoBehaviour
 {
-    [Header("Панели")]
+    [Header("Panels")]
     [SerializeField] private GameObject victoryPanel;
     [SerializeField] private GameObject defeatPanel;
     
-    [Header("Результаты")]
+    [Header("Results")]
     [SerializeField] private TextMeshProUGUI levelNumberText;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI movesText;
     [SerializeField] private TextMeshProUGUI timeText;
     
-    [Header("Звёзды")]
+    [Header("Stars")]
     [SerializeField] private Image[] starImages;
     [SerializeField] private Sprite starEmpty;
     [SerializeField] private Sprite starFilled;
     [SerializeField] private Sprite starGold;
     
-    [Header("Кнопки")]
+    [Header("Buttons")]
     [SerializeField] private Button restartButton;
     [SerializeField] private Button nextLevelButton;
     [SerializeField] private Button menuButton;
     
-    [Header("Анимации")]
+    [Header("Animations")]
     [SerializeField] private float starAnimationDelay = 0.3f;
     [SerializeField] private float panelAnimationDuration = 0.5f;
 
-    [Header("Геймплей")]
+    [Header("Gameplay")]
     [SerializeField] private BoardController boardController;
-    [Header("База уровней")]
+    [Header("Level Database")]
     [SerializeField] private LevelsDatabase levelsDatabase;
     
     private LevelResult currentResult;
@@ -69,7 +69,7 @@ public class LevelCompleteUI : MonoBehaviour
     {
         currentResult = result;
         
-        // Показываем соответствующую панель
+        // Show appropriate panel
         GameObject targetPanel = result.IsCompleted ? victoryPanel : defeatPanel;
         if (targetPanel != null)
         {
@@ -77,10 +77,10 @@ public class LevelCompleteUI : MonoBehaviour
             StartCoroutine(AnimatePanelScale(targetPanel, Vector3.one, panelAnimationDuration));
         }
 
-        // Обновляем информацию
+        // Update information
         UpdateResultInfo(result);
         
-        // Анимируем звёзды
+        // Animate stars
         if (result.IsCompleted)
         {
             Debug.Log($"ShowLevelComplete - StarsEarned: {result.StarsEarned}, IsCompleted: {result.IsCompleted}");
@@ -90,23 +90,23 @@ public class LevelCompleteUI : MonoBehaviour
         if (nextLevelButton != null)
             nextLevelButton.gameObject.SetActive(result.IsCompleted);
 
-        // Заморозка геймплея
+        // Freeze gameplay
         FreezeGameplay();
     }
 
     private void UpdateResultInfo(LevelResult result)
     {
         if (levelNumberText != null)
-            levelNumberText.text = $"Уровень {result.LevelId}";
+            levelNumberText.text = $"Level {result.LevelId}";
         if (scoreText != null)
-            scoreText.text = $"Очки: {result.Score:N0}";
+            scoreText.text = $"Score: {result.Score:N0}";
         if (movesText != null)
-            movesText.text = $"Ходы: {result.MovesUsed}";
+            movesText.text = $"Moves: {result.MovesUsed}";
         if (timeText != null)
         {
             int minutes = Mathf.FloorToInt(result.TimeUsed / 60f);
             int seconds = Mathf.FloorToInt(result.TimeUsed % 60f);
-            timeText.text = $"Время: {minutes:00}:{seconds:00}";
+            timeText.text = $"Time: {minutes:00}:{seconds:00}";
         }
     }
 
@@ -115,7 +115,7 @@ public class LevelCompleteUI : MonoBehaviour
         Debug.Log($"AnimateStars called with starsEarned: {starsEarned}");
         Debug.Log($"starImages.Length: {starImages.Length}");
         
-        // Сначала показываем все звезды как пустые
+        // First show all stars as empty
         for (int i = 0; i < starImages.Length; i++)
         {
             if (starImages[i] == null) 
@@ -124,10 +124,10 @@ public class LevelCompleteUI : MonoBehaviour
                 continue;
             }
             starImages[i].sprite = starEmpty;
-            starImages[i].transform.localScale = Vector3.one; // Все звезды видны по умолчанию
+            starImages[i].transform.localScale = Vector3.one; // All stars visible by default
         }
 
-        // Анимируем заполнение звезд
+        // Animate star filling
         for (int i = 0; i < starsEarned; i++)
         {
             if (starImages[i] == null) continue;
@@ -137,7 +137,7 @@ public class LevelCompleteUI : MonoBehaviour
             
             Debug.Log($"Animating star {i}, isLast: {i == starsEarned - 1}");
             
-            // Если это последняя заработанная звезда, делаем её золотой
+            // If this is the last earned star, make it gold
             if (i == starsEarned - 1)
             {
                 Debug.Log($"Animating gold star {i} with vibration");
@@ -146,7 +146,7 @@ public class LevelCompleteUI : MonoBehaviour
             }
             else
             {
-                // Иначе делаем заполненной
+                // Otherwise make it filled
                 Debug.Log($"Animating filled star {i}");
                 starImages[i].sprite = starFilled;
             }
@@ -182,10 +182,10 @@ public class LevelCompleteUI : MonoBehaviour
         Debug.Log("AnimateStarVibration started");
         
         Vector3 originalScale = starTransform.localScale;
-        float pulseSpeed = 3f; // Скорость пульсации
-        float pulseIntensity = 0.2f; // Интенсивность пульсации
+        float pulseSpeed = 3f; // Pulse speed
+        float pulseIntensity = 0.2f; // Pulse intensity
         
-        // Зацикленная пульсирующая анимация
+        // Looped pulsing animation
         while (true)
         {
             float time = Time.unscaledTime * pulseSpeed;
@@ -211,7 +211,7 @@ public class LevelCompleteUI : MonoBehaviour
         panel.transform.localScale = targetScale;
     }
 
-    // --- ПРОФЕССИОНАЛЬНАЯ ЗАМОРОЗКА ГЕЙМПЛЕЯ ---
+    // --- GAMEPLAY FREEZING ---
     public void FreezeGameplay()
     {
         if (isFrozen) return;
@@ -231,20 +231,20 @@ public class LevelCompleteUI : MonoBehaviour
 
     public void RestartLevel()
     {
-        // Останавливаем анимацию звезды
+        // Stop star animation
         if (currentStarAnimation != null)
         {
             StopCoroutine(currentStarAnimation);
             currentStarAnimation = null;
         }
 
-        // Звук нажатия кнопки
+        // Button click sound
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayButtonClick();
         }
 
-        // Останавливаем музыку победы/поражения
+        // Stop victory/defeat music
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.StopMusic();
@@ -252,11 +252,11 @@ public class LevelCompleteUI : MonoBehaviour
 
         UnfreezeGameplay();
 
-        // Сбросить прогресс уровня
+        // Reset level progress
         if (LevelProgressManager.Instance != null)
             LevelProgressManager.Instance.ResetLevelProgress();
 
-        // Перегенерировать поле
+        // Regenerate board
         if (boardController != null)
         {
             var levelData = LevelProgressManager.Instance.CurrentLevel;
@@ -265,11 +265,11 @@ public class LevelCompleteUI : MonoBehaviour
             boardController.RestartBoard(levelData, tileSize, tileSpacing);
         }
 
-        // Скрыть Victory/Defeat панели
+        // Hide Victory/Defeat panels
         if (victoryPanel != null) victoryPanel.SetActive(false);
         if (defeatPanel != null) defeatPanel.SetActive(false);
 
-        // Возвращаем музыку геймплея
+        // Return gameplay music
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayGameplayTheme();
@@ -278,20 +278,20 @@ public class LevelCompleteUI : MonoBehaviour
 
     public void NextLevel()
     {
-        // Останавливаем анимацию звезды
+        // Stop star animation
         if (currentStarAnimation != null)
         {
             StopCoroutine(currentStarAnimation);
             currentStarAnimation = null;
         }
 
-        // Звук нажатия кнопки
+        // Button click sound
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayButtonClick();
         }
 
-        // Останавливаем музыку победы/поражения
+        // Stop victory/defeat music
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.StopMusic();
@@ -299,7 +299,7 @@ public class LevelCompleteUI : MonoBehaviour
 
         UnfreezeGameplay();
 
-        // Получаем следующий уровень
+        // Get next level
         int nextLevelId = LevelProgressManager.Instance.CurrentLevel.LevelId + 1;
         LevelGameplayData nextLevel = FindLevelById(nextLevelId);
 
@@ -310,7 +310,7 @@ public class LevelCompleteUI : MonoBehaviour
         }
         else
         {
-            // Если следующего уровня нет — возвращаемся к выбору уровня
+            // If no next level - return to level selection
             SceneLoader.LoadLevelSelect();
         }
     }
@@ -324,20 +324,20 @@ public class LevelCompleteUI : MonoBehaviour
 
     public void GoToMenu()
     {
-        // Останавливаем анимацию звезды
+        // Stop star animation
         if (currentStarAnimation != null)
         {
             StopCoroutine(currentStarAnimation);
             currentStarAnimation = null;
         }
 
-        // Звук нажатия кнопки
+        // Button click sound
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayButtonClick();
         }
 
-        // Останавливаем музыку победы/поражения
+        // Stop victory/defeat music
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.StopMusic();

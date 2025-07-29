@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Управляет всеми звуками в игре
+/// Manages all sounds in the game
 /// </summary>
 public class AudioManager : MonoBehaviour
 {
@@ -41,7 +41,7 @@ public class AudioManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // Создаем AudioSource компоненты если их нет
+        // Create AudioSource components if they don't exist
         if (musicSource == null)
         {
             musicSource = gameObject.AddComponent<AudioSource>();
@@ -60,7 +60,7 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Создает AudioManager в сцене если его нет
+    /// Creates AudioManager in the scene if it doesn't exist
     /// </summary>
     public static void CreateAudioManagerIfNeeded()
     {

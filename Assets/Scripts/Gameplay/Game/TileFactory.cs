@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 public class TileFactory : MonoBehaviour
 {
-    [Header("Настройки")]
-    [SerializeField] private TilePrefabConfig tilePrefabConfig; // ScriptableObject с маппингом
-    [SerializeField] private GameObject blockedTilePrefab;      // Префаб для заблокированных тайлов
+    [Header("Settings")]
+    [SerializeField] private TilePrefabConfig tilePrefabConfig; // ScriptableObject with mapping
+    [SerializeField] private GameObject blockedTilePrefab;      // Prefab for blocked tiles
 
     // Object pools
     private Dictionary<TileType, Queue<GameObject>> tilePools = new();
     private Queue<GameObject> blockedTilePool = new();
 
     /// <summary>
-    /// Создаёт обычный тайл по типу с использованием пула.
+    /// Creates a regular tile by type using pool.
     /// </summary>
     public GameObject CreateTile(TileType type, Vector3 position, Transform parent)
     {
@@ -35,7 +35,7 @@ public class TileFactory : MonoBehaviour
             GameObject prefab = tilePrefabConfig.GetPrefab(type);
             if (prefab == null)
             {
-                Debug.LogWarning($"Нет префаба для типа {type} в TilePrefabConfig");
+                Debug.LogWarning($"No prefab for type {type} in TilePrefabConfig");
                 return null;
             }
             tile = Instantiate(prefab, position, Quaternion.identity, parent);
@@ -44,7 +44,7 @@ public class TileFactory : MonoBehaviour
     }
 
     /// <summary>
-    /// Создаёт заблокированный тайл с использованием пула.
+    /// Creates a blocked tile using pool.
     /// </summary>
     public GameObject CreateBlockedTile(Vector3 position, Transform parent)
     {
@@ -60,7 +60,7 @@ public class TileFactory : MonoBehaviour
         {
             if (blockedTilePrefab == null)
             {
-                Debug.LogWarning("Не назначен префаб заблокированного тайла.");
+                Debug.LogWarning("Blocked tile prefab is not assigned.");
                 return null;
             }
             tile = Instantiate(blockedTilePrefab, position, Quaternion.identity, parent);
@@ -69,7 +69,7 @@ public class TileFactory : MonoBehaviour
     }
 
     /// <summary>
-    /// Возвращает обычный тайл в пул.
+    /// Returns a regular tile to pool.
     /// </summary>
     public void ReturnTile(TileType type, GameObject tile)
     {
@@ -84,7 +84,7 @@ public class TileFactory : MonoBehaviour
     }
 
     /// <summary>
-    /// Возвращает заблокированный тайл в пул.
+    /// Returns a blocked tile to pool.
     /// </summary>
     public void ReturnBlockedTile(GameObject tile)
     {

@@ -27,7 +27,7 @@ public class LogoController : MonoBehaviour
 
         startScreenCanvasGroup.alpha = 1f;
         
-        // Запускаем музыку главного меню после завершения анимации лого
+        // Start main menu music after logo animation completion
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayMainMenuTheme();

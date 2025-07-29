@@ -2,13 +2,13 @@ using UnityEngine;
 
 public static class PlayerProgress
 {
-    // Получить количество звёзд для уровня
+    // Get star count for level
     public static int GetStars(int levelId)
     {
         return PlayerPrefs.GetInt($"Level_{levelId}_Stars", 0);
     }
 
-    // Сохраняет звёзды для уровня и увеличивает общий прогресс только если стало больше
+    // Save stars for level and increase total progress only if it became more
     public static void AddStars(int levelId, int newStars)
     {
         int prevStars = GetStars(levelId);
@@ -21,13 +21,13 @@ public static class PlayerProgress
         }
     }
 
-    // Получить общий прогресс (все заработанные звёзды)
+    // Get total progress (all earned stars)
     public static int GetTotalStars()
     {
         return PlayerPrefs.GetInt("TotalStars", 0);
     }
 
-    // Сбросить прогресс (для тестов или новой игры)
+    // Reset progress (for tests or new game)
     public static void ResetProgress(int maxLevelId)
     {
         PlayerPrefs.SetInt("TotalStars", 0);
@@ -35,7 +35,7 @@ public static class PlayerProgress
             PlayerPrefs.SetInt($"Level_{i}_Stars", 0);
     }
 
-    // Полный сброс всего прогресса игрока (все PlayerPrefs)
+    // Complete reset of all player progress (all PlayerPrefs)
     public static void ResetAllProgress()
     {
         PlayerPrefs.DeleteAll();

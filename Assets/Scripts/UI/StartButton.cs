@@ -18,13 +18,13 @@ public class StartButton : MonoBehaviour
 
     private void OnStartButtonClick()
     {
-        // Звук нажатия кнопки
+        // Button click sound
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayButtonClick();
         }
 
-        // Переход к выбору уровней
+        // Go to level selection
         SceneLoader.LoadLevelSelect();
     }
 } 

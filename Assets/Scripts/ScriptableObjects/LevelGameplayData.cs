@@ -5,31 +5,31 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "LevelGameplayData", menuName = "Match3/Level Gameplay Data")]
 public class LevelGameplayData:ScriptableObject
 {
-    [Header("Идентификатор уровня")]
+    [Header("Level Identifier")]
     [SerializeField] private int levelId;
     [SerializeField] private string levelName;
 
-    [Header("Основные параметры")]
+    [Header("Main Parameters")]
     public int width = 9;
     public int height = 9;
     [SerializeField] private LevelGoalType goalType = LevelGoalType.Score;
 
-    [Header("Маска заблокированных клеток")]
+    [Header("Blocked Cells Mask")]
     public List<RowData> blockedCells; 
     
-    [Header("Цели уровня")]
+    [Header("Level Goals")]
     [SerializeField] private int targetScore = 1000;
     [SerializeField] private int timeLimitSeconds = 60;
     [SerializeField] private int movesLimit = 0;
 
-    [Header("Пороги звёзд")]
-    [SerializeField] private int[] starThresholds = new int[3]; // 1, 2, 3 звезды
+    [Header("Star Thresholds")]
+    [SerializeField] private int[] starThresholds = new int[3]; // 1, 2, 3 stars
 
-    [Header("Описание (для редактора)")]
+    [Header("Description (for editor)")]
     [TextArea]
     [SerializeField] private string description;
 
-    // --- Публичные свойства ---
+    // --- Public properties ---
     public int LevelId => levelId;
     public string LevelName => levelName;
     public int Width => width;

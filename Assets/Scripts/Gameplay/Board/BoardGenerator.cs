@@ -26,7 +26,7 @@ public class BoardGenerator
 
             if (attempts >= maxAttempts)
             {
-                Debug.LogWarning("Не удалось сгенерировать корректное поле без матчей после 100 попыток.");
+                Debug.LogWarning("Failed to generate a valid board without matches after 100 attempts.");
                 break;
             }
         }
@@ -49,7 +49,7 @@ public class BoardGenerator
 
                 var possibleTypes = Enumerable.Range(0, typeCount).Cast<TileType>().ToList();
 
-                // Исключаем типы, которые вызовут матч
+                // Exclude types that will cause a match
                 if (x >= 2 && 
                     board.GetCell(x - 1, y).Type == board.GetCell(x - 2, y).Type &&
                     board.GetCell(x - 1, y).Type.HasValue)

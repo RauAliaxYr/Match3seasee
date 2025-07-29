@@ -10,11 +10,11 @@ public class LevelSelectManager : MonoBehaviour
     [SerializeField] private Image backgroundImage;
     [SerializeField] private List<LevelChapterData> chapters;
     [SerializeField] private TextMeshProUGUI chapterText;
-    [Header("Конфигурации уровней")]
+    [Header("Level Configuration")]
     [SerializeField] private LevelsDatabase levelsDatabase;
-    [Header("UI звёзд")]
+    [Header("Stars UI")]
     [SerializeField] private TotalStarsUI totalStarsUI;
-    [Header("Навигация")]
+    [Header("Navigation")]
     [SerializeField] private Button leftArrowButton;
     [SerializeField] private Button rightArrowButton;
 
@@ -24,7 +24,7 @@ public class LevelSelectManager : MonoBehaviour
     {
         LoadChapter(currentChapterIndex);
         
-        // Запускаем музыку выбора уровней
+        // Start level selection music
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayMainMenuTheme();
@@ -36,7 +36,7 @@ public class LevelSelectManager : MonoBehaviour
     {
         LoadChapter(currentChapterIndex);
         
-        // Запускаем музыку выбора уровней при активации
+        // Start level selection music on activation
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayMainMenuTheme();
@@ -52,11 +52,11 @@ public class LevelSelectManager : MonoBehaviour
         backgroundImage.sprite = chapter.background;
         chapterText.text = chapter.chapterName;
 
-        // Удаляем старые кнопки
+        // Remove old buttons
         foreach (Transform child in levelsParent)
             Destroy(child.gameObject);
 
-        // --- Последовательное открытие уровней с гейтами по звёздам ---
+        // --- Sequential level unlocking with star gates ---
         int totalStars = PlayerProgress.GetTotalStars();
         bool previousUnlocked = true;
 
@@ -65,7 +65,7 @@ public class LevelSelectManager : MonoBehaviour
             var config = levelsDatabase.GetLevelById(meta.levelId);
             if (config == null)
             {
-                Debug.LogWarning($"Нет конфигурации LevelGameplayData для уровня {meta.levelNumber}// levelId = {meta.levelId}//");
+                Debug.LogWarning($"No LevelGameplayData configuration for level {meta.levelNumber}// levelId = {meta.levelId}//");
                 continue;
             }
 
@@ -92,11 +92,11 @@ public class LevelSelectManager : MonoBehaviour
             previousUnlocked = isUnlocked;
         }
 
-        // Обновляем UI звёзд
+        // Update stars UI
         if (totalStarsUI != null)
             totalStarsUI.UpdateStars();
             
-        // Обновляем состояние стрелок навигации
+        // Update navigation arrows state
         UpdateNavigationArrows();
     }
 
@@ -105,19 +105,19 @@ public class LevelSelectManager : MonoBehaviour
     
     private void UpdateNavigationArrows()
     {
-        // Деактивируем левую стрелку на первой главе
+        // Deactivate left arrow on first chapter
         if (leftArrowButton != null)
         {
             leftArrowButton.interactable = (currentChapterIndex > 0);
         }
         
-        // Деактивируем правую стрелку на последней главе
+        // Deactivate right arrow on last chapter
         if (rightArrowButton != null)
         {
             rightArrowButton.interactable = (currentChapterIndex < chapters.Count - 1);
         }
         
-        // Если всего одна глава, деактивируем обе стрелки
+        // If only one chapter, deactivate both arrows
         if (chapters.Count <= 1)
         {
             if (leftArrowButton != null) leftArrowButton.interactable = false;

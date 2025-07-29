@@ -16,7 +16,7 @@ public class ScorePopup : MonoBehaviour
 
     private IEnumerator AnimatePopup()
     {
-        // Начальное состояние
+        // Initial state
         CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
         if (canvasGroup == null)
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
@@ -25,7 +25,7 @@ public class ScorePopup : MonoBehaviour
         Vector3 startPos = transform.localPosition;
         Vector3 endPos = startPos + Vector3.up * moveDistance;
 
-        // Анимация появления
+        // Fade in animation
         float elapsed = 0f;
         while (elapsed < fadeInDuration)
         {
@@ -36,7 +36,7 @@ public class ScorePopup : MonoBehaviour
         }
         canvasGroup.alpha = 1f;
 
-        // Анимация движения вверх
+        // Move up animation
         elapsed = 0f;
         float totalDuration = fadeInDuration + fadeOutDuration;
         
@@ -48,7 +48,7 @@ public class ScorePopup : MonoBehaviour
             yield return null;
         }
 
-        // Анимация исчезновения
+        // Fade out animation
         elapsed = 0f;
         while (elapsed < fadeOutDuration)
         {

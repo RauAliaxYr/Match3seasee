@@ -1,9 +1,9 @@
 namespace GameData
 {
     public enum LevelGoalType
-    {
-        Score,      // Набрать очки
-        Collect,    // Собрать элементы
-        ClearTiles  // Очистить плитки (например, от желе)
-    }
+{
+    Score,      // Get points
+    Collect,    // Collect elements
+    ClearTiles  // Clear tiles (e.g., from jelly)
+}
 }

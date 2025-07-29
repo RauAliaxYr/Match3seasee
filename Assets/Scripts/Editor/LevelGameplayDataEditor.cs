@@ -24,23 +24,23 @@ public class LevelGameplayDataEditor : Editor
     {
         serializedObject.Update();
 
-        // --- Стандартные поля ---
+        // --- Standard fields ---
         EditorGUILayout.PropertyField(widthProp);
         EditorGUILayout.PropertyField(heightProp);
         DrawPropertiesExcluding(serializedObject, "blockedCells", "width", "height");
 
         EditorGUILayout.Space(10);
 
-        // --- Кнопка для обновления сетки ---
-        if (GUILayout.Button("Обновить сетку"))
+        // --- Button to update grid ---
+        if (GUILayout.Button("Update Grid"))
         {
             InitializeBlockedCells();
         }
 
         EditorGUILayout.Space(5);
-        EditorGUILayout.LabelField("Заблокированные клетки:", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Blocked Cells:", EditorStyles.boldLabel);
 
-        // --- Отрисовка сетки ---
+        // --- Grid rendering ---
         DrawBlockedCellsGrid();
 
         serializedObject.ApplyModifiedProperties();
@@ -48,11 +48,11 @@ public class LevelGameplayDataEditor : Editor
 
     private void InitializeBlockedCells()
     {
-        // Получаем текущие размеры
+        // Get current dimensions
         int width = widthProp.intValue;
         int height = heightProp.intValue;
 
-        // Инициализируем blockedCells, если нужно
+        // Initialize blockedCells if needed
         if (blockedCellsProp.arraySize != height)
         {
             blockedCellsProp.ClearArray();
@@ -64,7 +64,7 @@ public class LevelGameplayDataEditor : Editor
             }
         }
 
-        // Убедимся, что в каждой строке cells.Count == width
+        // Ensure that in each row cells.Count == width
         for (int y = 0; y < height; y++)
         {
             var row = blockedCellsProp.GetArrayElementAtIndex(y);
@@ -84,19 +84,19 @@ public class LevelGameplayDataEditor : Editor
     int width = widthProp.intValue;
     int height = heightProp.intValue;
 
-    // Отрисовываем строки в обратном порядке (чтобы Y=0 был внизу)
+    // Draw rows in reverse order (so Y=0 is at the bottom)
     for (int editorY = height - 1; editorY >= 0; editorY--)
     {
         EditorGUILayout.BeginHorizontal();
         
-        // Подпись Y-координаты (опционально)
+        // Y-coordinate label (optional)
         EditorGUILayout.LabelField(editorY.ToString(), GUILayout.Width(20));
 
-        // Отрисовка клеток в строке
+        // Draw cells in the row
         for (int x = 0; x < width; x++)
         {
-            // Получаем данные из массива (игровая логика: Y=0 — нижний ряд)
-            int gameLogicY = editorY; // или (height - 1 - editorY), если нужно инвертировать
+            // Get data from array (game logic: Y=0 is the bottom row)
+            int gameLogicY = editorY; // or (height - 1 - editorY) if inversion is needed
             var row = blockedCellsProp.GetArrayElementAtIndex(gameLogicY);
             var cells = row.FindPropertyRelative("cells");
             var cell = cells.GetArrayElementAtIndex(x);
@@ -115,9 +115,9 @@ public class LevelGameplayDataEditor : Editor
         EditorGUILayout.EndHorizontal();
     }
 
-    // Подписи X-координат (опционально)
+    // X-coordinate labels (optional)
     EditorGUILayout.BeginHorizontal();
-    EditorGUILayout.LabelField("", GUILayout.Width(20)); // Пустая ячейка для выравнивания
+    EditorGUILayout.LabelField("", GUILayout.Width(20)); // Empty cell for alignment
     for (int x = 0; x < width; x++)
     {
         EditorGUILayout.LabelField(x.ToString(), GUILayout.Width(20));
