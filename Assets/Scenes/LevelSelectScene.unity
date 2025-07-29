@@ -286,11 +286,11 @@ MonoBehaviour:
   backgroundImage: {fileID: 2105144048}
   chapters:
   - {fileID: 11400000, guid: 0f9a6146ffd4a374ea9064582e1be105, type: 2}
-  - {fileID: 11400000, guid: d271dc3a7777daf41abe71dcf978467e, type: 2}
-  - {fileID: 11400000, guid: 80c71fbf18351df46b95f762b66754cd, type: 2}
   chapterText: {fileID: 567393516}
   levelsDatabase: {fileID: 11400000, guid: 36ed156319d63a7428d24bf21eecba42, type: 2}
   totalStarsUI: {fileID: 1407840693}
+  leftArrowButton: {fileID: 1586810077}
+  rightArrowButton: {fileID: 625031979}
 --- !u!4 &20807408
 Transform:
   m_ObjectHideFlags: 0

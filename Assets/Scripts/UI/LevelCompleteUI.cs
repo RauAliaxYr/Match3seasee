@@ -37,6 +37,7 @@ public class LevelCompleteUI : MonoBehaviour
     
     private LevelResult currentResult;
     private bool isFrozen = false;
+    private Coroutine currentStarAnimation;
 
     private void Start()
     {
@@ -82,6 +83,7 @@ public class LevelCompleteUI : MonoBehaviour
         // Анимируем звёзды
         if (result.IsCompleted)
         {
+            Debug.Log($"ShowLevelComplete - StarsEarned: {result.StarsEarned}, IsCompleted: {result.IsCompleted}");
             StartCoroutine(AnimateStars(result.StarsEarned));
         }
 
@@ -110,22 +112,43 @@ public class LevelCompleteUI : MonoBehaviour
 
     private IEnumerator AnimateStars(int starsEarned)
     {
+        Debug.Log($"AnimateStars called with starsEarned: {starsEarned}");
+        Debug.Log($"starImages.Length: {starImages.Length}");
+        
+        // Сначала показываем все звезды как пустые
         for (int i = 0; i < starImages.Length; i++)
         {
-            if (starImages[i] == null) continue;
+            if (starImages[i] == null) 
+            {
+                Debug.Log($"starImages[{i}] is null");
+                continue;
+            }
             starImages[i].sprite = starEmpty;
-            starImages[i].transform.localScale = Vector3.zero;
+            starImages[i].transform.localScale = Vector3.one; // Все звезды видны по умолчанию
+        }
+
+        // Анимируем заполнение звезд
+        for (int i = 0; i < starsEarned; i++)
+        {
+            if (starImages[i] == null) continue;
+            
             float delay = i * starAnimationDelay;
             yield return new WaitForSeconds(delay);
-            yield return StartCoroutine(AnimateStarScale(starImages[i].transform, Vector3.one, 0.3f));
-            if (i < starsEarned)
+            
+            Debug.Log($"Animating star {i}, isLast: {i == starsEarned - 1}");
+            
+            // Если это последняя заработанная звезда, делаем её золотой
+            if (i == starsEarned - 1)
             {
+                Debug.Log($"Animating gold star {i} with vibration");
+                starImages[i].sprite = starGold;
+                currentStarAnimation = StartCoroutine(AnimateStarVibration(starImages[i].transform));
+            }
+            else
+            {
+                // Иначе делаем заполненной
+                Debug.Log($"Animating filled star {i}");
                 starImages[i].sprite = starFilled;
-                if (i == starsEarned - 1)
-                {
-                    starImages[i].sprite = starGold;
-                    yield return StartCoroutine(AnimateStarPulse(starImages[i].transform));
-                }
             }
         }
     }
@@ -152,6 +175,26 @@ public class LevelCompleteUI : MonoBehaviour
         yield return StartCoroutine(AnimateStarScale(starTransform, originalScale, 0.1f));
         yield return StartCoroutine(AnimateStarScale(starTransform, pulseScale, 0.1f));
         yield return StartCoroutine(AnimateStarScale(starTransform, originalScale, 0.1f));
+    }
+
+    private IEnumerator AnimateStarVibration(Transform starTransform)
+    {
+        Debug.Log("AnimateStarVibration started");
+        
+        Vector3 originalScale = starTransform.localScale;
+        float pulseSpeed = 3f; // Скорость пульсации
+        float pulseIntensity = 0.2f; // Интенсивность пульсации
+        
+        // Зацикленная пульсирующая анимация
+        while (true)
+        {
+            float time = Time.unscaledTime * pulseSpeed;
+            float scaleMultiplier = 1f + Mathf.Sin(time) * pulseIntensity;
+            
+            starTransform.localScale = originalScale * scaleMultiplier;
+            
+            yield return null;
+        }
     }
 
     private IEnumerator AnimatePanelScale(GameObject panel, Vector3 targetScale, float duration)
@@ -188,6 +231,13 @@ public class LevelCompleteUI : MonoBehaviour
 
     public void RestartLevel()
     {
+        // Останавливаем анимацию звезды
+        if (currentStarAnimation != null)
+        {
+            StopCoroutine(currentStarAnimation);
+            currentStarAnimation = null;
+        }
+
         // Звук нажатия кнопки
         if (AudioManager.Instance != null)
         {
@@ -228,6 +278,13 @@ public class LevelCompleteUI : MonoBehaviour
 
     public void NextLevel()
     {
+        // Останавливаем анимацию звезды
+        if (currentStarAnimation != null)
+        {
+            StopCoroutine(currentStarAnimation);
+            currentStarAnimation = null;
+        }
+
         // Звук нажатия кнопки
         if (AudioManager.Instance != null)
         {
@@ -267,6 +324,13 @@ public class LevelCompleteUI : MonoBehaviour
 
     public void GoToMenu()
     {
+        // Останавливаем анимацию звезды
+        if (currentStarAnimation != null)
+        {
+            StopCoroutine(currentStarAnimation);
+            currentStarAnimation = null;
+        }
+
         // Звук нажатия кнопки
         if (AudioManager.Instance != null)
         {

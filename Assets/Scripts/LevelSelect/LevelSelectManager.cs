@@ -14,6 +14,9 @@ public class LevelSelectManager : MonoBehaviour
     [SerializeField] private LevelsDatabase levelsDatabase;
     [Header("UI звёзд")]
     [SerializeField] private TotalStarsUI totalStarsUI;
+    [Header("Навигация")]
+    [SerializeField] private Button leftArrowButton;
+    [SerializeField] private Button rightArrowButton;
 
     private int currentChapterIndex = 0;
 
@@ -92,9 +95,34 @@ public class LevelSelectManager : MonoBehaviour
         // Обновляем UI звёзд
         if (totalStarsUI != null)
             totalStarsUI.UpdateStars();
+            
+        // Обновляем состояние стрелок навигации
+        UpdateNavigationArrows();
     }
 
     public void NextChapter() => LoadChapter((currentChapterIndex + 1) % chapters.Count);
     public void PreviousChapter() => LoadChapter((currentChapterIndex - 1 + chapters.Count) % chapters.Count);
+    
+    private void UpdateNavigationArrows()
+    {
+        // Деактивируем левую стрелку на первой главе
+        if (leftArrowButton != null)
+        {
+            leftArrowButton.interactable = (currentChapterIndex > 0);
+        }
+        
+        // Деактивируем правую стрелку на последней главе
+        if (rightArrowButton != null)
+        {
+            rightArrowButton.interactable = (currentChapterIndex < chapters.Count - 1);
+        }
+        
+        // Если всего одна глава, деактивируем обе стрелки
+        if (chapters.Count <= 1)
+        {
+            if (leftArrowButton != null) leftArrowButton.interactable = false;
+            if (rightArrowButton != null) rightArrowButton.interactable = false;
+        }
+    }
 }
 
