@@ -25,8 +25,8 @@ MonoBehaviour:
   - cells: 00000000000000
   - cells: 00000000000000
   - cells: 01000000000001
-  targetScore: 3000
+  targetScore: 600
   timeLimitSeconds: 320
   movesLimit: 28
-  starThresholds: e8030000d0070000b80b0000
+  starThresholds: 58020000e803000078050000
   description: 
