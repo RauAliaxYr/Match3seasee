@@ -454,7 +454,7 @@ public class BoardController : MonoBehaviour
                 var cell = boardData.GetCell(x, y);
                 if (cell.IsBlocked || cell.Type != null) continue;
 
-                var newType = (TileType)Random.Range(0, System.Enum.GetValues(typeof(TileType)).Length);
+                var newType = boardData.GetRandomAllowedTileType();
                 cell.Type = newType;
                 // Spawn from above: create tile above the field and animate down
                 // Find spawn height: above the highest unblocked tile

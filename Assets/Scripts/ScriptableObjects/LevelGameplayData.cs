@@ -13,6 +13,7 @@ public class LevelGameplayData:ScriptableObject
     public int width = 9;
     public int height = 9;
     [SerializeField] private LevelGoalType goalType = LevelGoalType.Score;
+    [SerializeField] private int tileTypesCount = 5; // Number of tile types available on this level (1-8, default: 5)
 
     [Header("Blocked Cells Mask")]
     public List<RowData> blockedCells; 
@@ -35,6 +36,7 @@ public class LevelGameplayData:ScriptableObject
     public int Width => width;
     public int Height => height;
     public LevelGoalType GoalType => goalType;
+    public int TileTypesCount => tileTypesCount;
     public int TargetScore => targetScore;
     public int TimeLimitSeconds => timeLimitSeconds;
     public int MovesLimit => movesLimit;
