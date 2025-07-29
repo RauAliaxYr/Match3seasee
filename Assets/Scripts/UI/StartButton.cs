@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class StartButton : MonoBehaviour
 {
@@ -25,6 +26,12 @@ public class StartButton : MonoBehaviour
         }
 
         // Go to level selection
+        StartCoroutine(LoadLevelSelectWithDelay());
+    }
+
+    private IEnumerator LoadLevelSelectWithDelay()
+    {
+        yield return new WaitForSeconds(0.25f); // 250 ms delay for button sound
         SceneLoader.LoadLevelSelect();
     }
 } 

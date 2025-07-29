@@ -103,21 +103,27 @@ public class AudioManager : MonoBehaviour
 
     public void PlayVictoryTheme()
     {
-        PlayMusic(victoryTheme);
+        PlayMusic(victoryTheme, false); // Play once, no loop
     }
 
     public void PlayLoseTheme()
     {
-        PlayMusic(loseTheme);
+        PlayMusic(loseTheme, false); // Play once, no loop
     }
 
-    private void PlayMusic(AudioClip clip)
+    private void PlayMusic(AudioClip clip, bool loop = true)
     {
         if (!musicEnabled || clip == null) return;
-
         musicSource.clip = clip;
+        musicSource.loop = loop;
         musicSource.volume = musicVolume;
         musicSource.Play();
+    }
+
+    // Оставить старую PlayMusic для обратной совместимости
+    private void PlayMusic(AudioClip clip)
+    {
+        PlayMusic(clip, true);
     }
 
     public void StopMusic()

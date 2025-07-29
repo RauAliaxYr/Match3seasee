@@ -512,6 +512,9 @@ public class BoardController : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(dropDuration + 0.05f);
+
+        // Check for possible moves after initial board setup
+        CheckAndRegenerateIfNoMoves();
     }
 
     // Tile movement animation
@@ -533,6 +536,9 @@ public class BoardController : MonoBehaviour
 
     public void RestartBoard(LevelGameplayData levelData, float tileSize, float tileSpacing)
     {
+        // Reset regeneration attempts counter
+        regenerationAttempts = 0;
+        
         // Stop all vibrations and reset positions
         foreach (var kvp in hintVibrations)
         {
@@ -629,13 +635,29 @@ public class BoardController : MonoBehaviour
     }
 
     // --- Feature 2: Regenerate board if no possible matches ---
+    private int regenerationAttempts = 0;
+    private const int maxRegenerationAttempts = 10;
+    
     private void CheckAndRegenerateIfNoMoves()
     {
         if (!HasAnyPossibleMatch())
         {
-            Debug.Log("No possible moves! Regenerating board...");
+            regenerationAttempts++;
+            if (regenerationAttempts >= maxRegenerationAttempts)
+            {
+                Debug.LogWarning($"Failed to generate a playable board after {maxRegenerationAttempts} attempts. Using current board.");
+                regenerationAttempts = 0;
+                return;
+            }
+            
+            Debug.Log($"No possible moves! Regenerating board... (Attempt {regenerationAttempts}/{maxRegenerationAttempts})");
             RestartBoard(LevelProgressManager.Instance.CurrentLevel, TileSize, tileSpacing);
             // Tiles will be animated from above through SyncVisualsWithBoardData(true) and AnimateInitialDrop
+        }
+        else
+        {
+            // Reset counter if board is playable
+            regenerationAttempts = 0;
         }
     }
 
