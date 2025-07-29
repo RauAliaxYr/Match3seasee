@@ -134,6 +134,18 @@ public class AudioManager : MonoBehaviour
     {
         musicSource.UnPause();
     }
+
+    public void PlayMainMenuThemeIfNotPlaying()
+    {
+        PlayMusicIfNotPlaying(mainMenuTheme);
+    }
+
+    private void PlayMusicIfNotPlaying(AudioClip clip)
+    {
+        if (!musicEnabled || clip == null) return;
+        if (musicSource.clip == clip && musicSource.isPlaying) return;
+        PlayMusic(clip);
+    }
     #endregion
 
     #region SFX Methods

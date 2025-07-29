@@ -30,7 +30,7 @@ public class LogoController : MonoBehaviour
         // Start main menu music after logo animation completion
         if (AudioManager.Instance != null)
         {
-            AudioManager.Instance.PlayMainMenuTheme();
+            AudioManager.Instance.PlayMainMenuThemeIfNotPlaying();
             AudioManager.Instance.SetMusicVolume(0.7f);
         }
     }

@@ -27,7 +27,7 @@ public class LevelSelectManager : MonoBehaviour
         // Start level selection music
         if (AudioManager.Instance != null)
         {
-            AudioManager.Instance.PlayMainMenuTheme();
+            AudioManager.Instance.PlayMainMenuThemeIfNotPlaying();
             AudioManager.Instance.SetMusicVolume(0.7f);
         }
     }
@@ -39,7 +39,7 @@ public class LevelSelectManager : MonoBehaviour
         // Start level selection music on activation
         if (AudioManager.Instance != null)
         {
-            AudioManager.Instance.PlayMainMenuTheme();
+            AudioManager.Instance.PlayMainMenuThemeIfNotPlaying();
             AudioManager.Instance.SetMusicVolume(0.7f);
         }
     }
