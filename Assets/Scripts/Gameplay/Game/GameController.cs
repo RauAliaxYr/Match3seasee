@@ -36,13 +36,13 @@ public class GameController : MonoBehaviour
 
         boardController.Initialize(boardData, TileSize, tileSpacing);
 
-        // Инициализируем отслеживание прогресса уровня
+        // Initialize level progress tracking
         if (LevelProgressManager.Instance != null)
         {
             LevelProgressManager.Instance.InitializeLevel(config);
         }
 
-        // Запускаем музыку геймплея
+        // Start gameplay music
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayGameplayTheme();

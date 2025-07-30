@@ -10,7 +10,7 @@ public static class MatchChecker
         int width = boardData.Width;
         int height = boardData.Height;
 
-        // По горизонтали
+        // Horizontally
         for (int y = 0; y < height; y++)
         {
             int matchStart = 0;
@@ -33,7 +33,7 @@ public static class MatchChecker
             }
         }
 
-        // По вертикали
+        // Vertically
         for (int x = 0; x < width; x++)
         {
             int matchStart = 0;

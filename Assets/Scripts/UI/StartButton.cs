@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class StartButton : MonoBehaviour
 {
@@ -18,13 +19,19 @@ public class StartButton : MonoBehaviour
 
     private void OnStartButtonClick()
     {
-        // Звук нажатия кнопки
+        // Button click sound
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayButtonClick();
         }
 
-        // Переход к выбору уровней
+        // Go to level selection
+        StartCoroutine(LoadLevelSelectWithDelay());
+    }
+
+    private IEnumerator LoadLevelSelectWithDelay()
+    {
+        yield return new WaitForSeconds(0.25f); // 250 ms delay for button sound
         SceneLoader.LoadLevelSelect();
     }
 } 

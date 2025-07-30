@@ -10,11 +10,11 @@ public class LivesShop : MonoBehaviour
         if (CurrencyManager.Instance.TrySpendCoins(totalPrice))
         {
             LivesManager.Instance.AddLives(count);
-            Debug.Log($"Покупка {count} жизней прошла успешно!");
+            Debug.Log($"Purchase of {count} lives successful!");
         }
         else
         {
-            Debug.Log("Недостаточно монет.");
+            Debug.Log("Not enough coins.");
         }
     }
 }

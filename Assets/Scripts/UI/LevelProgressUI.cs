@@ -5,60 +5,61 @@ using System.Collections;
 
 public class LevelProgressUI : MonoBehaviour
 {
-    [Header("Основные UI элементы")]
+    [Header("Main UI Elements")]
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI movesText;
     [SerializeField] private TextMeshProUGUI timeText;
     
-    [Header("Иконки")]
+    [Header("Icons")]
     [SerializeField] private Image scoreIcon;
     [SerializeField] private Image movesIcon;
     [SerializeField] private Image timeIcon;
     
-    [Header("Прогресс-бары")]
+    [Header("Progress Bars")]
     [SerializeField] private Slider scoreProgressBar;
     [SerializeField] private Slider movesProgressBar;
     [SerializeField] private Slider timeProgressBar;
     
-    [Header("Панели целей")]
+    [Header("Goal Panels")]
     [SerializeField] private GameObject goalPanel;
     [SerializeField] private TextMeshProUGUI targetScoreText;
     [SerializeField] private TextMeshProUGUI targetMovesText;
     [SerializeField] private TextMeshProUGUI targetTimeText;
     
-    [Header("Анимации")]
+    [Header("Animations")]
     [SerializeField] private float animationDuration = 0.3f;
     [SerializeField] private float scorePopupDuration = 0.5f;
     
-    [Header("Эффекты")]
+    [Header("Effects")]
     [SerializeField] private GameObject scorePopupPrefab;
     [SerializeField] private Transform popupParent;
     
-    // Кэшированные значения для анимаций
+    // Cached values for animations
     private int lastScore = 0;
     private int lastMoves = 0;
     private float lastTime = 0f;
     
-    // Цвета для разных состояний
+    // Colors for different states
     private Color normalColor = Color.white;
-    private Color warningColor = new Color(1f, 0.8f, 0f, 1f); // Жёлтый
-    private Color dangerColor = new Color(1f, 0.3f, 0.3f, 1f); // Красный
+    private Color warningColor = new Color(1f, 0.8f, 0f, 1f); // Yellow
+    private Color dangerColor = new Color(1f, 0.3f, 0.3f, 1f); // Red
 
     private void Start()
     {
         if (LevelProgressManager.Instance != null)
         {
-            // Подписываемся на события
+            // Subscribe to events
             LevelProgressManager.Instance.OnScoreChanged += UpdateScore;
+            LevelProgressManager.Instance.OnScoreChangedWithPosition += UpdateScoreWithPosition;
             LevelProgressManager.Instance.OnMovesChanged += UpdateMoves;
             LevelProgressManager.Instance.OnTimeChanged += UpdateTime;
             LevelProgressManager.Instance.OnLevelCompleted += OnLevelCompleted;
 
-            // Инициализируем отображение целей
+            // Initialize goal display
             InitializeGoalDisplay();
             InitializeProgressBars();
             
-            // Обновляем начальные значения
+            // Update initial values
             UpdateScore(LevelProgressManager.Instance.CurrentScore);
             UpdateMoves(LevelProgressManager.Instance.MovesMade);
             UpdateTime(LevelProgressManager.Instance.TimeElapsed);
@@ -70,6 +71,7 @@ public class LevelProgressUI : MonoBehaviour
         if (LevelProgressManager.Instance != null)
         {
             LevelProgressManager.Instance.OnScoreChanged -= UpdateScore;
+            LevelProgressManager.Instance.OnScoreChangedWithPosition -= UpdateScoreWithPosition;
             LevelProgressManager.Instance.OnMovesChanged -= UpdateMoves;
             LevelProgressManager.Instance.OnTimeChanged -= UpdateTime;
             LevelProgressManager.Instance.OnLevelCompleted -= OnLevelCompleted;
@@ -81,18 +83,18 @@ public class LevelProgressUI : MonoBehaviour
         var level = LevelProgressManager.Instance.CurrentLevel;
         if (level == null) return;
 
-        // Скрываем все тексты целей
+        // Hide all goal texts
         if (targetScoreText != null) targetScoreText.gameObject.SetActive(false);
         if (targetMovesText != null) targetMovesText.gameObject.SetActive(false);
         if (targetTimeText != null) targetTimeText.gameObject.SetActive(false);
 
-        // Показываем только нужный текст в зависимости от типа цели
+        // Show only needed text depending on goal type
         switch (level.GoalType)
         {
             case LevelGoalType.Score:
                 if (targetScoreText != null)
                 {
-                    targetScoreText.text = $"Цель: {level.TargetScore:N0}";
+                    targetScoreText.text = $"Goal: {level.TargetScore:N0}";
                     targetScoreText.gameObject.SetActive(true);
                 }
                 break;
@@ -100,7 +102,7 @@ public class LevelProgressUI : MonoBehaviour
             case LevelGoalType.MovesLimit:
                 if (targetMovesText != null)
                 {
-                    targetMovesText.text = $"Ходов: {level.MovesLimit}";
+                    targetMovesText.text = $"Moves: {level.MovesLimit}";
                     targetMovesText.gameObject.SetActive(true);
                 }
                 break;
@@ -108,7 +110,7 @@ public class LevelProgressUI : MonoBehaviour
             case LevelGoalType.TimeLimit:
                 if (targetTimeText != null)
                 {
-                    targetTimeText.text = $"Время: {level.TimeLimitSeconds}s";
+                    targetTimeText.text = $"Time: {level.TimeLimitSeconds}s";
                     targetTimeText.gameObject.SetActive(true);
                 }
                 break;
@@ -116,7 +118,7 @@ public class LevelProgressUI : MonoBehaviour
             case LevelGoalType.ClearTiles:
                 if (targetScoreText != null)
                 {
-                    targetScoreText.text = $"Очистить: {level.TargetScore} тайлов";
+                    targetScoreText.text = $"Clear: {level.TargetScore} tiles";
                     targetScoreText.gameObject.SetActive(true);
                 }
                 break;
@@ -128,7 +130,7 @@ public class LevelProgressUI : MonoBehaviour
         var level = LevelProgressManager.Instance.CurrentLevel;
         if (level == null) return;
 
-        // Настраиваем прогресс-бары в зависимости от типа цели
+        // Configure progress bars depending on goal type
         switch (level.GoalType)
         {
             case LevelGoalType.Score:
@@ -161,26 +163,55 @@ public class LevelProgressUI : MonoBehaviour
     {
         if (scoreText != null)
         {
-            // Анимация изменения текста
+            // Text change animation
             StartCoroutine(AnimateValue(lastScore, score, (value) => {
                 lastScore = (int)value;
-                scoreText.text = $"Очки: {lastScore:N0}";
+                scoreText.text = $"Score: {lastScore:N0}";
             }));
         }
 
-        // Обновляем прогресс-бар
+        // Update progress bar
         if (scoreProgressBar != null)
         {
             StartCoroutine(AnimateSlider(scoreProgressBar, score));
         }
 
-        // Показываем popup при получении очков
+        // Show popup when getting points (only for non-match score changes)
+        // Match score changes are handled by UpdateScoreWithPosition
         if (score > lastScore && scorePopupPrefab != null && popupParent != null)
         {
-            ShowScorePopup(score - lastScore);
+            // Only show popup if it's not from a match (no position provided)
+            // This prevents duplicate popups
         }
 
-        // Изменяем цвет при приближении к цели
+        // Change color when approaching goal
+        UpdateProgressColor(scoreProgressBar, score, LevelProgressManager.Instance.CurrentLevel?.TargetScore ?? 0);
+    }
+
+    private void UpdateScoreWithPosition(int score, Vector3? matchPosition)
+    {
+        if (scoreText != null)
+        {
+            // Text change animation
+            StartCoroutine(AnimateValue(lastScore, score, (value) => {
+                lastScore = (int)value;
+                scoreText.text = $"Score: {lastScore:N0}";
+            }));
+        }
+
+        // Update progress bar
+        if (scoreProgressBar != null)
+        {
+            StartCoroutine(AnimateSlider(scoreProgressBar, score));
+        }
+
+        // Show popup when getting points (with position if available)
+        if (score > lastScore && scorePopupPrefab != null && popupParent != null)
+        {
+            ShowScorePopup(score - lastScore, matchPosition);
+        }
+
+        // Change color when approaching goal
         UpdateProgressColor(scoreProgressBar, score, LevelProgressManager.Instance.CurrentLevel?.TargetScore ?? 0);
     }
 
@@ -193,8 +224,8 @@ public class LevelProgressUI : MonoBehaviour
         if (movesText != null)
         {
             movesText.text = movesLimit > 0
-                ? $"Ходы: {movesLeft}"
-                : "Ходы: ∞";
+                ? $"Moves: {movesLeft}"
+                : "Moves: ∞";
         }
 
         if (movesProgressBar != null)
@@ -220,11 +251,11 @@ public class LevelProgressUI : MonoBehaviour
             {
                 int minutes = Mathf.FloorToInt(timeLeft / 60f);
                 int seconds = Mathf.FloorToInt(timeLeft % 60f);
-                timeText.text = $"Время: {minutes:00}:{seconds:00}";
+                timeText.text = $"Time: {minutes:00}:{seconds:00}";
             }
             else
             {
-                timeText.text = "Время: ∞";
+                timeText.text = "Time: ∞";
             }
         }
 
@@ -275,8 +306,8 @@ public class LevelProgressUI : MonoBehaviour
         float ratio = current / target;
         Color targetColor = normalColor;
 
-        // Теперь: чем больше ratio, тем зеленее (normalColor)
-        // Меньше 0.4 — danger (красный), 0.4-0.6 — warning (жёлтый), больше 0.6 — normal (зелёный)
+        // Now: the higher the ratio, the greener (normalColor)
+        // Less than 0.4 — danger (red), 0.4-0.6 — warning (yellow), more than 0.6 — normal (green)
         if (ratio < 0.4f)
             targetColor = dangerColor;
         else if (ratio < 0.6f)
@@ -284,7 +315,7 @@ public class LevelProgressUI : MonoBehaviour
         else
             targetColor = normalColor;
 
-        // Анимируем изменение цвета
+        // Animate color change
         var fillImage = progressBar.fillRect.GetComponent<Image>();
         if (fillImage != null)
         {
@@ -305,7 +336,7 @@ public class LevelProgressUI : MonoBehaviour
         image.color = to;
     }
 
-    private void ShowScorePopup(int scoreGain)
+    private void ShowScorePopup(int scoreGain, Vector3? matchPosition = null)
     {
         if (scorePopupPrefab == null || popupParent == null) return;
 
@@ -317,18 +348,44 @@ public class LevelProgressUI : MonoBehaviour
             popupText.text = $"+{scoreGain}";
         }
 
-        // Анимация появления и исчезновения
+        // Set position if match position is provided
+        if (matchPosition.HasValue)
+        {
+            Debug.Log($"Match position: {matchPosition.Value}");
+            // Convert world position to screen position
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(matchPosition.Value);
+            Debug.Log($"Screen position: {screenPos}");
+            
+            // Convert screen position to canvas position
+            Canvas canvas = popupParent.GetComponentInParent<Canvas>();
+            if (canvas != null && canvas.renderMode == RenderMode.ScreenSpaceOverlay)
+            {
+                popup.transform.position = screenPos;
+            }
+            else if (canvas != null && canvas.renderMode == RenderMode.ScreenSpaceCamera)
+            {
+                // For ScreenSpaceCamera, we need to convert screen position to canvas position
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    canvas.transform as RectTransform,
+                    screenPos,
+                    canvas.worldCamera,
+                    out Vector2 localPoint);
+                popup.transform.localPosition = localPoint;
+            }
+        }
+
+        // Appearance and disappearance animation
         StartCoroutine(AnimatePopup(popup));
     }
 
     private IEnumerator AnimatePopup(GameObject popup)
     {
-        // Начальное состояние
+        // Initial state
         popup.transform.localScale = Vector3.zero;
         Vector3 startPos = popup.transform.localPosition;
         Vector3 endPos = startPos + Vector3.up * 100f;
 
-        // Анимация появления
+        // Appearance animation
         float elapsed = 0f;
         float appearDuration = scorePopupDuration * 0.3f;
         
@@ -341,7 +398,7 @@ public class LevelProgressUI : MonoBehaviour
         }
         popup.transform.localScale = Vector3.one;
 
-        // Анимация движения вверх
+        // Move up animation
         elapsed = 0f;
         float moveDuration = scorePopupDuration * 0.7f;
         
@@ -353,7 +410,7 @@ public class LevelProgressUI : MonoBehaviour
             yield return null;
         }
 
-        // Анимация исчезновения
+        // Disappearance animation
         elapsed = 0f;
         float disappearDuration = scorePopupDuration * 0.3f;
         
@@ -370,7 +427,7 @@ public class LevelProgressUI : MonoBehaviour
 
     private void OnLevelCompleted(LevelResult result)
     {
-        // Анимация завершения уровня
+        // Level completion animation
         if (goalPanel != null)
         {
             StartCoroutine(AnimatePanelScale(goalPanel, Vector3.one * 1.2f, 0.2f, () => {
@@ -378,10 +435,10 @@ public class LevelProgressUI : MonoBehaviour
             }));
         }
 
-        Debug.Log($"Уровень завершён! Звёзд: {result.StarsEarned}, Очки: {result.Score}");
+        Debug.Log($"Level completed! Stars: {result.StarsEarned}, Score: {result.Score}");
         
-        // Экран завершения уровня будет показан через LevelCompleteUI
-        // Не переходим автоматически к выбору уровня
+        // Level completion screen will be shown through LevelCompleteUI
+        // Don't automatically go to level selection
     }
 
     private IEnumerator AnimatePanelScale(GameObject panel, Vector3 targetScale, float duration, System.Action onComplete = null)

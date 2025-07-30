@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Управляет всеми звуками в игре
+/// Manages all sounds in the game
 /// </summary>
 public class AudioManager : MonoBehaviour
 {
@@ -41,7 +41,7 @@ public class AudioManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // Создаем AudioSource компоненты если их нет
+        // Create AudioSource components if they don't exist
         if (musicSource == null)
         {
             musicSource = gameObject.AddComponent<AudioSource>();
@@ -60,7 +60,7 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Создает AudioManager в сцене если его нет
+    /// Creates AudioManager in the scene if it doesn't exist
     /// </summary>
     public static void CreateAudioManagerIfNeeded()
     {
@@ -103,21 +103,27 @@ public class AudioManager : MonoBehaviour
 
     public void PlayVictoryTheme()
     {
-        PlayMusic(victoryTheme);
+        PlayMusic(victoryTheme, false); // Play once, no loop
     }
 
     public void PlayLoseTheme()
     {
-        PlayMusic(loseTheme);
+        PlayMusic(loseTheme, false); // Play once, no loop
     }
 
-    private void PlayMusic(AudioClip clip)
+    private void PlayMusic(AudioClip clip, bool loop = true)
     {
         if (!musicEnabled || clip == null) return;
-
         musicSource.clip = clip;
+        musicSource.loop = loop;
         musicSource.volume = musicVolume;
         musicSource.Play();
+    }
+
+    // Оставить старую PlayMusic для обратной совместимости
+    private void PlayMusic(AudioClip clip)
+    {
+        PlayMusic(clip, true);
     }
 
     public void StopMusic()
@@ -133,6 +139,18 @@ public class AudioManager : MonoBehaviour
     public void ResumeMusic()
     {
         musicSource.UnPause();
+    }
+
+    public void PlayMainMenuThemeIfNotPlaying()
+    {
+        PlayMusicIfNotPlaying(mainMenuTheme);
+    }
+
+    private void PlayMusicIfNotPlaying(AudioClip clip)
+    {
+        if (!musicEnabled || clip == null) return;
+        if (musicSource.clip == clip && musicSource.isPlaying) return;
+        PlayMusic(clip);
     }
     #endregion
 

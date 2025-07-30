@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f221ec5853d21bc4ea472a48d4163e86, type: 3}
   m_Name: Chapter 1
   m_EditorClassIdentifier: 
-  chapterName: Ship
+  chapterName: Lagune
   background: {fileID: -6093266972825395414, guid: 4d7635ab27206ce48b708d8371db08ff, type: 3}
   levels:
   - levelId: 1

@@ -23,7 +23,7 @@ public class BoardController : MonoBehaviour
     private bool isInputBlocked = false;
 
     private float hintTimer = 0f;
-    private float hintDelay = 7f; // Секунд до подсказки
+    private float hintDelay = 7f; // Seconds until hint
     private bool hintActive = false;
     private List<Vector2Int> currentHint = null;
 
@@ -32,7 +32,7 @@ public class BoardController : MonoBehaviour
 
     private void Update()
     {
-        // Подсказка: если игрок не делает ходов hintDelay секунд
+        // Hint: if player doesn't make moves for hintDelay seconds
         if (!isInputBlocked && !hintActive)
         {
             hintTimer += Time.deltaTime;
@@ -44,7 +44,7 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    // Сброс таймера подсказки при любом действии игрока
+    // Reset hint timer on any player action
     public void OnPlayerAction()
     {
         hintTimer = 0f;
@@ -73,7 +73,7 @@ public class BoardController : MonoBehaviour
                 BoardCell cell = boardData.GetCell(x, y);
 
                 GameObject tileObject;
-                // Начальная позиция — выше поля
+                // Initial position - above the field
                 Vector3 startPos = CalculateWorldPosition(new Vector2Int(x, y + boardData.Height));
                 if (cell.IsBlocked)
                 {
@@ -94,7 +94,7 @@ public class BoardController : MonoBehaviour
                 tileObjects[coords] = tileObject;
             }
         }
-        // Запускаем анимацию падения всех тайлов
+        // Start animation of all tiles falling
         StartCoroutine(AnimateInitialDrop());
     }
 
@@ -117,7 +117,7 @@ public class BoardController : MonoBehaviour
     /// <param name="coords">The coordinates of the clicked tile.</param>
     public void OnTileClicked(Vector2Int coords)
     {
-        OnPlayerAction(); // сбросить подсказку при клике
+        OnPlayerAction(); // reset hint on click
         Debug.Log($"OnTileClicked: {coords}");
         if (selectedCoords != null)
             Debug.Log($"Selected: {selectedCoords.Value}");
@@ -128,7 +128,7 @@ public class BoardController : MonoBehaviour
         {
             selectedCoords = coords;
             HighlightTile(coords, true);
-            // Звук выбора тайла
+            // Tile selection sound
             if (AudioManager.Instance != null)
             {
                 AudioManager.Instance.PlayTileSelect();
@@ -141,7 +141,7 @@ public class BoardController : MonoBehaviour
             if (AreAdjacent(selected, coords))
             {
                 HighlightTile(selected, false);
-                // Звук свапа тайлов
+                // Tile swap sound
                 if (AudioManager.Instance != null)
                 {
                     AudioManager.Instance.PlayTileSwap();
@@ -154,7 +154,7 @@ public class BoardController : MonoBehaviour
                 HighlightTile(selected, false);
                 selectedCoords = coords;
                 HighlightTile(coords, true);
-                // Звук выбора нового тайла
+                // New tile selection sound
                 if (AudioManager.Instance != null)
                 {
                     AudioManager.Instance.PlayTileSelect();
@@ -182,7 +182,7 @@ public class BoardController : MonoBehaviour
         if (!tileObjects.TryGetValue(a, out var tileA) || !tileObjects.TryGetValue(b, out var tileB))
             return;
 
-        // Нельзя свапать заблокированные или пустые клетки
+        // Cannot swap blocked or empty cells
         if (boardData.GetCell(a.x, a.y).IsBlocked || boardData.GetCell(b.x, b.y).IsBlocked)
             return;
         if (!boardData.GetCell(a.x, a.y).Type.HasValue || !boardData.GetCell(b.x, b.y).Type.HasValue)
@@ -198,25 +198,25 @@ public class BoardController : MonoBehaviour
 
     private IEnumerator SwapAndCheckMatchCoroutine(Vector2Int a, Vector2Int b, GameObject tileA, GameObject tileB, Vector3 posA, Vector3 posB)
     {
-        // Сохраняем исходные объекты
+        // Save original objects
         var objA = tileObjects[a];
         var objB = tileObjects[b];
 
-        // 1. Анимируем свап
+        // 1. Animate swap
         yield return StartCoroutine(SwapAnimationCoroutine(tileA, tileB, posA, posB));
 
-        // 2. Меняем данные
+        // 2. Change data
         var temp = boardData.GetCell(a.x, a.y).Type;
         boardData.GetCell(a.x, a.y).Type = boardData.GetCell(b.x, b.y).Type;
         boardData.GetCell(b.x, b.y).Type = temp;
 
-        // Меняем объекты местами в tileObjects
+        // Swap objects in tileObjects
         tileObjects[a] = tileObjects[b];
         tileObjects[b] = objA;
         if (tileObjects[a] != null) tileObjects[a].GetComponent<TileInputHandler>()?.Initialize(this, a);
         if (tileObjects[b] != null) tileObjects[b].GetComponent<TileInputHandler>()?.Initialize(this, b);
 
-        // 3. Проверяем мэтчи
+        // 3. Check matches
         var matches = MatchChecker.FindAllMatches(boardData);
         if (matches.Count > 0)
         {
@@ -228,28 +228,28 @@ public class BoardController : MonoBehaviour
         }
         else
         {
-            // Нет мэтча — возвращаем всё обратно
+            // No match - return everything back
             temp = boardData.GetCell(a.x, a.y).Type;
             boardData.GetCell(a.x, a.y).Type = boardData.GetCell(b.x, b.y).Type;
             boardData.GetCell(b.x, b.y).Type = temp;
 
-            // Возвращаем объекты и координаты
+            // Return objects and coordinates
             tileObjects[a] = objA;
             tileObjects[b] = objB;
             if (objA != null) objA.GetComponent<TileInputHandler>()?.Initialize(this, a);
             if (objB != null) objB.GetComponent<TileInputHandler>()?.Initialize(this, b);
 
-            // Анимируем возврат
+            // Animate return
             yield return StartCoroutine(SwapAnimationCoroutine(tileA, tileB, posB, posA));
             if (LevelProgressManager.Instance != null)
             {
-                LevelProgressManager.Instance.OnMoveMade(); // уменьшаем ход и при неудачном свапе
+                LevelProgressManager.Instance.OnMoveMade(); // decrease move and on failed swap
             }
             isInputBlocked = false;
         }
     }
 
-    // Анимация свапа двух тайлов (универсальная)
+    // Animation of swapping two tiles (universal)
     private IEnumerator SwapAnimationCoroutine(GameObject tileA, GameObject tileB, Vector3 fromA, Vector3 fromB)
     {
         float duration = 0.25f;
@@ -280,17 +280,44 @@ public class BoardController : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// Calculates the center position of all matches in world coordinates.
+    /// </summary>
+    private Vector3 CalculateMatchCenter(List<List<Vector2Int>> allMatches)
+    {
+        if (allMatches == null || allMatches.Count == 0)
+            return Vector3.zero;
+
+        Vector3 totalPosition = Vector3.zero;
+        int totalTiles = 0;
+
+        foreach (var match in allMatches)
+        {
+            foreach (var coords in match)
+            {
+                // Use the actual tile object position instead of calculated position
+                if (tileObjects.TryGetValue(coords, out var tileObj) && tileObj != null)
+                {
+                    totalPosition += tileObj.transform.position;
+                    totalTiles++;
+                }
+            }
+        }
+
+        return totalTiles > 0 ? totalPosition / totalTiles : Vector3.zero;
+    }
+
     private IEnumerator HandleMatches(List<List<Vector2Int>> allMatches)
     {
-        OnPlayerAction(); // сбросить подсказку при любом действии
+        OnPlayerAction(); // reset hint on any action
         
-        // Звук матча
+        // Match sound
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayMatch3();
         }
         
-        // Уведомляем LevelProgressManager о мэтче
+        // Notify LevelProgressManager about match
         int totalTilesMatched = 0;
         int maxMatchSize = 0;
         foreach (var group in allMatches)
@@ -301,10 +328,12 @@ public class BoardController : MonoBehaviour
         
         if (LevelProgressManager.Instance != null)
         {
-            LevelProgressManager.Instance.OnTilesMatched(totalTilesMatched, maxMatchSize);
+            // Calculate center position of all matches
+            Vector3 matchCenter = CalculateMatchCenter(allMatches);
+            LevelProgressManager.Instance.OnTilesMatched(totalTilesMatched, maxMatchSize, matchCenter);
         }
 
-        // 1. Удаляем мэтчи (визуально и из BoardData)
+        // 1. Remove matches (visually and from BoardData)
         HashSet<Vector2Int> toRemove = new HashSet<Vector2Int>();
         foreach (var group in allMatches)
             foreach (var pos in group)
@@ -314,18 +343,18 @@ public class BoardController : MonoBehaviour
         {
             if (tileObjects.TryGetValue(pos, out var tile) && tile != null)
             {
-                Destroy(tile); // Можно заменить на pool.ReturnTile(...)
+                Destroy(tile); // Can be replaced with pool.ReturnTile(...)
                 tileObjects[pos] = null;
             }
             boardData.GetCell(pos.x, pos.y).Type = null;
         }
 
-        yield return new WaitForSeconds(0.15f); // Короткая задержка для эффекта
+        yield return new WaitForSeconds(0.15f); // Short delay for effect
 
-        // 2. Падение и заполнение
+        // 2. Drop and fill
         yield return StartCoroutine(DropTilesAndFill());
 
-        // 3. Каскады: ищем новые мэтчи и повторяем процесс, если они есть
+        // 3. Cascades: find new matches and repeat the process if they exist
         var newMatches = MatchChecker.FindAllMatches(boardData);
         if (newMatches.Count > 0)
         {
@@ -334,13 +363,13 @@ public class BoardController : MonoBehaviour
         else
         {
             isInputBlocked = false;
-            CheckAndRegenerateIfNoMoves(); // проверка после всех каскадов
+            CheckAndRegenerateIfNoMoves(); // Check after all cascades
         }
     }
 
     public void SyncVisualsWithBoardData(bool animateFromTop = false)
     {
-        // Удаляем все старые визуальные объекты
+        // Remove all old visual objects
         foreach (var obj in tileObjects.Values)
         {
             if (obj != null)
@@ -374,14 +403,14 @@ public class BoardController : MonoBehaviour
                 }
                 else
                 {
-                    continue; // Пустая клетка
+                    continue; // Empty cell
                 }
                 tileObjects[pos] = tileObject;
             }
         }
     }
 
-    // Вызов после падения и рестарта
+    // Called after dropping and restart
     private IEnumerator DropTilesAndFill()
     {
         int width = boardData.Width;
@@ -389,20 +418,20 @@ public class BoardController : MonoBehaviour
         float dropDuration = 0.18f;
         float maxDropDistance = 0f;
 
-        // 1. Падение существующих тайлов
+        // 1. Drop existing tiles
         for (int x = 0; x < width; x++)
         {
-            for (int y = 1; y < height; y++) // начинаем со второго ряда (y=1)
+            for (int y = 1; y < height; y++) // Start from the second row (y=1)
             {
                 var cell = boardData.GetCell(x, y);
                 if (cell.IsBlocked || cell.Type == null) continue;
 
                 int targetY = y;
-                // Ищем ближайшую пустую незаблокированную клетку ниже
+                // Find the nearest empty unblocked cell below
                 for (int yBelow = y - 1; yBelow >= 0; yBelow--)
                 {
                     var belowCell = boardData.GetCell(x, yBelow);
-                    if (belowCell.IsBlocked) break; // блок — дальше не падаем
+                    if (belowCell.IsBlocked) break; // Block - don't fall further
                     if (belowCell.Type == null)
                     {
                         targetY = yBelow;
@@ -410,18 +439,18 @@ public class BoardController : MonoBehaviour
                 }
                 if (targetY != y)
                 {
-                    // Сдвигаем данные
+                    // Shift data
                     boardData.GetCell(x, targetY).Type = cell.Type;
                     cell.Type = null;
 
-                    // Сдвигаем визуальный объект
+                    // Shift visual object
                     var from = new Vector2Int(x, y);
                     var to = new Vector2Int(x, targetY);
                     if (tileObjects.TryGetValue(from, out var tile) && tile != null)
                     {
                         tileObjects[to] = tile;
                         tileObjects[from] = null;
-                        // Обновляем координаты в TileInputHandler
+                        // Update coordinates in TileInputHandler
                         var input = tile.GetComponent<TileInputHandler>();
                         if (input != null)
                         {
@@ -435,10 +464,10 @@ public class BoardController : MonoBehaviour
             }
         }
 
-        // 2. Появление новых тайлов сверху
+        // 2. Spawn new tiles from above
         for (int x = 0; x < width; x++)
         {
-            // Считаем незаблокированные пустые клетки в столбце
+            // Count unblocked empty cells in the column
             List<int> emptyRows = new List<int>();
             for (int y = 0; y < height; y++)
             {
@@ -454,10 +483,10 @@ public class BoardController : MonoBehaviour
                 var cell = boardData.GetCell(x, y);
                 if (cell.IsBlocked || cell.Type != null) continue;
 
-                var newType = (TileType)Random.Range(0, System.Enum.GetValues(typeof(TileType)).Length);
+                var newType = boardData.GetRandomAllowedTileType();
                 cell.Type = newType;
-                // Появление сверху: создаём тайл выше поля и анимируем вниз
-                // Найти высоту появления: над самым верхним незаблокированным тайлом
+                // Spawn from above: create tile above the field and animate down
+                // Find spawn height: above the highest unblocked tile
                 int spawnRow = y;
                 for (int yAbove = y + 1; yAbove < height; yAbove++)
                 {
@@ -478,14 +507,14 @@ public class BoardController : MonoBehaviour
 
         yield return new WaitForSeconds(dropDuration + 0.05f);
 
-        // --- Проверка на дублирование объектов в tileObjects ---
+        // --- Check for duplicate objects in tileObjects ---
         var seen = new HashSet<GameObject>();
         foreach (var kvp in tileObjects)
         {
             if (kvp.Value == null) continue;
             if (!seen.Add(kvp.Value))
             {
-                Debug.LogWarning($"Дублирование объекта в tileObjects! Координаты: {kvp.Key}");
+                Debug.LogWarning($"Duplicate object in tileObjects! Coordinates: {kvp.Key}");
             }
         }
     }
@@ -512,9 +541,12 @@ public class BoardController : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(dropDuration + 0.05f);
+
+        // Check for possible moves after initial board setup
+        CheckAndRegenerateIfNoMoves();
     }
 
-    // Анимация перемещения тайла
+    // Tile movement animation
     private IEnumerator MoveTile(GameObject tile, Vector3 from, Vector3 to, float duration)
     {
         if (tile == null) yield break;
@@ -533,7 +565,10 @@ public class BoardController : MonoBehaviour
 
     public void RestartBoard(LevelGameplayData levelData, float tileSize, float tileSpacing)
     {
-        // Останавливаем все вибрации и сбрасываем позиции
+        // Reset regeneration attempts counter
+        regenerationAttempts = 0;
+        
+        // Stop all vibrations and reset positions
         foreach (var kvp in hintVibrations)
         {
             if (kvp.Value != null)
@@ -542,7 +577,7 @@ public class BoardController : MonoBehaviour
         hintVibrations.Clear();
         originalPositions.Clear();
         HideHint();
-        // Удаляем все старые тайлы
+        // Remove all old tiles
         foreach (var obj in tileObjects.Values)
         {
             if (obj != null)
@@ -550,25 +585,25 @@ public class BoardController : MonoBehaviour
         }
         tileObjects.Clear();
 
-        // Генерируем новые данные поля
+        // Generate new board data
         boardData = BoardGenerator.Generate(levelData);
 
-        // Инициализируем поле заново
+        // Reinitialize the board
         Initialize(boardData, tileSize, tileSpacing);
 
-        // Сбросить выделение и ввод
+        // Reset selection and input
         selectedCoords = null;
         isInputBlocked = false;
-        SyncVisualsWithBoardData(true); // Тайлы появляются сверху
+        SyncVisualsWithBoardData(true); // Tiles appear from above
         StartCoroutine(AnimateInitialDrop());
-        CheckAndRegenerateIfNoMoves(); // проверка после перегенерации
+        CheckAndRegenerateIfNoMoves(); // Check after regeneration
     }
 
-    // --- Профессиональная блокировка/разблокировка ввода ---
+    // --- Professional input blocking/unblocking ---
     public void BlockInput() { isInputBlocked = true; }
     public void UnblockInput() { isInputBlocked = false; }
 
-    // --- Фича 1: Подсказка возможного хода ---
+    // --- Feature 1: Hint for possible move ---
     private void ShowHint()
     {
         var hint = FindAnyPossibleMatch();
@@ -580,7 +615,7 @@ public class BoardController : MonoBehaviour
             {
                 if (tileObjects.TryGetValue(pos, out var tile) && tile != null)
                 {
-                    // Запускаем вибрацию
+                    // Start vibration
                     if (!hintVibrations.ContainsKey(pos) || hintVibrations[pos] == null)
                         hintVibrations[pos] = StartCoroutine(HintVibrationCoroutine(tile.transform, pos));
                 }
@@ -595,7 +630,7 @@ public class BoardController : MonoBehaviour
             {
                 if (tileObjects.TryGetValue(pos, out var tile) && tile != null)
                 {
-                    // Останавливаем вибрацию и возвращаем позицию
+                    // Stop vibration and return position
                     if (hintVibrations.TryGetValue(pos, out var coroutine) && coroutine != null)
                     {
                         StopCoroutine(coroutine);
@@ -616,8 +651,8 @@ public class BoardController : MonoBehaviour
             originalPositions[pos] = tileTransform.localPosition;
 
         float t = 0f;
-        float amplitude = 0.08f; // амплитуда вибрации
-        float frequency = 12f;   // частота
+        float amplitude = 0.08f; // vibration amplitude
+        float frequency = 12f;   // frequency
 
         while (true)
         {
@@ -628,21 +663,37 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    // --- Фича 2: Перегенерация поля если нет возможных мэтчей ---
+    // --- Feature 2: Regenerate board if no possible matches ---
+    private int regenerationAttempts = 0;
+    private const int maxRegenerationAttempts = 10;
+    
     private void CheckAndRegenerateIfNoMoves()
     {
         if (!HasAnyPossibleMatch())
         {
-            Debug.Log("Нет возможных ходов! Перегенерируем поле...");
+            regenerationAttempts++;
+            if (regenerationAttempts >= maxRegenerationAttempts)
+            {
+                Debug.LogWarning($"Failed to generate a playable board after {maxRegenerationAttempts} attempts. Using current board.");
+                regenerationAttempts = 0;
+                return;
+            }
+            
+            Debug.Log($"No possible moves! Regenerating board... (Attempt {regenerationAttempts}/{maxRegenerationAttempts})");
             RestartBoard(LevelProgressManager.Instance.CurrentLevel, TileSize, tileSpacing);
-            // Тайлы будут анимированы сверху через SyncVisualsWithBoardData(true) и AnimateInitialDrop
+            // Tiles will be animated from above through SyncVisualsWithBoardData(true) and AnimateInitialDrop
+        }
+        else
+        {
+            // Reset counter if board is playable
+            regenerationAttempts = 0;
         }
     }
 
-    // --- Поиск возможного мэтча (подсказка) ---
+    // --- Search for possible match (hint) ---
     private List<Vector2Int> FindAnyPossibleMatch()
     {
-        // Перебираем все пары соседних тайлов и проверяем, приведёт ли свап к мэтчу
+        // Iterate through all pairs of adjacent tiles and check if swapping would lead to a match
         int width = boardData.Width;
         int height = boardData.Height;
         for (int x = 0; x < width; x++)
@@ -652,7 +703,7 @@ public class BoardController : MonoBehaviour
                 var cell = boardData.GetCell(x, y);
                 if (cell.IsBlocked || !cell.Type.HasValue) continue;
                 Vector2Int pos = new Vector2Int(x, y);
-                // Проверяем соседей (вправо и вверх)
+                // Check neighbors (right and up)
                 Vector2Int[] directions = { new Vector2Int(1, 0), new Vector2Int(0, 1) };
                 foreach (var dir in directions)
                 {
@@ -661,13 +712,13 @@ public class BoardController : MonoBehaviour
                     if (nx < 0 || ny < 0 || nx >= width || ny >= height) continue;
                     var neighbor = boardData.GetCell(nx, ny);
                     if (neighbor.IsBlocked || !neighbor.Type.HasValue) continue;
-                    // Пробуем свапнуть и проверить мэтчи
+                    // Try swapping and check matches
                     SwapTypes(pos, new Vector2Int(nx, ny));
                     var matches = MatchChecker.FindAllMatches(boardData);
-                    SwapTypes(pos, new Vector2Int(nx, ny)); // Обратно
+                    SwapTypes(pos, new Vector2Int(nx, ny)); // Back
                     if (matches.Count > 0)
                     {
-                        // Возвращаем первую найденную пару
+                        // Return the first found pair
                         return new List<Vector2Int> { pos, new Vector2Int(nx, ny) };
                     }
                 }

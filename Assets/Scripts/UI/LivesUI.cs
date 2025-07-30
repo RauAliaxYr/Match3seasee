@@ -16,12 +16,12 @@ public class LivesUI : MonoBehaviour
     private void UpdateUI()
     {
         int lives = LivesManager.Instance.CurrentLives;
-        livesText.text = $"Жизни: {lives}";
+        livesText.text = $"Lives: {lives}";
 
         if (lives < 5)
         {
             var timeLeft = GetTimeToNextLife();
-            timerText.text = $"След. жизнь через: {FormatTime(timeLeft)}";
+            timerText.text = $"Next life in: {FormatTime(timeLeft)}";
         }
         else
         {

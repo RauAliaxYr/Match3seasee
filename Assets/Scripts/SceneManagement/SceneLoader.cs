@@ -6,7 +6,7 @@ public class SceneLoader : MonoBehaviour
     public static void LoadGameplayScene()
     {
         AudioManager.CreateAudioManagerIfNeeded();
-        SceneManager.LoadScene("GameplayScene"); // Убедись, что сцена добавлена в Build Settings
+        SceneManager.LoadScene("GameplayScene"); // Make sure the scene is added to Build Settings
     }
 
     public static void LoadLevelSelect()

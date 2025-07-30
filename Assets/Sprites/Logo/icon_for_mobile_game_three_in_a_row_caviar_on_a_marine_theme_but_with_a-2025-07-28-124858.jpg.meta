@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 435c6a8107cbfce4e94402a75f0c7a6c
+guid: bef6a09bbfc96964f807bd7aeda39daa
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2063826154672905881
-    second: black_0
+      213: -1024169707319107629
+    second: icon_for_mobile_game_three_in_a_row_caviar_on_a_marine_theme_but_with_a-2025-07-28-124858_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: black_0
+      name: icon_for_mobile_game_three_in_a_row_caviar_on_a_marine_theme_but_with_a-2025-07-28-124858_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 250
-        height: 250
+        width: 1024
+        height: 1024
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 99e507bf3fe24ac10800000000000000
-      internalID: 2063826154672905881
+      spriteID: 3df5785d31b69c1f0800000000000000
+      internalID: -1024169707319107629
       vertices: []
       indices: 
       edges: []
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      black_0: 2063826154672905881
+      icon_for_mobile_game_three_in_a_row_caviar_on_a_marine_theme_but_with_a-2025-07-28-124858_0: -1024169707319107629
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

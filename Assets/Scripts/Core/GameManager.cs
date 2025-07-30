@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // Реализация Singleton
+        // Singleton implementation
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -22,13 +22,11 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Устанавливает активный уровень перед переходом на геймплейную сцену.
+    /// Sets the active level before transitioning to the gameplay scene.
     /// </summary>
     public void SetSelectedLevel(LevelGameplayData level)
     {
         selectedLevel = level;
     }
-
-    // Можно добавить методы для сброса/сохранения данных уровня
 }
 
