@@ -39,52 +39,52 @@ MonoBehaviour:
     levelNumber: 5
     isUnlocked: 0
     starsEarned: 0
-    requiredStars: 4
+    requiredStars: 6
   - levelId: 6
     levelNumber: 6
     isUnlocked: 0
     starsEarned: 0
-    requiredStars: 5
+    requiredStars: 7
   - levelId: 7
     levelNumber: 7
     isUnlocked: 0
     starsEarned: 0
-    requiredStars: 6
+    requiredStars: 8
   - levelId: 8
     levelNumber: 8
     isUnlocked: 0
     starsEarned: 0
-    requiredStars: 7
+    requiredStars: 9
   - levelId: 9
     levelNumber: 9
     isUnlocked: 0
     starsEarned: 0
-    requiredStars: 8
+    requiredStars: 12
   - levelId: 10
     levelNumber: 10
     isUnlocked: 0
     starsEarned: 0
-    requiredStars: 9
+    requiredStars: 13
   - levelId: 11
     levelNumber: 11
     isUnlocked: 0
     starsEarned: 0
-    requiredStars: 10
+    requiredStars: 14
   - levelId: 12
     levelNumber: 12
     isUnlocked: 0
     starsEarned: 0
-    requiredStars: 12
+    requiredStars: 15
   - levelId: 13
     levelNumber: 13
     isUnlocked: 0
     starsEarned: 0
-    requiredStars: 14
+    requiredStars: 18
   - levelId: 14
     levelNumber: 14
     isUnlocked: 0
     starsEarned: 0
-    requiredStars: 16
+    requiredStars: 19
   - levelId: 15
     levelNumber: 15
     isUnlocked: 0
@@ -94,5 +94,5 @@ MonoBehaviour:
     levelNumber: 16
     isUnlocked: 0
     starsEarned: 0
-    requiredStars: 22
+    requiredStars: 21
   isUnlocked: 1

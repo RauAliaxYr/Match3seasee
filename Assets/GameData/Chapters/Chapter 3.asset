@@ -19,16 +19,80 @@ MonoBehaviour:
     levelNumber: 1
     isUnlocked: 1
     starsEarned: 0
+    requiredStars: 81
   - levelId: 34
     levelNumber: 2
     isUnlocked: 1
     starsEarned: 0
+    requiredStars: 82
   - levelId: 35
     levelNumber: 3
     isUnlocked: 0
     starsEarned: 0
+    requiredStars: 83
   - levelId: 36
     levelNumber: 4
     isUnlocked: 0
     starsEarned: 0
+    requiredStars: 84
+  - levelId: 36
+    levelNumber: 4
+    isUnlocked: 0
+    starsEarned: 0
+    requiredStars: 90
+  - levelId: 36
+    levelNumber: 4
+    isUnlocked: 0
+    starsEarned: 0
+    requiredStars: 91
+  - levelId: 36
+    levelNumber: 4
+    isUnlocked: 0
+    starsEarned: 0
+    requiredStars: 92
+  - levelId: 36
+    levelNumber: 4
+    isUnlocked: 0
+    starsEarned: 0
+    requiredStars: 93
+  - levelId: 36
+    levelNumber: 4
+    isUnlocked: 0
+    starsEarned: 0
+    requiredStars: 100
+  - levelId: 36
+    levelNumber: 4
+    isUnlocked: 0
+    starsEarned: 0
+    requiredStars: 101
+  - levelId: 36
+    levelNumber: 4
+    isUnlocked: 0
+    starsEarned: 0
+    requiredStars: 102
+  - levelId: 36
+    levelNumber: 4
+    isUnlocked: 0
+    starsEarned: 0
+    requiredStars: 103
+  - levelId: 36
+    levelNumber: 4
+    isUnlocked: 0
+    starsEarned: 0
+    requiredStars: 120
+  - levelId: 36
+    levelNumber: 4
+    isUnlocked: 0
+    starsEarned: 0
+    requiredStars: 121
+  - levelId: 36
+    levelNumber: 4
+    isUnlocked: 0
+    starsEarned: 0
+    requiredStars: 122
+  - levelId: 36
+    levelNumber: 4
+    isUnlocked: 0
+    starsEarned: 0
+    requiredStars: 123
   isUnlocked: 0

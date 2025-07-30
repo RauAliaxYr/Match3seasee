@@ -14,12 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelId: 41
   levelName: 
-  width: 6
-  height: 6
+  width: 8
+  height: 8
   goalType: 0
-  blockedCells: []
+  tileTypesCount: 8
+  blockedCells:
+  - cells: 0101000000000101
+  - cells: 0100000000000001
+  - cells: 0000000000000000
+  - cells: 0000000000000000
+  - cells: 0000000000000000
+  - cells: 0000000000000000
+  - cells: 0101010101010101
+  - cells: 0101010101010101
   targetScore: 3000
   timeLimitSeconds: 40
   movesLimit: 16
-  starThresholds: e8030000d0070000b80b0000
+  starThresholds: 84030000e80300004c040000
   description: 

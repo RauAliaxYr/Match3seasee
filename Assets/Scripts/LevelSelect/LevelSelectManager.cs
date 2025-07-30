@@ -72,11 +72,9 @@ public class LevelSelectManager : MonoBehaviour
             int stars = PlayerProgress.GetStars(meta.levelId);
             bool isUnlocked = false;
 
-            if (meta.levelNumber == 1)
-            {
-                isUnlocked = true;
-            }
-            else if (previousUnlocked && totalStars >= meta.requiredStars)
+            // All levels (including first) require stars to unlock
+            // Special case: first level of first chapter is always unlocked (requires 0 stars)
+            if (meta.levelId == 1 || (previousUnlocked && totalStars >= meta.requiredStars))
             {
                 isUnlocked = true;
             }
