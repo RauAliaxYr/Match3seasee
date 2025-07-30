@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 
 public class LevelCompleteUI : MonoBehaviour
 {
@@ -37,7 +38,7 @@ public class LevelCompleteUI : MonoBehaviour
     
     private LevelResult currentResult;
     private bool isFrozen = false;
-    private Coroutine currentStarAnimation;
+    private List<Coroutine> activeStarAnimations = new List<Coroutine>();
 
     private void Start()
     {
@@ -83,8 +84,16 @@ public class LevelCompleteUI : MonoBehaviour
         // Animate stars
         if (result.IsCompleted)
         {
-            Debug.Log($"ShowLevelComplete - StarsEarned: {result.StarsEarned}, IsCompleted: {result.IsCompleted}");
             StartCoroutine(AnimateStars(result.StarsEarned));
+        }
+        else
+        {
+            // Show previously earned stars even if level failed
+            int previouslyEarnedStars = result.PreviouslyEarnedStars;
+            if (previouslyEarnedStars > 0)
+            {
+                StartCoroutine(ShowPreviouslyEarnedStars(previouslyEarnedStars));
+            }
         }
 
         if (nextLevelButton != null)
@@ -112,44 +121,84 @@ public class LevelCompleteUI : MonoBehaviour
 
     private IEnumerator AnimateStars(int starsEarned)
     {
-        Debug.Log($"AnimateStars called with starsEarned: {starsEarned}");
-        Debug.Log($"starImages.Length: {starImages.Length}");
+        // Use previously earned stars from the result
+        int previouslyEarnedStars = currentResult.PreviouslyEarnedStars;
+        
+
+        
+
         
         // First show all stars as empty
         for (int i = 0; i < starImages.Length; i++)
         {
-            if (starImages[i] == null) 
-            {
-                Debug.Log($"starImages[{i}] is null");
-                continue;
-            }
+            if (starImages[i] == null) continue;
             starImages[i].sprite = starEmpty;
-            starImages[i].transform.localScale = Vector3.one; // All stars visible by default
+            starImages[i].transform.localScale = Vector3.one;
         }
 
-        // Animate star filling
-        for (int i = 0; i < starsEarned; i++)
+        // Animate star filling - show all stars that should be visible
+        int totalStarsToShow = Mathf.Max(starsEarned, previouslyEarnedStars);
+        
+
+        
+        for (int i = 0; i < totalStarsToShow; i++)
+        {
+            if (starImages[i] == null) continue;
+            
+            // Temporarily remove delay to test stability
+            // if (i > 0) // Skip delay for first star
+            // {
+            //     float delay = starAnimationDelay; // Use fixed delay instead of i * delay
+            //     Debug.Log($"Star {i}: waiting for {delay} seconds");
+            //     yield return new WaitForSeconds(delay);
+            //     Debug.Log($"Star {i}: finished waiting");
+            // }
+            
+            // Add a small yield to maintain coroutine structure
+            yield return null;
+            
+            // Determine star type based on previous progress
+            if (i < previouslyEarnedStars)
+            {
+                // This star was already earned before - make it filled (blue equivalent)
+                starImages[i].sprite = starFilled;
+            }
+            else if (i < starsEarned)
+            {
+                // This is a newly earned star - make it gold with animation
+                starImages[i].sprite = starGold;
+                
+                // Add pulsing animation to all newly earned stars
+                var animation = StartCoroutine(AnimateStarVibration(starImages[i].transform));
+                activeStarAnimations.Add(animation);
+            }
+            else
+            {
+                // This star should remain empty
+                starImages[i].sprite = starEmpty;
+            }
+        }
+    }
+
+    private IEnumerator ShowPreviouslyEarnedStars(int previouslyEarnedStars)
+    {
+        // Show all stars as empty first
+        for (int i = 0; i < starImages.Length; i++)
+        {
+            if (starImages[i] == null) continue;
+            starImages[i].sprite = starEmpty;
+            starImages[i].transform.localScale = Vector3.one;
+        }
+
+        // Show previously earned stars as filled
+        for (int i = 0; i < previouslyEarnedStars; i++)
         {
             if (starImages[i] == null) continue;
             
             float delay = i * starAnimationDelay;
             yield return new WaitForSeconds(delay);
             
-            Debug.Log($"Animating star {i}, isLast: {i == starsEarned - 1}");
-            
-            // If this is the last earned star, make it gold
-            if (i == starsEarned - 1)
-            {
-                Debug.Log($"Animating gold star {i} with vibration");
-                starImages[i].sprite = starGold;
-                currentStarAnimation = StartCoroutine(AnimateStarVibration(starImages[i].transform));
-            }
-            else
-            {
-                // Otherwise make it filled
-                Debug.Log($"Animating filled star {i}");
-                starImages[i].sprite = starFilled;
-            }
+            starImages[i].sprite = starFilled;
         }
     }
 
@@ -179,8 +228,6 @@ public class LevelCompleteUI : MonoBehaviour
 
     private IEnumerator AnimateStarVibration(Transform starTransform)
     {
-        Debug.Log("AnimateStarVibration started");
-        
         Vector3 originalScale = starTransform.localScale;
         float pulseSpeed = 3f; // Pulse speed
         float pulseIntensity = 0.2f; // Pulse intensity
@@ -231,12 +278,13 @@ public class LevelCompleteUI : MonoBehaviour
 
     public void RestartLevel()
     {
-        // Stop star animation
-        if (currentStarAnimation != null)
+        // Stop all star animations
+        foreach (var animation in activeStarAnimations)
         {
-            StopCoroutine(currentStarAnimation);
-            currentStarAnimation = null;
+            if (animation != null)
+                StopCoroutine(animation);
         }
+        activeStarAnimations.Clear();
 
         // Button click sound
         if (AudioManager.Instance != null)
@@ -278,12 +326,13 @@ public class LevelCompleteUI : MonoBehaviour
 
     public void NextLevel()
     {
-        // Stop star animation
-        if (currentStarAnimation != null)
+        // Stop all star animations
+        foreach (var animation in activeStarAnimations)
         {
-            StopCoroutine(currentStarAnimation);
-            currentStarAnimation = null;
+            if (animation != null)
+                StopCoroutine(animation);
         }
+        activeStarAnimations.Clear();
 
         // Button click sound
         if (AudioManager.Instance != null)
@@ -324,12 +373,13 @@ public class LevelCompleteUI : MonoBehaviour
 
     public void GoToMenu()
     {
-        // Stop star animation
-        if (currentStarAnimation != null)
+        // Stop all star animations
+        foreach (var animation in activeStarAnimations)
         {
-            StopCoroutine(currentStarAnimation);
-            currentStarAnimation = null;
+            if (animation != null)
+                StopCoroutine(animation);
         }
+        activeStarAnimations.Clear();
 
         // Button click sound
         if (AudioManager.Instance != null)

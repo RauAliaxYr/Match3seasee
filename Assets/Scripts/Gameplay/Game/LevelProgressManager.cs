@@ -133,6 +133,7 @@ public class LevelProgressManager : MonoBehaviour
             LevelId = currentLevel.LevelId,
             IsCompleted = isVictory,
             StarsEarned = stars,
+            PreviouslyEarnedStars = 0, // Will be set after getting old progress
             Score = currentScore,
             MovesUsed = movesMade,
             TimeUsed = timeElapsed,
@@ -140,7 +141,12 @@ public class LevelProgressManager : MonoBehaviour
         };
 
         // --- Update player progress ---
+        // Get old progress before updating
+        int oldStars = PlayerProgress.GetStars(result.LevelId);
         PlayerProgress.AddStars(result.LevelId, result.StarsEarned);
+        
+        // Store old progress in result for UI
+        result.PreviouslyEarnedStars = oldStars;
 
         // Save progress (optional, if needed for analytics)
         SaveLevelProgress(result);
@@ -197,6 +203,7 @@ public class LevelResult
     public int LevelId;
     public bool IsCompleted;
     public int StarsEarned;
+    public int PreviouslyEarnedStars; // Stars earned before this attempt
     public int Score;
     public int MovesUsed;
     public float TimeUsed;

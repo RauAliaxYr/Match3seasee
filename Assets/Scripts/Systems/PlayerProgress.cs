@@ -12,6 +12,7 @@ public static class PlayerProgress
     public static void AddStars(int levelId, int newStars)
     {
         int prevStars = GetStars(levelId);
+        
         if (newStars > prevStars)
         {
             int diff = newStars - prevStars;
