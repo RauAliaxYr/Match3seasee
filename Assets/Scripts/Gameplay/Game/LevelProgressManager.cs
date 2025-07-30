@@ -17,6 +17,7 @@ public class LevelProgressManager : MonoBehaviour
 
     // Events for UI
     public event Action<int> OnScoreChanged;
+    public event Action<int, Vector3?> OnScoreChangedWithPosition; // New event with position
     public event Action<int> OnMovesChanged;
     public event Action<float> OnTimeChanged;
     public event Action<int> OnTilesClearedChanged;
@@ -95,7 +96,7 @@ public class LevelProgressManager : MonoBehaviour
     }
 
     // Called when tiles are removed (matches)
-    public void OnTilesMatched(int count, int matchSize = 3)
+    public void OnTilesMatched(int count, int matchSize = 3, Vector3? matchPosition = null)
     {
         if (!isLevelActive) return;
 
@@ -108,6 +109,7 @@ public class LevelProgressManager : MonoBehaviour
         tilesCleared += count;
 
         OnScoreChanged?.Invoke(currentScore);
+        OnScoreChangedWithPosition?.Invoke(currentScore, matchPosition);
         OnTilesClearedChanged?.Invoke(tilesCleared);
     }
 

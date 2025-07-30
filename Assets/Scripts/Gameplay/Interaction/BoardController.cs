@@ -280,6 +280,33 @@ public class BoardController : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// Calculates the center position of all matches in world coordinates.
+    /// </summary>
+    private Vector3 CalculateMatchCenter(List<List<Vector2Int>> allMatches)
+    {
+        if (allMatches == null || allMatches.Count == 0)
+            return Vector3.zero;
+
+        Vector3 totalPosition = Vector3.zero;
+        int totalTiles = 0;
+
+        foreach (var match in allMatches)
+        {
+            foreach (var coords in match)
+            {
+                // Use the actual tile object position instead of calculated position
+                if (tileObjects.TryGetValue(coords, out var tileObj) && tileObj != null)
+                {
+                    totalPosition += tileObj.transform.position;
+                    totalTiles++;
+                }
+            }
+        }
+
+        return totalTiles > 0 ? totalPosition / totalTiles : Vector3.zero;
+    }
+
     private IEnumerator HandleMatches(List<List<Vector2Int>> allMatches)
     {
         OnPlayerAction(); // reset hint on any action
@@ -301,7 +328,9 @@ public class BoardController : MonoBehaviour
         
         if (LevelProgressManager.Instance != null)
         {
-            LevelProgressManager.Instance.OnTilesMatched(totalTilesMatched, maxMatchSize);
+            // Calculate center position of all matches
+            Vector3 matchCenter = CalculateMatchCenter(allMatches);
+            LevelProgressManager.Instance.OnTilesMatched(totalTilesMatched, maxMatchSize, matchCenter);
         }
 
         // 1. Remove matches (visually and from BoardData)

@@ -50,6 +50,7 @@ public class LevelProgressUI : MonoBehaviour
         {
             // Subscribe to events
             LevelProgressManager.Instance.OnScoreChanged += UpdateScore;
+            LevelProgressManager.Instance.OnScoreChangedWithPosition += UpdateScoreWithPosition;
             LevelProgressManager.Instance.OnMovesChanged += UpdateMoves;
             LevelProgressManager.Instance.OnTimeChanged += UpdateTime;
             LevelProgressManager.Instance.OnLevelCompleted += OnLevelCompleted;
@@ -70,6 +71,7 @@ public class LevelProgressUI : MonoBehaviour
         if (LevelProgressManager.Instance != null)
         {
             LevelProgressManager.Instance.OnScoreChanged -= UpdateScore;
+            LevelProgressManager.Instance.OnScoreChangedWithPosition -= UpdateScoreWithPosition;
             LevelProgressManager.Instance.OnMovesChanged -= UpdateMoves;
             LevelProgressManager.Instance.OnTimeChanged -= UpdateTime;
             LevelProgressManager.Instance.OnLevelCompleted -= OnLevelCompleted;
@@ -174,10 +176,39 @@ public class LevelProgressUI : MonoBehaviour
             StartCoroutine(AnimateSlider(scoreProgressBar, score));
         }
 
-        // Show popup when getting points
+        // Show popup when getting points (only for non-match score changes)
+        // Match score changes are handled by UpdateScoreWithPosition
         if (score > lastScore && scorePopupPrefab != null && popupParent != null)
         {
-            ShowScorePopup(score - lastScore);
+            // Only show popup if it's not from a match (no position provided)
+            // This prevents duplicate popups
+        }
+
+        // Change color when approaching goal
+        UpdateProgressColor(scoreProgressBar, score, LevelProgressManager.Instance.CurrentLevel?.TargetScore ?? 0);
+    }
+
+    private void UpdateScoreWithPosition(int score, Vector3? matchPosition)
+    {
+        if (scoreText != null)
+        {
+            // Text change animation
+            StartCoroutine(AnimateValue(lastScore, score, (value) => {
+                lastScore = (int)value;
+                scoreText.text = $"Score: {lastScore:N0}";
+            }));
+        }
+
+        // Update progress bar
+        if (scoreProgressBar != null)
+        {
+            StartCoroutine(AnimateSlider(scoreProgressBar, score));
+        }
+
+        // Show popup when getting points (with position if available)
+        if (score > lastScore && scorePopupPrefab != null && popupParent != null)
+        {
+            ShowScorePopup(score - lastScore, matchPosition);
         }
 
         // Change color when approaching goal
@@ -305,7 +336,7 @@ public class LevelProgressUI : MonoBehaviour
         image.color = to;
     }
 
-    private void ShowScorePopup(int scoreGain)
+    private void ShowScorePopup(int scoreGain, Vector3? matchPosition = null)
     {
         if (scorePopupPrefab == null || popupParent == null) return;
 
@@ -315,6 +346,32 @@ public class LevelProgressUI : MonoBehaviour
         if (popupText != null)
         {
             popupText.text = $"+{scoreGain}";
+        }
+
+        // Set position if match position is provided
+        if (matchPosition.HasValue)
+        {
+            Debug.Log($"Match position: {matchPosition.Value}");
+            // Convert world position to screen position
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(matchPosition.Value);
+            Debug.Log($"Screen position: {screenPos}");
+            
+            // Convert screen position to canvas position
+            Canvas canvas = popupParent.GetComponentInParent<Canvas>();
+            if (canvas != null && canvas.renderMode == RenderMode.ScreenSpaceOverlay)
+            {
+                popup.transform.position = screenPos;
+            }
+            else if (canvas != null && canvas.renderMode == RenderMode.ScreenSpaceCamera)
+            {
+                // For ScreenSpaceCamera, we need to convert screen position to canvas position
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    canvas.transform as RectTransform,
+                    screenPos,
+                    canvas.worldCamera,
+                    out Vector2 localPoint);
+                popup.transform.localPosition = localPoint;
+            }
         }
 
         // Appearance and disappearance animation
