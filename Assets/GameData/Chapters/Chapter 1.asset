@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Chapter 1
   m_EditorClassIdentifier: 
   chapterName: Lagune
-  background: {fileID: -6093266972825395414, guid: 4d7635ab27206ce48b708d8371db08ff, type: 3}
+  backgroundMobile: {fileID: -6093266972825395414, guid: 4d7635ab27206ce48b708d8371db08ff, type: 3}
+  backgroundDesktop: {fileID: -935781666743255906, guid: 42bb36321fddd21498ea3f69bef60136, type: 3}
   levels:
   - levelId: 1
     levelNumber: 1

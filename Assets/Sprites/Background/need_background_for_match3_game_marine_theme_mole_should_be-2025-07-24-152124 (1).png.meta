@@ -175,7 +175,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      need_background_for_match3_game_marine_theme_mole_should_be-2025-07-24-152124 (1)_0: 4625123005591894465
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

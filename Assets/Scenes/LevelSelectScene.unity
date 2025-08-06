@@ -293,6 +293,8 @@ MonoBehaviour:
   totalStarsUI: {fileID: 1407840693}
   leftArrowButton: {fileID: 1586810077}
   rightArrowButton: {fileID: 625031979}
+  adaptiveLevelGrid: {fileID: 0}
+  adaptiveHeightController: {fileID: 0}
 --- !u!4 &20807408
 Transform:
   m_ObjectHideFlags: 0
@@ -454,6 +456,7 @@ GameObject:
   m_Component:
   - component: {fileID: 99812512}
   - component: {fileID: 99812513}
+  - component: {fileID: 99812514}
   m_Layer: 5
   m_Name: LevelRoot
   m_TagString: Untagged
@@ -501,13 +504,39 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 4
   m_Spacing: 0
-  m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &99812514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99812511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0419ca9800f21cb41afb07f9c9265763, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelRoot: {fileID: 99812512}
+  levelGrid: {fileID: 1589307394}
+  chapterNavigation: {fileID: 1923103828}
+  mobileLevelRootHeight: 1500
+  mobileLevelGridHeight: 1080
+  mobileChapterNavigationHeight: 300
+  desktopLevelRootHeight: 1080
+  desktopLevelGridHeight: 800
+  desktopChapterNavigationHeight: 300
+  webGLLevelRootHeight: 1080
+  webGLLevelGridHeight: 800
+  webGLChapterNavigationHeight: 300
+  applyOnStart: 1
+  autoFindObjects: 1
 --- !u!1 &121307294
 GameObject:
   m_ObjectHideFlags: 0
@@ -990,6 +1019,10 @@ GameObject:
   - component: {fileID: 440527021}
   - component: {fileID: 440527020}
   - component: {fileID: 440527019}
+  - component: {fileID: 440527025}
+  - component: {fileID: 440527024}
+  - component: {fileID: 440527023}
+  - component: {fileID: 440527022}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1083,6 +1116,111 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &440527022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440527017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfe868b28334c5c4b8b50c94552ad0cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isWebGLBuild: 0
+  isAndroidBuild: 0
+  isIOSBuild: 0
+  isStandaloneBuild: 0
+  targetFrameRate: 60
+  vsyncEnabled: 1
+  antiAliasing: 4
+  webGLFullscreen: 0
+  webGLResolution: {x: 1920, y: 1080}
+  mobileFullscreen: 1
+  mobileSleepTimeout: 1
+  mobileResolution: {x: 1080, y: 1920}
+  mobileUIScale: 0.8
+  desktopUIScale: 1.2
+  webGLUIScale: 1.1
+  enableAdaptivePerformance: 1
+--- !u!114 &440527023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440527017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10ee8f5aaf1c4d446b4a1c1af6e4f28e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allowPortrait: 1
+  allowLandscape: 1
+  forcePortrait: 0
+  forceLandscape: 0
+  autoRotate: 1
+  rotationCheckInterval: 0.5
+  portraitOnlyElements: []
+  landscapeOnlyElements: []
+  adaptiveElements: []
+  portraitLayout: {x: 1080, y: 1920}
+  landscapeLayout: {x: 1920, y: 1080}
+--- !u!114 &440527024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440527017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91d4b2dbf85980a4ab2b1e758cace114, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useSafeArea: 1
+  safeAreaRect: {fileID: 0}
+  canvas: {fileID: 0}
+  topPadding: 0
+  bottomPadding: 0
+  leftPadding: 0
+  rightPadding: 0
+  showDebugInfo: 0
+--- !u!114 &440527025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440527017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef32f519346797a40b51fd18f370720f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMobileDevice: 0
+  isDesktopDevice: 0
+  isWebGLBuild: 0
+  currentResolution: {x: 0, y: 0}
+  aspectRatio: 0
+  isPortrait: 0
+  isLandscape: 0
+  canvasScaler: {fileID: 0}
+  safeAreaRect: {fileID: 0}
+  useSafeArea: 1
+  mobileOptimizedElements: []
+  desktopOptimizedElements: []
+  adaptiveTexts: []
+  mobileTextScale: 0.8
+  mobileButtonScale: 0.9
+  mobileSpacing: 10
+  desktopTextScale: 1.2
+  desktopButtonScale: 1.1
+  desktopSpacing: 20
+  webGLTextScale: 1.1
+  webGLButtonScale: 1.05
+  webGLSpacing: 15
 --- !u!1 &452012826
 GameObject:
   m_ObjectHideFlags: 0
@@ -2765,6 +2903,106 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   starsText: {fileID: 2074513940}
   starIcon: {fileID: 1186754466}
+--- !u!1 &1480157376
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1480157378}
+  - component: {fileID: 1480157377}
+  m_Layer: 0
+  m_Name: AdaptiveUISystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1480157377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480157376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c58e2fd4380c4d46b8e8162a585150c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  adaptiveUIManager: {fileID: 440527025}
+  safeAreaHandler: {fileID: 440527024}
+  orientationManager: {fileID: 440527023}
+  platformSettings: {fileID: 440527022}
+  adaptiveBackgrounds: []
+  mainCanvas: {fileID: 440527021}
+  mainCanvasScaler: {fileID: 440527020}
+  adaptiveElements: []
+  dynamicElements: []
+  mobilePreset:
+    presetName: Default
+    mobileSize: {x: 100, y: 100}
+    desktopSize: {x: 120, y: 120}
+    webGLSize: {x: 110, y: 110}
+    mobileFontSize: 24
+    desktopFontSize: 28
+    webGLFontSize: 26
+    mobileScale: 1
+    desktopScale: 1
+    webGLScale: 1
+  desktopPreset:
+    presetName: Default
+    mobileSize: {x: 100, y: 100}
+    desktopSize: {x: 120, y: 120}
+    webGLSize: {x: 110, y: 110}
+    mobileFontSize: 24
+    desktopFontSize: 28
+    webGLFontSize: 26
+    mobileScale: 1
+    desktopScale: 1
+    webGLScale: 1
+  webGLPreset:
+    presetName: Default
+    mobileSize: {x: 100, y: 100}
+    desktopSize: {x: 120, y: 120}
+    webGLSize: {x: 110, y: 110}
+    mobileFontSize: 24
+    desktopFontSize: 28
+    webGLFontSize: 26
+    mobileScale: 1
+    desktopScale: 1
+    webGLScale: 1
+  autoSetupOnStart: 1
+  autoFindComponents: 1
+  onSystemInitialized:
+    m_PersistentCalls:
+      m_Calls: []
+  onPresetApplied:
+    m_PersistentCalls:
+      m_Calls: []
+  onOrientationChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeviceChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!4 &1480157378
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480157376}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 138.35345, y: 370.68823, z: -7.357869}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1586810075
 GameObject:
   m_ObjectHideFlags: 0
@@ -2908,6 +3146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1589307394}
   - component: {fileID: 1589307395}
+  - component: {fileID: 1589307396}
   m_Layer: 5
   m_Name: LevelGrid
   m_TagString: Untagged
@@ -2958,6 +3197,42 @@ MonoBehaviour:
   m_Spacing: {x: 50, y: 150}
   m_Constraint: 1
   m_ConstraintCount: 4
+--- !u!114 &1589307396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589307393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db9a317c7b949914f8c8287a628326ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridLayoutGroup: {fileID: 1589307395}
+  mobileCellSize: {x: 80, y: 80}
+  mobileSpacing: {x: 10, y: 10}
+  mobilePadding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  desktopCellSize: {x: 120, y: 120}
+  desktopSpacing: {x: 20, y: 20}
+  desktopPadding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  webGLCellSize: {x: 150, y: 150}
+  webGLSpacing: {x: 40, y: 40}
+  webGLPadding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  applyOnStart: 1
+  autoFindGridLayoutGroup: 1
 --- !u!1 &1898755072
 GameObject:
   m_ObjectHideFlags: 0
@@ -3916,3 +4191,4 @@ SceneRoots:
   - {fileID: 1381218938}
   - {fileID: 919601725}
   - {fileID: 20807408}
+  - {fileID: 1480157378}

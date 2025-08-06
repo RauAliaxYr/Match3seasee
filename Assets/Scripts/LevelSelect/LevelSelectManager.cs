@@ -17,11 +17,27 @@ public class LevelSelectManager : MonoBehaviour
     [Header("Navigation")]
     [SerializeField] private Button leftArrowButton;
     [SerializeField] private Button rightArrowButton;
+    
+    [Header("Adaptive UI")]
+    [SerializeField] private AdaptiveLevelGrid adaptiveLevelGrid;
+    [SerializeField] private AdaptiveHeightController adaptiveHeightController;
 
     private int currentChapterIndex = 0;
 
     private void Start()
     {
+        // Setup adaptive grid if available
+        if (adaptiveLevelGrid == null)
+        {
+            adaptiveLevelGrid = levelsParent.GetComponent<AdaptiveLevelGrid>();
+        }
+        
+        // Setup adaptive height controller if available
+        if (adaptiveHeightController == null)
+        {
+            adaptiveHeightController = GetComponent<AdaptiveHeightController>();
+        }
+        
         LoadChapter(currentChapterIndex);
         
         // Start level selection music
@@ -49,7 +65,7 @@ public class LevelSelectManager : MonoBehaviour
         currentChapterIndex = index;
         LevelChapterData chapter = chapters[index];
 
-        backgroundImage.sprite = chapter.background;
+        backgroundImage.sprite = chapter.GetBackgroundForCurrentPlatform();
         chapterText.text = chapter.chapterName;
 
         // Remove old buttons
@@ -96,10 +112,34 @@ public class LevelSelectManager : MonoBehaviour
             
         // Update navigation arrows state
         UpdateNavigationArrows();
+        
+        // Refresh adaptive grid if available
+        if (adaptiveLevelGrid != null)
+        {
+            // Wait a frame to ensure all buttons are created
+            StartCoroutine(RefreshGridAfterFrame());
+        }
+        
+        // Refresh adaptive height controller if available
+        if (adaptiveHeightController != null)
+        {
+            adaptiveHeightController.RefreshHeights();
+        }
     }
 
     public void NextChapter() => LoadChapter((currentChapterIndex + 1) % chapters.Count);
     public void PreviousChapter() => LoadChapter((currentChapterIndex - 1 + chapters.Count) % chapters.Count);
+    
+    private System.Collections.IEnumerator RefreshGridAfterFrame()
+    {
+        // Wait for the end of frame to ensure all buttons are created
+        yield return new WaitForEndOfFrame();
+        
+        if (adaptiveLevelGrid != null)
+        {
+            adaptiveLevelGrid.RefreshGrid();
+        }
+    }
     
     private void UpdateNavigationArrows()
     {

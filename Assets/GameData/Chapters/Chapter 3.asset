@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Chapter 3
   m_EditorClassIdentifier: 
   chapterName: Bottom
-  background: {fileID: 8586911339905611133, guid: e69d1daf7ded316468628db38ae227bd, type: 3}
+  backgroundMobile: {fileID: 8586911339905611133, guid: e69d1daf7ded316468628db38ae227bd, type: 3}
+  backgroundDesktop: {fileID: -4858020542890900225, guid: 1e7d2babcf5f50743941cb535f3ae411, type: 3}
   levels:
   - levelId: 33
     levelNumber: 1
@@ -36,62 +37,62 @@ MonoBehaviour:
     starsEarned: 0
     requiredStars: 84
   - levelId: 36
-    levelNumber: 4
+    levelNumber: 5
     isUnlocked: 0
     starsEarned: 0
     requiredStars: 90
   - levelId: 36
-    levelNumber: 4
+    levelNumber: 6
     isUnlocked: 0
     starsEarned: 0
     requiredStars: 91
   - levelId: 36
-    levelNumber: 4
+    levelNumber: 7
     isUnlocked: 0
     starsEarned: 0
     requiredStars: 92
   - levelId: 36
-    levelNumber: 4
+    levelNumber: 8
     isUnlocked: 0
     starsEarned: 0
     requiredStars: 93
   - levelId: 36
-    levelNumber: 4
+    levelNumber: 9
     isUnlocked: 0
     starsEarned: 0
     requiredStars: 100
   - levelId: 36
-    levelNumber: 4
+    levelNumber: 10
     isUnlocked: 0
     starsEarned: 0
     requiredStars: 101
   - levelId: 36
-    levelNumber: 4
+    levelNumber: 11
     isUnlocked: 0
     starsEarned: 0
     requiredStars: 102
   - levelId: 36
-    levelNumber: 4
+    levelNumber: 12
     isUnlocked: 0
     starsEarned: 0
     requiredStars: 103
   - levelId: 36
-    levelNumber: 4
+    levelNumber: 13
     isUnlocked: 0
     starsEarned: 0
     requiredStars: 120
   - levelId: 36
-    levelNumber: 4
+    levelNumber: 14
     isUnlocked: 0
     starsEarned: 0
     requiredStars: 121
   - levelId: 36
-    levelNumber: 4
+    levelNumber: 15
     isUnlocked: 0
     starsEarned: 0
     requiredStars: 122
   - levelId: 36
-    levelNumber: 4
+    levelNumber: 16
     isUnlocked: 0
     starsEarned: 0
     requiredStars: 123

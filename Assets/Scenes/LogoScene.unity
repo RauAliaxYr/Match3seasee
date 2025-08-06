@@ -244,6 +244,106 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &480958565
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 480958567}
+  - component: {fileID: 480958566}
+  m_Layer: 0
+  m_Name: AdaptiveUISystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &480958566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480958565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c58e2fd4380c4d46b8e8162a585150c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  adaptiveUIManager: {fileID: 0}
+  safeAreaHandler: {fileID: 0}
+  orientationManager: {fileID: 0}
+  platformSettings: {fileID: 0}
+  adaptiveBackgrounds: []
+  mainCanvas: {fileID: 1535066152}
+  mainCanvasScaler: {fileID: 1535066151}
+  adaptiveElements: []
+  dynamicElements: []
+  mobilePreset:
+    presetName: Default
+    mobileSize: {x: 100, y: 100}
+    desktopSize: {x: 120, y: 120}
+    webGLSize: {x: 110, y: 110}
+    mobileFontSize: 24
+    desktopFontSize: 28
+    webGLFontSize: 26
+    mobileScale: 1
+    desktopScale: 1
+    webGLScale: 1
+  desktopPreset:
+    presetName: Default
+    mobileSize: {x: 100, y: 100}
+    desktopSize: {x: 120, y: 120}
+    webGLSize: {x: 110, y: 110}
+    mobileFontSize: 24
+    desktopFontSize: 28
+    webGLFontSize: 26
+    mobileScale: 1
+    desktopScale: 1
+    webGLScale: 1
+  webGLPreset:
+    presetName: Default
+    mobileSize: {x: 100, y: 100}
+    desktopSize: {x: 120, y: 120}
+    webGLSize: {x: 110, y: 110}
+    mobileFontSize: 24
+    desktopFontSize: 28
+    webGLFontSize: 26
+    mobileScale: 1
+    desktopScale: 1
+    webGLScale: 1
+  autoSetupOnStart: 1
+  autoFindComponents: 1
+  onSystemInitialized:
+    m_PersistentCalls:
+      m_Calls: []
+  onPresetApplied:
+    m_PersistentCalls:
+      m_Calls: []
+  onOrientationChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeviceChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!4 &480958567
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480958565}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 138.35345, y: 370.68823, z: -7.357869}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,6 +836,10 @@ GameObject:
   - component: {fileID: 1535066152}
   - component: {fileID: 1535066151}
   - component: {fileID: 1535066150}
+  - component: {fileID: 1535066156}
+  - component: {fileID: 1535066155}
+  - component: {fileID: 1535066154}
+  - component: {fileID: 1535066153}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -828,6 +932,111 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1535066153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535066148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfe868b28334c5c4b8b50c94552ad0cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isWebGLBuild: 0
+  isAndroidBuild: 0
+  isIOSBuild: 0
+  isStandaloneBuild: 0
+  targetFrameRate: 60
+  vsyncEnabled: 1
+  antiAliasing: 4
+  webGLFullscreen: 0
+  webGLResolution: {x: 1920, y: 1080}
+  mobileFullscreen: 1
+  mobileSleepTimeout: 1
+  mobileResolution: {x: 1080, y: 1920}
+  mobileUIScale: 0.8
+  desktopUIScale: 1.2
+  webGLUIScale: 1.1
+  enableAdaptivePerformance: 1
+--- !u!114 &1535066154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535066148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10ee8f5aaf1c4d446b4a1c1af6e4f28e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allowPortrait: 1
+  allowLandscape: 1
+  forcePortrait: 0
+  forceLandscape: 0
+  autoRotate: 1
+  rotationCheckInterval: 0.5
+  portraitOnlyElements: []
+  landscapeOnlyElements: []
+  adaptiveElements: []
+  portraitLayout: {x: 1080, y: 1920}
+  landscapeLayout: {x: 1920, y: 1080}
+--- !u!114 &1535066155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535066148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91d4b2dbf85980a4ab2b1e758cace114, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useSafeArea: 1
+  safeAreaRect: {fileID: 1535066149}
+  canvas: {fileID: 1535066152}
+  topPadding: 0
+  bottomPadding: 0
+  leftPadding: 0
+  rightPadding: 0
+  showDebugInfo: 0
+--- !u!114 &1535066156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535066148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef32f519346797a40b51fd18f370720f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMobileDevice: 0
+  isDesktopDevice: 0
+  isWebGLBuild: 0
+  currentResolution: {x: 0, y: 0}
+  aspectRatio: 0
+  isPortrait: 0
+  isLandscape: 0
+  canvasScaler: {fileID: 1535066151}
+  safeAreaRect: {fileID: 1535066149}
+  useSafeArea: 1
+  mobileOptimizedElements: []
+  desktopOptimizedElements: []
+  adaptiveTexts: []
+  mobileTextScale: 0.8
+  mobileButtonScale: 0.9
+  mobileSpacing: 10
+  desktopTextScale: 1.2
+  desktopButtonScale: 1.1
+  desktopSpacing: 20
+  webGLTextScale: 1.1
+  webGLButtonScale: 1.05
+  webGLSpacing: 15
 --- !u!1 &1571506008
 GameObject:
   m_ObjectHideFlags: 0
@@ -976,6 +1185,7 @@ GameObject:
   - component: {fileID: 1914600838}
   - component: {fileID: 1914600840}
   - component: {fileID: 1914600839}
+  - component: {fileID: 1914600841}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -1040,6 +1250,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1914600837}
   m_CullTransparentMesh: 1
+--- !u!114 &1914600841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1914600837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9c620ca0f5173f449e0dd06047e45e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobileBackground: {fileID: -5465259140256306392, guid: ebc1b890c67b09c48b5a85eb67f379d1, type: 3}
+  desktopBackground: {fileID: 6377276984762534317, guid: 8c220e07d7b3a8944a5a06e3311d4bd2, type: 3}
+  webGLBackground: {fileID: 6377276984762534317, guid: 8c220e07d7b3a8944a5a06e3311d4bd2, type: 3}
+  useAspectRatioScaling: 1
+  maintainAspectRatio: 1
+  imageType: 0
+  fallbackBackground: {fileID: 0}
+  onBackgroundChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2065194175
 GameObject:
   m_ObjectHideFlags: 0
@@ -1210,3 +1442,4 @@ SceneRoots:
   - {fileID: 1838323964}
   - {fileID: 655448348}
   - {fileID: 1571506010}
+  - {fileID: 480958567}
