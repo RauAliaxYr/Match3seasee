@@ -99,18 +99,15 @@ public class PlatformSettings : MonoBehaviour
         // WebGL specific settings
         Screen.fullScreen = webGLFullscreen;
         
-        // Set resolution for WebGL
-        if (webGLResolution.x > 0 && webGLResolution.y > 0)
-        {
-            Screen.SetResolution((int)webGLResolution.x, (int)webGLResolution.y, webGLFullscreen);
-        }
+        // Don't force resolution - let Unity handle it automatically
+        // This prevents viewport issues when switching scenes
         
         // WebGL performance settings
         QualitySettings.shadowDistance = 50f;
         QualitySettings.shadowResolution = ShadowResolution.Medium;
         QualitySettings.pixelLightCount = 2;
         
-        Debug.Log("WebGL settings applied");
+        Debug.Log("WebGL settings applied (resolution auto-handled)");
     }
     
     private void ApplyMobileSettings()
@@ -124,11 +121,8 @@ public class PlatformSettings : MonoBehaviour
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
         }
         
-        // Set resolution for mobile
-        if (mobileResolution.x > 0 && mobileResolution.y > 0)
-        {
-            Screen.SetResolution((int)mobileResolution.x, (int)mobileResolution.y, mobileFullscreen);
-        }
+        // Don't force resolution - let Unity handle it automatically
+        // This prevents viewport issues when switching scenes
         
         // Mobile performance settings
         QualitySettings.shadowDistance = 30f;
@@ -140,7 +134,7 @@ public class PlatformSettings : MonoBehaviour
         // Mobile texture settings
         QualitySettings.globalTextureMipmapLimit = 1; // Half resolution textures
         
-        Debug.Log("Mobile settings applied");
+        Debug.Log("Mobile settings applied (resolution auto-handled)");
     }
     
     private void ApplyStandaloneSettings()

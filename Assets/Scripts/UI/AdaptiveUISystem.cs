@@ -17,6 +17,7 @@ public class AdaptiveUISystem : MonoBehaviour
     [Header("UI Canvas")]
     [SerializeField] private Canvas mainCanvas;
     [SerializeField] private CanvasScaler mainCanvasScaler;
+    [SerializeField] private RenderMode preferredRenderMode = RenderMode.ScreenSpaceCamera;
     
     [Header("Adaptive Elements")]
     [SerializeField] private List<AdaptiveUIElement> adaptiveElements = new List<AdaptiveUIElement>();
@@ -167,8 +168,29 @@ public class AdaptiveUISystem : MonoBehaviour
     {
         if (mainCanvas == null || mainCanvasScaler == null) return;
         
-        // Set canvas render mode
-        mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        // Set canvas render mode based on preferred setting
+        mainCanvas.renderMode = preferredRenderMode;
+        
+        // Set the camera for the canvas if using ScreenSpaceCamera mode
+        if (preferredRenderMode == RenderMode.ScreenSpaceCamera)
+        {
+            Camera mainCamera = Camera.main;
+            if (mainCamera != null)
+            {
+                mainCanvas.worldCamera = mainCamera;
+                Debug.Log($"Canvas set to ScreenSpaceCamera mode with camera: {mainCamera.name}");
+            }
+            else
+            {
+                // Fallback to overlay mode if no camera found
+                mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+                Debug.LogWarning("No main camera found, falling back to ScreenSpaceOverlay mode");
+            }
+        }
+        else
+        {
+            Debug.Log($"Canvas set to {preferredRenderMode} mode");
+        }
         
         // Setup canvas scaler based on platform
         if (platformSettings != null)
@@ -483,6 +505,44 @@ public class AdaptiveUISystem : MonoBehaviour
         {
             mainCanvasScaler = canvas.GetComponent<CanvasScaler>();
         }
+    }
+    
+    // Canvas render mode management methods
+    public void SetCanvasToCameraMode()
+    {
+        if (mainCanvas != null)
+        {
+            mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+            Camera mainCamera = Camera.main;
+            if (mainCamera != null)
+            {
+                mainCanvas.worldCamera = mainCamera;
+            }
+            Debug.Log("Canvas set to ScreenSpaceCamera mode");
+        }
+    }
+    
+    public void SetCanvasToOverlayMode()
+    {
+        if (mainCanvas != null)
+        {
+            mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            Debug.Log("Canvas set to ScreenSpaceOverlay mode");
+        }
+    }
+    
+    public void SetCanvasToWorldSpaceMode()
+    {
+        if (mainCanvas != null)
+        {
+            mainCanvas.renderMode = RenderMode.WorldSpace;
+            Debug.Log("Canvas set to WorldSpace mode");
+        }
+    }
+    
+    public RenderMode GetCurrentCanvasRenderMode()
+    {
+        return mainCanvas != null ? mainCanvas.renderMode : RenderMode.ScreenSpaceOverlay;
     }
     
     // Background management methods
