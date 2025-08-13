@@ -560,6 +560,24 @@ public class AdaptiveUISystem : MonoBehaviour
         }
     }
     
+    // Method to update backgrounds when orientation changes
+    public void UpdateBackgroundsForOrientation()
+    {
+        if (adaptiveBackgrounds != null)
+        {
+            foreach (var background in adaptiveBackgrounds)
+            {
+                if (background != null)
+                {
+                    background.OnOrientationChanged();
+                }
+            }
+        }
+        
+        // Invoke orientation changed event
+        onOrientationChanged?.Invoke();
+    }
+    
     public void AddAdaptiveBackground(AdaptiveBackground background)
     {
         if (background != null && !System.Array.Exists(adaptiveBackgrounds, x => x == background))

@@ -91,7 +91,15 @@ public class AdaptiveBackground : MonoBehaviour
     private Sprite GetBackgroundForPlatform()
     {
         #if UNITY_WEBGL && !UNITY_EDITOR
-            return webGLBackground != null ? webGLBackground : GetFallbackBackground();
+            // Check if WebGL is in portrait mode - use mobile background
+            if (Screen.height > Screen.width)
+            {
+                return mobileBackground != null ? mobileBackground : GetFallbackBackground();
+            }
+            else
+            {
+                return webGLBackground != null ? webGLBackground : GetFallbackBackground();
+            }
         #elif UNITY_ANDROID || UNITY_IOS
             return mobileBackground != null ? mobileBackground : GetFallbackBackground();
         #else
@@ -139,7 +147,14 @@ public class AdaptiveBackground : MonoBehaviour
     private string GetCurrentPlatform()
     {
         #if UNITY_WEBGL && !UNITY_EDITOR
-            return "WebGL";
+            if (Screen.height > Screen.width)
+            {
+                return "WebGL (Portrait)";
+            }
+            else
+            {
+                return "WebGL (Landscape)";
+            }
         #elif UNITY_ANDROID
             return "Android";
         #elif UNITY_IOS
@@ -196,5 +211,39 @@ public class AdaptiveBackground : MonoBehaviour
     public void RestorePlatformBackground()
     {
         ApplyBackground();
+    }
+    
+    // Method to handle orientation changes
+    public void OnOrientationChanged()
+    {
+        if (isInitialized)
+        {
+            ApplyBackground();
+        }
+    }
+    
+    // Method to check if current orientation is portrait
+    public bool IsPortraitMode()
+    {
+        return Screen.height > Screen.width;
+    }
+    
+    // Method to get the appropriate background for current orientation
+    public Sprite GetBackgroundForCurrentOrientation()
+    {
+        #if UNITY_WEBGL && !UNITY_EDITOR
+            if (IsPortraitMode())
+            {
+                return mobileBackground != null ? mobileBackground : GetFallbackBackground();
+            }
+            else
+            {
+                return webGLBackground != null ? webGLBackground : GetFallbackBackground();
+            }
+        #elif UNITY_ANDROID || UNITY_IOS
+            return mobileBackground != null ? mobileBackground : GetFallbackBackground();
+        #else
+            return desktopBackground != null ? desktopBackground : GetFallbackBackground();
+        #endif
     }
 } 

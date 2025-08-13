@@ -133,6 +133,9 @@ public class OrientationManager : MonoBehaviour
             adaptiveUIManager.UpdateUIForOrientation();
         }
         
+        // Update backgrounds for orientation change
+        UpdateBackgroundsForOrientation();
+        
         Debug.Log($"Orientation changed to: {(isPortrait ? "Portrait" : "Landscape")} ({Screen.width}x{Screen.height})");
     }
     
@@ -338,6 +341,28 @@ public class OrientationManager : MonoBehaviour
     public void RefreshOrientation()
     {
         ApplyOrientationSettings();
+    }
+    
+    // Method to update backgrounds for orientation change
+    private void UpdateBackgroundsForOrientation()
+    {
+        // Find all AdaptiveBackground components and update them
+        AdaptiveBackground[] backgrounds = FindObjectsByType<AdaptiveBackground>(FindObjectsSortMode.None);
+        foreach (var background in backgrounds)
+        {
+            if (background != null)
+            {
+                background.OnOrientationChanged();
+            }
+        }
+        
+        // Also update through AdaptiveUISystem if available
+        if (AdaptiveUISystem.Instance != null)
+        {
+            AdaptiveUISystem.Instance.UpdateBackgroundsForOrientation();
+        }
+        
+        Debug.Log($"Updated {backgrounds.Length} backgrounds for orientation change");
     }
     
     // Method to get optimal UI positioning for current orientation
