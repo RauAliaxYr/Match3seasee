@@ -44,7 +44,9 @@ public class LevelSelectManager : MonoBehaviour
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayMainMenuThemeIfNotPlaying();
-            AudioManager.Instance.SetMusicVolume(0.7f);
+            // Apply saved global music volume from PlayerPrefs
+            float savedMusicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.7f);
+            AudioManager.Instance.SetMusicVolume(savedMusicVolume);
         }
     }
 
@@ -56,7 +58,9 @@ public class LevelSelectManager : MonoBehaviour
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayMainMenuThemeIfNotPlaying();
-            AudioManager.Instance.SetMusicVolume(0.7f);
+            // Apply saved global music volume from PlayerPrefs
+            float savedMusicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.7f);
+            AudioManager.Instance.SetMusicVolume(savedMusicVolume);
         }
     }
 

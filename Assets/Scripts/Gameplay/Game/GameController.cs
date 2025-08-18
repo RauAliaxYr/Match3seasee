@@ -46,7 +46,7 @@ public class GameController : MonoBehaviour
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayGameplayTheme();
-            AudioManager.Instance.SetMusicVolume(0.3f);
+            // Don't override global volume settings - they should persist from PlayerPrefs
         }
     }
 
