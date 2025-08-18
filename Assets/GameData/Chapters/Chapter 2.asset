@@ -13,70 +13,87 @@ MonoBehaviour:
   m_Name: Chapter 2
   m_EditorClassIdentifier: 
   chapterName: Riff
-  background: {fileID: 8756257538053382672, guid: 7a001bdef034dd748906fd2f8cb8bc08, type: 3}
+  backgroundMobile: {fileID: 8756257538053382672, guid: 7a001bdef034dd748906fd2f8cb8bc08, type: 3}
+  backgroundDesktop: {fileID: 8250148442443612767, guid: f8f46c058a955fd42aff5d5e71cd362c, type: 3}
   levels:
   - levelId: 17
     levelNumber: 1
     isUnlocked: 0
     starsEarned: 0
+    requiredStars: 30
   - levelId: 18
     levelNumber: 2
     isUnlocked: 0
     starsEarned: 0
+    requiredStars: 33
   - levelId: 19
     levelNumber: 3
     isUnlocked: 0
     starsEarned: 0
+    requiredStars: 36
   - levelId: 20
     levelNumber: 4
     isUnlocked: 0
     starsEarned: 0
+    requiredStars: 39
   - levelId: 21
     levelNumber: 5
     isUnlocked: 0
     starsEarned: 0
+    requiredStars: 42
   - levelId: 22
     levelNumber: 6
     isUnlocked: 0
     starsEarned: 0
+    requiredStars: 45
   - levelId: 23
     levelNumber: 7
     isUnlocked: 0
     starsEarned: 0
+    requiredStars: 48
   - levelId: 24
     levelNumber: 8
     isUnlocked: 0
     starsEarned: 0
+    requiredStars: 51
   - levelId: 25
     levelNumber: 9
     isUnlocked: 0
     starsEarned: 0
+    requiredStars: 54
   - levelId: 26
     levelNumber: 10
     isUnlocked: 0
     starsEarned: 0
+    requiredStars: 57
   - levelId: 27
     levelNumber: 11
     isUnlocked: 0
     starsEarned: 0
+    requiredStars: 60
   - levelId: 28
     levelNumber: 12
     isUnlocked: 0
     starsEarned: 0
+    requiredStars: 63
   - levelId: 29
     levelNumber: 13
     isUnlocked: 0
     starsEarned: 0
+    requiredStars: 70
   - levelId: 30
     levelNumber: 14
     isUnlocked: 0
     starsEarned: 0
+    requiredStars: 71
   - levelId: 31
     levelNumber: 15
     isUnlocked: 0
     starsEarned: 0
+    requiredStars: 72
   - levelId: 32
     levelNumber: 16
     isUnlocked: 0
     starsEarned: 0
+    requiredStars: 73
   isUnlocked: 1

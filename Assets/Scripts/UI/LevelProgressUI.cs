@@ -36,8 +36,6 @@ public class LevelProgressUI : MonoBehaviour
     
     // Cached values for animations
     private int lastScore = 0;
-    private int lastMoves = 0;
-    private float lastTime = 0f;
     
     // Colors for different states
     private Color normalColor = Color.white;

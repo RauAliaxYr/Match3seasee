@@ -124,10 +124,6 @@ public class LevelCompleteUI : MonoBehaviour
         // Use previously earned stars from the result
         int previouslyEarnedStars = currentResult.PreviouslyEarnedStars;
         
-
-        
-
-        
         // First show all stars as empty
         for (int i = 0; i < starImages.Length; i++)
         {
@@ -139,20 +135,9 @@ public class LevelCompleteUI : MonoBehaviour
         // Animate star filling - show all stars that should be visible
         int totalStarsToShow = Mathf.Max(starsEarned, previouslyEarnedStars);
         
-
-        
         for (int i = 0; i < totalStarsToShow; i++)
         {
             if (starImages[i] == null) continue;
-            
-            // Temporarily remove delay to test stability
-            // if (i > 0) // Skip delay for first star
-            // {
-            //     float delay = starAnimationDelay; // Use fixed delay instead of i * delay
-            //     Debug.Log($"Star {i}: waiting for {delay} seconds");
-            //     yield return new WaitForSeconds(delay);
-            //     Debug.Log($"Star {i}: finished waiting");
-            // }
             
             // Add a small yield to maintain coroutine structure
             yield return null;

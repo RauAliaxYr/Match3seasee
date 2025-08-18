@@ -17,11 +17,12 @@ MonoBehaviour:
   width: 7
   height: 7
   goalType: 0
+  tileTypesCount: 6
   blockedCells:
   - cells: 00000000000000
   - cells: 00000000000000
   - cells: 00000000000000
-  - cells: 00000000000000
+  - cells: 01010101010101
   - cells: 00000000000000
   - cells: 00000000000000
   - cells: 00000000000000

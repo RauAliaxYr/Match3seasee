@@ -12,9 +12,31 @@ public class LogoController : MonoBehaviour
 
     private void Start()
     {
+        // Set canvas to camera mode for logo scene
+        if (AdaptiveUISystem.Instance != null)
+        {
+            AdaptiveUISystem.Instance.SetCanvasToCameraMode();
+        }
+        
+        // Fix camera viewport to prevent image shifting
+        StartCoroutine(FixViewportDelayed());
+        
         logoImage.canvasRenderer.SetAlpha(0f);
         startScreenCanvasGroup.alpha = 0f;
         StartCoroutine(PlayLogoSequence());
+    }
+    
+    private IEnumerator FixViewportDelayed()
+    {
+        yield return new WaitForSeconds(0.1f);
+        
+        Camera mainCamera = Camera.main;
+        if (mainCamera != null)
+        {
+            mainCamera.rect = new Rect(0, 0, 1, 1);
+            mainCamera.ResetAspect();
+            Debug.Log($"LogoController: Fixed camera viewport. Screen: {Screen.width}x{Screen.height}");
+        }
     }
 
     private IEnumerator PlayLogoSequence()
@@ -31,7 +53,9 @@ public class LogoController : MonoBehaviour
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayMainMenuThemeIfNotPlaying();
-            AudioManager.Instance.SetMusicVolume(0.7f);
+            // Apply saved global music volume from PlayerPrefs
+            float savedMusicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.7f);
+            AudioManager.Instance.SetMusicVolume(savedMusicVolume);
         }
     }
 }
